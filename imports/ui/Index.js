@@ -1,61 +1,58 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-const Index = () => {
-  console.log("Index being rendered");
-  return (
-    <Grid>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>Wildkit Swimming</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>Learn to Swim</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>ETHS Girls Swim &amp; Dive</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>ETHS Boys Swim &amp; Dive</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>ETHS Girls Water Polo</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>ETHS Boys Water Polo</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>WSO Water Polo</h2>
-        </div>
-      </GridItem>
-      <GridItem>
-        <ImgPlaceholder />
-        <div>
-          <h2>IHSA Top Times</h2>
-        </div>
-      </GridItem>
-    </Grid>
-  );
-};
+const Index = () => (
+  <Grid>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>Wildkit Swimming</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>Learn to Swim</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>ETHS Girls Swim &amp; Dive</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>ETHS Boys Swim &amp; Dive</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>ETHS Girls Water Polo</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>ETHS Boys Water Polo</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>WSO Water Polo</h2>
+      </div>
+    </GridItem>
+    <GridItem>
+      <ImgPlaceholder />
+      <div>
+        <h2>IHSA Top Times</h2>
+      </div>
+    </GridItem>
+  </Grid>
+);
 
 export default Index;
 

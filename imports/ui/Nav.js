@@ -1,58 +1,90 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+import Modal from './Modal';
 
 class Nav extends Component {
   state = {
-    programsIsOpen: false
+    programsIsOpen: false,
+    aboutIsOpen: false,
+    modalOpen: false,
+    targetModal: undefined,
   };
 
   togglePrograms = () => {
     this.setState({
-      programsIsOpen: !this.state.programsIsOpen
+      programsIsOpen: !this.state.programsIsOpen,
     });
-    console.log(this.state.programsIsOpen);
+  };
+
+  toggleAbout = () => {
+    this.setState({
+      aboutIsOpen: !this.state.aboutIsOpen,
+    });
+  };
+
+  toggleModal = (e) => {
+    this.setState({
+      modalOpen: !this.state.modalOpen,
+      targetModal: e.target.textContent,
+    });
   };
 
   render() {
-    console.log("Nav being rendered");
     return (
       <NavBar>
         <ul>
           <StyledLi>
-            <Link to={`/`}>Home</Link>
+            <Link to="/">Home</Link>
           </StyledLi>
-          <StyledLi>
-            <Link to={`/about`}>About</Link>
+          <StyledLi onMouseEnter={this.toggleAbout} onMouseLeave={this.toggleAbout}>
+            About
+            {this.state.aboutIsOpen && (
+              <Dropdown>
+                <Link to="/coaches">Coaches</Link>
+                <Link to="/aquaticscenter">Burton Aquatics Center</Link>
+                <Link to="/board">Board of Directors</Link>
+              </Dropdown>
+            )}
           </StyledLi>
-          <StyledLi
-            onMouseEnter={this.togglePrograms}
-            onMouseLeave={this.togglePrograms}
-          >
+          <StyledLi onMouseEnter={this.togglePrograms} onMouseLeave={this.togglePrograms}>
             Programs
             {this.state.programsIsOpen && (
               <Dropdown>
-                <Link to={`/wildkitswimming`}>Wildkit Swimming</Link>
-                <Link to={`/LearnToSwim`}>Learn to Swim</Link>
-                <Link to={`/ETHSGirls`}>ETHS Girls</Link>
-                <Link to={`/ETHSBoys`}>ETHS Boys</Link>
-                <Link to={`/GirlsWaterPolo`}>Girls Water Polo</Link>
-                <Link to={`/BoysWaterPolo`}>Boys Water Polo</Link>
+                <Link to="/wildkitswimming">Wildkit Swimming</Link>
+                <Link to="/LearnToSwim">Learn to Swim</Link>
+                <Link to="/ETHSGirls">ETHS Girls</Link>
+                <Link to="/ETHSBoys">ETHS Boys</Link>
+                <Link to="/GirlsWaterPolo">Girls Water Polo</Link>
+                <Link to="/BoysWaterPolo">Boys Water Polo</Link>
               </Dropdown>
             )}
           </StyledLi>
           <StyledLi>
-            <Link to={`/calendar`}>Calendar</Link>
+            <Link to="/calendar">Calendar</Link>
           </StyledLi>
           <StyledLi>
-            <Link to={`/contact`}>Contact</Link>
+            <Link to="/contribute">Contribute</Link>
           </StyledLi>
           <StyledLi>
-            <Link to={`/login`}>Log In</Link>
+            <Link to="/contact">Contact</Link>
           </StyledLi>
           <StyledLi>
-            <Link to={`/register`}>Register</Link>
+            <button onClick={this.toggleModal}>Log In</button>
           </StyledLi>
+          <StyledLi>
+            <button onClick={this.toggleModal}>Register</button>
+          </StyledLi>
+          {this.state.modalOpen &&
+            createPortal(
+              <Modal
+                targetModal={this.state.targetModal}
+                handleClick={this.toggleModal.bind(this)}
+              />,
+              document.getElementById('modal'),
+            )}
         </ul>
       </NavBar>
     );
@@ -78,17 +110,15 @@ const NavBar = styled.nav`
 const StyledLi = styled.li`
   padding: 2rem 1rem;
   text-align: center;
+  width: 8rem;
   &:nth-child(1) {
     margin-left: 2rem;
     margin-right: 6rem;
   }
-  &:nth-child(3) {
-    width: 8rem;
-  }
-  &:nth-child(6) {
+  &:nth-child(7) {
     margin-left: auto;
   }
-  &:nth-child(7) {
+  &:nth-child(8) {
     margin-right: 2rem;
   }
   &:hover {
@@ -98,12 +128,26 @@ const StyledLi = styled.li`
     text-decoration: none;
     color: #f0f0f0;
   }
+  > button {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #f0f0f0;
+    font-size: 1.6rem;
+    &:focus {
+      outline: 0;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const Dropdown = styled.div`
   position: relative;
   top: 2rem;
   margin-left: -1rem;
+  margin-right: -1rem;
   background: #eb5e55;
   display: flex;
   flex-direction: column;

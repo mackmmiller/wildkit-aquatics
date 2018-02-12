@@ -1,8 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-const WildkitSwimming = () => {
-  return <div>Hi I'm the Wildkit swimming page</div>;
-};
+const WildkitSwimming = () => <div>Hi I'm the Wildkit swimming page</div>;
 
 export default WildkitSwimming;
