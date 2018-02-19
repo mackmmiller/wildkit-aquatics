@@ -1,0 +1,16 @@
+type Swimmer {
+  _id: String
+  firstName: String
+  middleInitial: String
+  lastName: String
+  DOB: String
+  guardianAccount: User
+}
+
+extend type Query {
+  swimmers: [Swimmer]
+}
+
+type Mutation {
+  newSwimmer(firstName: String, middleInitial: String, lastName: String, DOB: String): Swimmer
+}

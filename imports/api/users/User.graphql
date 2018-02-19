@@ -1,6 +1,7 @@
 type User {
   _id: String
   email: String
+  userSwimmers: [Swimmer]
 }
 
 type Query {

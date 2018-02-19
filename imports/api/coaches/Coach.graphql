@@ -1,0 +1,5 @@
+type Coach {
+  _id: String
+  firstName: String
+  lastName: String
+}

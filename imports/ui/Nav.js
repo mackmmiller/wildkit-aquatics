@@ -32,7 +32,16 @@ class Nav extends Component {
     });
   };
 
+  closeModal = (e) => {
+    if (e.target.classList.contains('wrapper')) {
+      this.setState({
+        modalOpen: false,
+      });
+    }
+  };
+
   render() {
+    const { client, user } = this.props;
     return (
       <NavBar>
         <ul>
@@ -71,17 +80,39 @@ class Nav extends Component {
           <StyledLi>
             <Link to="/contact">Contact</Link>
           </StyledLi>
-          <StyledLi>
-            <button onClick={this.toggleModal}>Log In</button>
-          </StyledLi>
-          <StyledLi>
-            <button onClick={this.toggleModal}>Register</button>
-          </StyledLi>
+          {user._id ? (
+            <StyledLi>
+              <Link to="/account" href="/account">
+                Account
+              </Link>
+            </StyledLi>
+          ) : (
+            <StyledLi>
+              <button onClick={this.toggleModal}>Log In</button>
+            </StyledLi>
+          )}
+          {user._id ? (
+            <StyledLi>
+              <button
+                onClick={() => {
+                  Meteor.logout();
+                  client.resetStore();
+                }}
+              >
+                Log Out
+              </button>
+            </StyledLi>
+          ) : (
+            <StyledLi>
+              <button onClick={this.toggleModal}>Register</button>
+            </StyledLi>
+          )}
           {this.state.modalOpen &&
             createPortal(
               <Modal
+                client={client}
                 targetModal={this.state.targetModal}
-                handleClick={this.toggleModal.bind(this)}
+                handleClick={this.closeModal.bind(this)}
               />,
               document.getElementById('modal'),
             )}

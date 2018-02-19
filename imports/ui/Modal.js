@@ -4,9 +4,11 @@ import styled from 'styled-components';
 import Register from './Register';
 import Login from './Login';
 
-const Modal = ({ handleClick, targetModal }) => (
+const Modal = ({ handleClick, targetModal, client }) => (
   <Wrapper className="wrapper" onClick={handleClick}>
-    <StyledModal>{targetModal === 'Log In' ? <Login /> : <Register />}</StyledModal>
+    <StyledModal>
+      {targetModal === 'Log In' ? <Login client={client} /> : <Register client={client} />}
+    </StyledModal>
   </Wrapper>
 );
 

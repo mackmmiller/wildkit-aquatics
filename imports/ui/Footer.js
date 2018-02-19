@@ -8,7 +8,7 @@ const Footer = () => (
       <Address>
         <h3>Wildkit Aquatics</h3>
         <span>
-            1600 Dodge Avenue<br />Burton Aquatics Center<br />Evanston, Illinois, 60204
+          1600 Dodge Avenue<br />Burton Aquatics Center<br />Evanston, Illinois, 60204
         </span>
       </Address>
       <Signature>
@@ -61,6 +61,7 @@ const StyledFooter = styled.footer`
   justify-content: space-around;
   padding: 1rem;
   font-size: 1.4rem;
+  z-index: 1;
 `;
 
 const StyledUL = styled.ul`

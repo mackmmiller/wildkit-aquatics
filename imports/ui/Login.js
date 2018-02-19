@@ -1,31 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const Login = () => (
-  <React.Fragment>
-    <StyledForm>
-      <h2>Login</h2>
-      <div className="email">
-        <label htmlFor="email">Email</label>
-        <input type="text" name="email" />
-      </div>
-      <div className="password">
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" />
-      </div>
-      <input type="submit" value="Login" className="login" />
-      <input type="submit" value="Forgot Password?" className="forgot" />
-      <input type="submit" value="New User" className="newUser" />
-    </StyledForm>
-  </React.Fragment>
-);
+class Login extends Component {
+  loginUser = (e) => {
+    e.preventDefault();
+    Meteor.loginWithPassword(this.email.value, this.password.value, (err) => {
+      console.log(err);
+      if (!err) {
+        this.props.client.resetStore();
+      }
+    });
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <StyledForm>
+          <h2>Login</h2>
+          <div className="email">
+            <label htmlFor="email">Email</label>
+            <input type="text" name="email" ref={input => (this.email = input)} />
+          </div>
+          <div className="password">
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" ref={input => (this.password = input)} />
+          </div>
+          <input type="submit" value="Login" className="login" onClick={this.loginUser} />
+          <input type="submit" value="Forgot Password?" className="forgot" />
+          <input type="submit" value="New User" className="newUser" />
+        </StyledForm>
+      </React.Fragment>
+    );
+  }
+}
 
 export default Login;
 
 const StyledForm = styled.form`
   display: grid;
-  width: 80%;
-  margin: auto;
+  padding: 3rem;
   font-size: 1.8rem;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: 1fr 1fr;

@@ -15,30 +15,47 @@ import GirlsWaterPolo from './GirlsWaterPolo';
 import BoysWaterPolo from './BoysWaterPolo';
 import Coaches from './Coaches';
 import Login from './Login';
+import Account from './Account';
 
-const App = () => (
-  <Router>
-    <AppWrapper>
-      <Nav />
-      <Main>
-        <Switch>
-          <Route exact path="/" component={Index} />
-          <Route exact path="/coaches" component={Coaches} />
-          <Route exact path="/wildkitswimming" component={WildkitSwimming} />
-          <Route exact path="/LearnToSwim" component={LearnToSwim} />
-          <Route exact path="/ETHSGirls" component={GirlsSAndD} />
-          <Route exact path="/ETHSBoys" component={BoysSAndD} />
-          <Route exact path="/GirlsWaterPolo" component={GirlsWaterPolo} />
-          <Route exact path="/BoysWaterPolo" component={BoysWaterPolo} />
-          <Route exact path="/login" component={Login} />
-        </Switch>
-      </Main>
-      <Footer />
-    </AppWrapper>
-  </Router>
-);
+/* Queries */
 
-export default withApollo(App);
+const userQuery = gql`
+  query User {
+    user {
+      _id
+    }
+  }
+`;
+
+const App = ({ loading, client, user }) => {
+  if (loading) return null;
+  return (
+    <Router>
+      <AppWrapper>
+        <Nav client={client} user={user} />
+        <Main>
+          <Switch>
+            <Route exact path="/" component={Index} />
+            <Route exact path="/coaches" component={Coaches} />
+            <Route exact path="/wildkitswimming" component={WildkitSwimming} />
+            <Route exact path="/LearnToSwim" component={LearnToSwim} />
+            <Route exact path="/ETHSGirls" component={GirlsSAndD} />
+            <Route exact path="/ETHSBoys" component={BoysSAndD} />
+            <Route exact path="/GirlsWaterPolo" component={GirlsWaterPolo} />
+            <Route exact path="/BoysWaterPolo" component={BoysWaterPolo} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/account" component={Account} />
+          </Switch>
+        </Main>
+        <Footer />
+      </AppWrapper>
+    </Router>
+  );
+};
+
+export default graphql(userQuery, { props: ({ data }) => ({ ...data }) })(withApollo(App));
+
+/* Styled Components */
 
 const AppWrapper = styled.div`
   background: #f0f0f0;
