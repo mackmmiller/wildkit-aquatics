@@ -1,0 +1,8 @@
+type Practice {
+  _id: String
+  group: Group
+}
+
+extend type Query {
+  practices: [Practice]
+}

@@ -40,25 +40,36 @@ class Nav extends Component {
     }
   };
 
+  menu = () => {
+    console.log('Menu clicked');
+  };
+
   render() {
     const { client, user } = this.props;
     return (
       <NavBar>
-        <ul>
+        <ul className="wide">
           <StyledLi>
             <Link to="/">Home</Link>
           </StyledLi>
-          <StyledLi onMouseEnter={this.toggleAbout} onMouseLeave={this.toggleAbout}>
+          <StyledLi
+            onMouseEnter={this.toggleAbout}
+            onMouseLeave={this.toggleAbout}
+          >
             About
             {this.state.aboutIsOpen && (
               <Dropdown>
                 <Link to="/coaches">Coaches</Link>
                 <Link to="/aquaticscenter">Burton Aquatics Center</Link>
                 <Link to="/board">Board of Directors</Link>
+                <Link to="/records+results">Records &amp; Results</Link>
               </Dropdown>
             )}
           </StyledLi>
-          <StyledLi onMouseEnter={this.togglePrograms} onMouseLeave={this.togglePrograms}>
+          <StyledLi
+            onMouseEnter={this.togglePrograms}
+            onMouseLeave={this.togglePrograms}
+          >
             Programs
             {this.state.programsIsOpen && (
               <Dropdown>
@@ -117,6 +128,13 @@ class Nav extends Component {
               document.getElementById('modal'),
             )}
         </ul>
+        <ul className="narrow">
+          <StyledLi>
+            <button onClick={this.menu}>
+              <i className="fas fa-bars" />
+            </button>
+          </StyledLi>
+        </ul>
       </NavBar>
     );
   }
@@ -126,10 +144,24 @@ export default Nav;
 
 const NavBar = styled.nav`
   background: #eb5e55;
-  grid-area: nav;
   z-index: 1;
   height: 5.8rem;
   font-size: 1.6rem;
+  @media (max-width: 1000px) {
+    .narrow {
+      display: block;
+      font-size: 1.6rem;
+      color: #f0f0f0;
+    }
+    .wide {
+      display: none;
+    }
+  }
+  @media (min-width: 1001px) {
+    .narrow {
+      display: none;
+    }
+  }
   > ul {
     display: flex;
     list-style: none;

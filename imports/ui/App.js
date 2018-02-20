@@ -53,7 +53,9 @@ const App = ({ loading, client, user }) => {
   );
 };
 
-export default graphql(userQuery, { props: ({ data }) => ({ ...data }) })(withApollo(App));
+export default graphql(userQuery, { props: ({ data }) => ({ ...data }) })(
+  withApollo(App),
+);
 
 /* Styled Components */
 

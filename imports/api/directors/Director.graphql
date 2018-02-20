@@ -1,0 +1,8 @@
+type Director {
+  _id: String
+  role: String
+}
+
+extend type Query {
+  directors: [Director]
+}

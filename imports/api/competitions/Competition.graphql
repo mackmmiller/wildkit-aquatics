@@ -1,0 +1,7 @@
+type Competition {
+  _id: String
+}
+
+extend type Query {
+  competitions: [Competition]
+}

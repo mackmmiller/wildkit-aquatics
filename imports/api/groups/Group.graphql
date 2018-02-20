@@ -1,0 +1,10 @@
+type Group {
+  _id: String
+  name: String
+  coaches: [Coach]
+  swimmers: [Swimmer]
+}
+
+extend type Query {
+  groups: [Group]
+}

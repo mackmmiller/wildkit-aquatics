@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import React, { Component } from "react";
+import styled from "styled-components";
+import gql from "graphql-tag";
+import { graphql } from "react-apollo";
 
 const newSwimmer = gql`
-  mutation newSwimmer($firstName: String, $middleInitial: String, $lastName: String, $DOB: String) {
+  mutation newSwimmer(
+    $firstName: String
+    $middleInitial: String
+    $lastName: String
+    $DOB: String
+  ) {
     newSwimmer(
       firstName: $firstName
       middleInitial: $middleInitial
@@ -17,7 +22,7 @@ const newSwimmer = gql`
 `;
 
 class Account extends Component {
-  newSwimmer = (e) => {
+  newSwimmer = e => {
     e.preventDefault();
     this.props
       .newSwimmer({
@@ -25,8 +30,8 @@ class Account extends Component {
           firstName: this.firstName.value,
           middleInitial: this.middleInitial.value,
           lastName: this.lastName.value,
-          DOB: this.DOB.value,
-        },
+          DOB: this.DOB.value
+        }
       })
       .catch(err => console.log(err));
   };
@@ -41,13 +46,13 @@ class Account extends Component {
         <label htmlFor="">Last Name</label>
         <input type="text" ref={input => (this.lastName = input)} />
         <label htmlFor="">DOB</label>
-        <input type="text" ref={input => (this.DOB = input)} />
+        <input type="date" ref={input => (this.DOB = input)} />
         <input type="submit" />
       </form>
     );
   }
 }
 
-export default graphql(newSwimmer, { name: 'newSwimmer' })(Account);
+export default graphql(newSwimmer, { name: "newSwimmer" })(Account);
 
 const SideBar = styled.div``;

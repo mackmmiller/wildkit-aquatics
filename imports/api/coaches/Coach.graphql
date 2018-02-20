@@ -2,4 +2,13 @@ type Coach {
   _id: String
   firstName: String
   lastName: String
+  title: String
+}
+
+extend type Query {
+  coaches: [Coach]
+}
+
+extend type Mutation {
+  newCoach(firstName: String, lastName: String, title: String): Coach
 }
