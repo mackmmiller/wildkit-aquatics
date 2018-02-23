@@ -14,7 +14,6 @@ import {
 } from './db';
 
 export default {
-  // Queries //
   Query: {
     Admin(obj, { _id }) {
       return Admins.findOne(_id);
@@ -82,19 +81,17 @@ export default {
     },
   },
 
-  // Mutations //
   Mutation: {
+    // Create //
     createAdmin(obj, args, { userId }) {},
     createCoach(obj, args, { userId }) {},
     // createCompetition(obj, { userId }){},
     createEvent(obj, { start, end, eventType }, { userId }) {
-      console.log('Creating Event');
       const eventId = Events.insert({
         start,
         end,
         eventType,
       });
-      console.log(Events.findOne(eventId));
       return Events.findOne(eventId);
     },
     createGroup(obj, { name }, { userId }) {
@@ -119,17 +116,103 @@ export default {
     },
     // createResult(obj, { userId }){},
     // createSwimmer(obj, { userId }){},
+
+    updateAdmin(obj, args, context) {},
+    updateCoach(obj, args, context) {},
+    updateCompetition(obj, args, context) {},
+    updateEvent(obj, args, context) {},
+    updateGroup(obj, args, context) {},
+    updateParent(obj, args, context) {},
+    updatePractice(obj, args, context) {},
+    // updateResult(obj, args, context) {},
+    // updateSwimmer(obj, args, context) {},
+
+    deleteAdmin(obj, { adminId }, context) {
+      Admins.remove(adminId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return adminId;
+    },
+    deleteCoach(obj, { coachId }, context) {
+      Coaches.remove(coachId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return coachId;
+    },
+    deleteCompetition(obj, { competitionId }, context) {
+      Competitions.remove(competitionId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return competitionId;
+    },
+    deleteEvent(obj, { eventId }, context) {
+      Events.remove(eventId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return eventId;
+    },
+    deleteGroup(obj, { groupId }, context) {
+      Groups.remove(groupId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return groupId;
+    },
+    deleteParent(obj, { parentId }, context) {
+      Parents.remove(parentId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return parentId;
+    },
+    deletePractice(obj, { practiceId }, context) {
+      Practices.remove(adminId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return practiceId;
+    },
+    deleteResult(obj, { resultId }, context) {
+      Results.remove(resultId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return resultId;
+    },
+    deleteSwimmer(obj, { swimmerId }, context) {
+      Swimmers.remove(swimmerId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+      return swimmerId;
+    },
   },
 
   // Custom Resolvers //
   Admin: {},
   Coach: {},
   Competition: {},
-  Event: {},
-  // Group: {
-  //   // Passing in an array... Need to remap data? You've seen this before.
-  //   coaches: group => Coaches.find({})
-  // },
+  Event: {
+    practice: event => Practices.findOne({ eventId: event._id }),
+  },
+  Group: {
+    // Passing in an array... Need to remap data? You've seen this before.
+    // coaches: group => Coaches.find({}),
+    practices: group => Practices.find({ groupId: group._id }).fetch(),
+  },
   Parent: {},
   Practice: {
     group: practice => Groups.findOne(practice.groupId),
@@ -144,18 +227,14 @@ export default {
     userType: user => user.userType,
     parent: user => Parents.findOne(user.parent),
   },
-};
-
-// Scalars //
-const dateMap = {
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
     parseValue(value) {
-      return moment(value).toDate();
+      return moment(value, 'DD MM YYYY HH:mm').toDate(); // value from the client
     },
     serialize(value) {
-      return moment(value).format('x');
+      return moment(value, 'DD MM YYYY HH:mm').toDate(); // value sent to the client
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {

@@ -18,6 +18,7 @@ type Coach {
 type Competition {
   _id: String!
   name: String!
+  location: String!
   results: [Result!]!
   swimmers: [Swimmer!]!
 }
@@ -135,7 +136,7 @@ type Query {
 type Mutation {
   createAdmin(userId: String): Admin
   createCoach(userId: String): Coach
-  # createCompetition(): Competition
+  createCompetition(name: String, location: String): Competition
   createEvent(start: String, end: String, eventType: String): Event
   createGroup(name: String): Group
   createParent(userId: String): Parent
@@ -145,23 +146,30 @@ type Mutation {
 
   updateAdmin(_id: String, userId: String): Admin
   updateCoach(_id: String, userId: String): Coach
-  # updateCompetition(): Competition
-  updateEvent(_id: String): Event
+  updateCompetition(_id: String): Competition
+  updateEvent(
+    _id: String!
+    start: Date
+    end: Date
+    competitionId: String
+    practiceId: String
+    eventType: EventType
+  ): Event
   updateGroup(_id: String): Group
   updateParent(_id: String, userId: String): Parent
   updatePractice(_id: String): Practice
   # updateResult(): Result
   # updateSwimmer(): Swimmer
 
-  deleteAdmin(_id: String): Admin
-  deleteCoach(_id: String): Coach
-  # deleteCompetition(): Competition
-  deleteEvent(_id: String): Event
-  deleteGroup(_id: String): Group
-  deleteParent(_id: String): Parent
-  deletePractice(_id: String): Practice
-  # deleteResult(): Result
-  # deleteSwimmer(): Swimmer
+  deleteAdmin(adminId: String): Admin
+  deleteCoach(coachId: String): Coach
+  deleteCompetition(competitionId: String): Competition
+  deleteEvent(eventId: String): Event
+  deleteGroup(groupId: String): Group
+  deleteParent(parentId: String): Parent
+  deletePractice(practiceId: String): Practice
+  deleteResult(resultId: String): Result
+  deleteSwimmer(swimmerId: String): Swimmer
 }
 
 #####################

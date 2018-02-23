@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
 import styled from 'styled-components';
@@ -58,7 +63,9 @@ const App = ({ loading, client, user }) => {
             <Route
               exact
               path="/account"
-              render={() => <Account user={user} />}
+              render={() =>
+                (!user._id ? <Redirect to="/" /> : <Account user={user} />)
+              }
             />
           </Switch>
         </Main>
@@ -82,10 +89,7 @@ const AppWrapper = styled.div`
 `;
 
 const Main = styled.div`
-  /* width: 80%; */
   width: 100%;
-  /* padding: 4rem; */
-  /* margin: auto; */
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;

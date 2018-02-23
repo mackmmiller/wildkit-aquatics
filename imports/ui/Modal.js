@@ -7,7 +7,11 @@ import Login from './Login';
 const Modal = ({ handleClick, targetModal, client }) => (
   <Wrapper className="wrapper" onClick={handleClick}>
     <StyledModal>
-      {targetModal === 'Log In' ? <Login client={client} /> : <Register client={client} />}
+      {targetModal === 'Log In' ? (
+        <Login client={client} />
+      ) : (
+        <Register client={client} />
+      )}
     </StyledModal>
   </Wrapper>
 );
@@ -17,13 +21,12 @@ export default Modal;
 const StyledModal = styled.div`
   background: #eb5e55;
   margin: auto;
-  height: 40rem;
-  width: 30rem;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  z-index: 100;
 `;
 
 const Wrapper = styled.div`

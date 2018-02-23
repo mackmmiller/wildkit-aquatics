@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Accounts } from 'meteor/accounts-base';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Accounts } from "meteor/accounts-base";
+import gql from "graphql-tag";
+import { graphql } from "react-apollo";
 
 const createParent = gql`
   mutation createParent {
@@ -13,7 +13,7 @@ const createParent = gql`
 `;
 
 class Register extends Component {
-  registerUser = (e) => {
+  registerUser = e => {
     e.preventDefault();
     if (this.password.value === this.password2.value) {
       Accounts.createUser(
@@ -22,15 +22,15 @@ class Register extends Component {
           password: this.password.value,
           firstName: this.firstName.value,
           lastName: this.lastName.value,
-          userType: 'Parent',
+          userType: "Parent"
         },
-        (err) => {
+        err => {
           if (!err) {
             this.props.client.resetStore();
             this.createParent();
           }
           console.log(err);
-        },
+        }
       );
     } else {
       console.log("Passwords don't match");
@@ -102,21 +102,32 @@ class Register extends Component {
   }
 }
 
-export default graphql(createParent, { name: 'createParent' })(Register);
+export default graphql(createParent, { name: "createParent" })(Register);
 
 const StyledForm = styled.form`
   display: grid;
   padding: 3rem;
   font-size: 1.8rem;
-  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 1rem;
+  grid-template-rows: repeat(6, 1fr);
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: "header header" "email email" "password password" "password2 password2" "register register";
+  grid-template-areas: "header header" "firstName lastName" "email email" "password password" "password2 password2" "register register";
   > h2 {
     grid-area: header;
     font-size: 2rem;
   }
   > div input {
     height: 2rem;
+  }
+  > .firstName {
+    grid-area: firstName;
+    display: flex;
+    flex-direction: column;
+  }
+  > .lastName {
+    grid-area: lastName;
+    display: flex;
+    flex-direction: column;
   }
   > .email {
     grid-area: email;

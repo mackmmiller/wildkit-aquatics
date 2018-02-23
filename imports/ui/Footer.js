@@ -81,10 +81,8 @@ const FooterDetails = styled.div`
       margin-top: 0;
     }
   }
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     flex-direction: column;
-    /* justify-content: center; */
-    /* text-align: center; */
     margin: auto;
   }
 `;

@@ -144,13 +144,13 @@ export default Nav;
 
 const NavBar = styled.nav`
   background: #eb5e55;
-  z-index: 1;
+  z-index: 10000;
   height: 5.8rem;
   font-size: 1.6rem;
   .narrow {
     display: none;
   }
-  @media (max-width: 1000px) {
+  @media (max-width: 900px) {
     .narrow {
       display: flex;
       justify-content: flex-end;

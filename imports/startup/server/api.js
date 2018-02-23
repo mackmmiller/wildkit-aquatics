@@ -17,7 +17,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 // import UsersSchema from '../../api/users/User.graphql';
 // import UsersResolvers from '../../api/users/resolvers';
 
-// // hissssssssssssssssssssssssssss
+// ssssssssssss
 
 // const typeDefs = [
 //   UsersSchema,
