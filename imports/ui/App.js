@@ -16,13 +16,23 @@ import BoysWaterPolo from './BoysWaterPolo';
 import Coaches from './Coaches';
 import Login from './Login';
 import Account from './Account';
+import Calendar from './Calendar';
 
-/* Queries */
+/* Query */
 
 const userQuery = gql`
-  query User {
+  query initialQuery {
     user {
       _id
+      parent {
+        _id
+      }
+      coach {
+        _id
+      }
+      admin {
+        _id
+      }
     }
   }
 `;
@@ -44,7 +54,12 @@ const App = ({ loading, client, user }) => {
             <Route exact path="/GirlsWaterPolo" component={GirlsWaterPolo} />
             <Route exact path="/BoysWaterPolo" component={BoysWaterPolo} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/account" component={Account} />
+            <Route exact path="/calendar" component={Calendar} />
+            <Route
+              exact
+              path="/account"
+              render={() => <Account user={user} />}
+            />
           </Switch>
         </Main>
         <Footer />
@@ -67,8 +82,11 @@ const AppWrapper = styled.div`
 `;
 
 const Main = styled.div`
-  width: 80%;
-  padding: 4rem;
-  margin: auto;
+  /* width: 80%; */
+  width: 100%;
+  /* padding: 4rem; */
+  /* margin: auto; */
   flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 `;

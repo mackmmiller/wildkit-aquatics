@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Accounts } from 'meteor/accounts-base';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+
+const createParent = gql`
+  mutation createParent {
+    createParent {
+      _id
+    }
+  }
+`;
 
 class Register extends Component {
   registerUser = (e) => {
@@ -10,10 +20,14 @@ class Register extends Component {
         {
           email: this.email.value,
           password: this.password.value,
+          firstName: this.firstName.value,
+          lastName: this.lastName.value,
+          userType: 'Parent',
         },
         (err) => {
           if (!err) {
             this.props.client.resetStore();
+            this.createParent();
           }
           console.log(err);
         },
@@ -23,11 +37,37 @@ class Register extends Component {
     }
   };
 
+  createParent = () => {
+    try {
+      this.props.createParent();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
         <StyledForm onSubmit={this.registerUser}>
           <h2>Register</h2>
+          <div className="firstName">
+            <label>First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              ref={input => (this.firstName = input)}
+              autoComplete="given-name"
+            />
+          </div>
+          <div className="lastName">
+            <label>Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              ref={input => (this.lastName = input)}
+              autoComplete="family-name"
+            />
+          </div>
           <div className="email">
             <label htmlFor="email">Email</label>
             <input
@@ -62,7 +102,7 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default graphql(createParent, { name: 'createParent' })(Register);
 
 const StyledForm = styled.form`
   display: grid;
@@ -70,7 +110,7 @@ const StyledForm = styled.form`
   font-size: 1.8rem;
   grid-template-rows: repeat(5, 1fr);
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: 'header header' 'email email' 'password password' 'password2 password2' 'register register';
+  grid-template-areas: "header header" "email email" "password password" "password2 password2" "register register";
   > h2 {
     grid-area: header;
     font-size: 2rem;

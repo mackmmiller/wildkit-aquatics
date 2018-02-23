@@ -1,0 +1,171 @@
+#####################
+##      Types      ##
+#####################
+
+type Admin {
+  _id: String!
+  user: User!
+}
+
+type Coach {
+  _id: String!
+  bio: String
+  groups: [Group!]!
+  title: String!
+  user: User!
+}
+
+type Competition {
+  _id: String!
+  name: String!
+  results: [Result!]!
+  swimmers: [Swimmer!]!
+}
+
+type Event {
+  _id: String!
+  start: Date
+  end: Date
+  competition: Competition
+  practice: Practice
+  eventType: EventType!
+}
+
+type Group {
+  _id: String!
+  coaches: [Coach]
+  name: String!
+  practices: [Practice]
+  swimmers: [Swimmer]
+}
+
+type Parent {
+  _id: String!
+  swimmers: [Swimmer!]!
+  user: User
+}
+
+type Practice {
+  _id: String!
+  group: Group!
+  event: Event!
+}
+
+type Result {
+  _id: String!
+  competition: Competition
+  event: String!
+  swimmer: Swimmer!
+  time: String!
+}
+
+type Swimmer {
+  _id: String!
+  competitons: [Competition!]!
+  dateOfBirth: Date
+  firstName: String!
+  middleName: String
+  lastName: String!
+  group: Group
+  results: [Result!]!
+  parent: Parent
+}
+
+type User {
+  _id: String
+  admin: Admin
+  coach: Coach
+  parent: Parent
+  createdAt: Date
+  email: String!
+  firstName: String!
+  lastName: String!
+  updatedAt: Date
+  userType: UserType!
+}
+
+#####################
+##      Enums      ##
+#####################
+
+enum UserType {
+  Admin
+  Coach
+  Parent
+}
+
+enum EventType {
+  Practice
+  Competition
+}
+
+#####################
+##      Queries    ##
+#####################
+
+type Query {
+  Admin(_id: String): Admin
+  Coach(_id: String): Coach
+  Competition(_id: String): Competition
+  Event(_id: String): Event
+  Group(_id: String): Group
+  Parent(_id: String): Parent
+  Practice(_id: String): Practice
+  Result(_id: String): Result
+  Swimmer(_id: String): Swimmer
+  User(_id: String): User
+  user: User
+
+  allAdmins: [Admin]
+  allCoaches: [Coach]
+  allCompetitions: [Competition]
+  allEvents: [Event]
+  allGroups: [Group]
+  allParents: [Parent]
+  allPractices: [Practice]
+  allResults: [Result]
+  allSwimmers: [Swimmer]
+  allUsers: [User]
+}
+
+#####################
+##     Mutations   ##
+#####################
+
+type Mutation {
+  createAdmin(userId: String): Admin
+  createCoach(userId: String): Coach
+  # createCompetition(): Competition
+  createEvent(start: String, end: String, eventType: String): Event
+  createGroup(name: String): Group
+  createParent(userId: String): Parent
+  createPractice(eventId: String, groupId: String): Practice
+  # createResult(): Result
+  # createSwimmer(): Swimmer
+
+  updateAdmin(_id: String, userId: String): Admin
+  updateCoach(_id: String, userId: String): Coach
+  # updateCompetition(): Competition
+  updateEvent(_id: String): Event
+  updateGroup(_id: String): Group
+  updateParent(_id: String, userId: String): Parent
+  updatePractice(_id: String): Practice
+  # updateResult(): Result
+  # updateSwimmer(): Swimmer
+
+  deleteAdmin(_id: String): Admin
+  deleteCoach(_id: String): Coach
+  # deleteCompetition(): Competition
+  deleteEvent(_id: String): Event
+  deleteGroup(_id: String): Group
+  deleteParent(_id: String): Parent
+  deletePractice(_id: String): Practice
+  # deleteResult(): Result
+  # deleteSwimmer(): Swimmer
+}
+
+#####################
+##      Scalars    ##
+#####################
+
+scalar Date

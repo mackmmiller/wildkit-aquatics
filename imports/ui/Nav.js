@@ -147,18 +147,20 @@ const NavBar = styled.nav`
   z-index: 1;
   height: 5.8rem;
   font-size: 1.6rem;
+  .narrow {
+    display: none;
+  }
   @media (max-width: 1000px) {
     .narrow {
-      display: block;
+      display: flex;
+      justify-content: flex-end;
       font-size: 1.6rem;
       color: #f0f0f0;
+      > li {
+        margin: 0;
+      }
     }
     .wide {
-      display: none;
-    }
-  }
-  @media (min-width: 1001px) {
-    .narrow {
       display: none;
     }
   }
@@ -186,6 +188,7 @@ const StyledLi = styled.li`
   }
   &:hover {
     background: #c14d46;
+    cursor: default;
   }
   > a {
     text-decoration: none;
