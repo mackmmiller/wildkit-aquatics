@@ -1,7 +1,9 @@
-import React, { Component } from "react";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import styled from 'styled-components';
+
+import Item from './Item';
 
 const adminData = gql`
   query adminData {
@@ -72,21 +74,15 @@ class Admin extends Component {
           <Content />
         </div>
         <div>
-          <h3>Users</h3>
+          <Header>
+            <h3>Users</h3>
+            <input type="text" placeholder="Search Users" />
+            <button>
+              <i className="fas fa-plus" />
+            </button>
+          </Header>
           <Content>
-            {allUsers.map(user => (
-              <Item key={user._id}>
-                <div className="top">
-                  <h4>
-                    {`${user.firstName} ${user.lastName} `}
-                    <span>{`${user.userType}`}</span>
-                  </h4>
-                  <a href={`mailto:${user.email}`}>
-                    <i className="far fa-envelope" />
-                  </a>
-                </div>
-              </Item>
-            ))}
+            {allUsers.map(user => <Item user={user} key={user._id} />)}
           </Content>
         </div>
       </Wrapper>
@@ -95,7 +91,7 @@ class Admin extends Component {
 }
 
 export default graphql(adminData, { props: ({ data }) => ({ ...data }) })(
-  Admin
+  Admin,
 );
 
 const Wrapper = styled.div`
@@ -113,31 +109,20 @@ const Wrapper = styled.div`
   }
 `;
 
+const Header = styled.div`
+  padding: 1rem 0;
+  display: flex;
+  align-content: flex-end;
+  > h3 {
+    margin: 0 auto 0 0;
+    display: inline-block;
+  }
+`;
+
 const Content = styled.div`
   background-color: #f0f0f0;
   border: 2px solid #d1d1d1;
   border-radius: 0.5rem;
   min-height: 1rem;
   padding: 1.5rem;
-`;
-
-const Item = styled.div`
-  background: #eb5e55;
-  border: 2px solid #c14d46;
-  border-radius: 0.5rem;
-  .top {
-    display: flex;
-    align-content: flex-end;
-    margin: 0.75rem;
-    > h4 {
-      margin: 0 auto 0 0;
-      span {
-        font-weight: lighter;
-      }
-    }
-    > a {
-      color: #f0f0f0;
-      display: inline;
-    }
-  }
 `;
