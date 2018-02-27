@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import Modal from './Modal';
+import Modal from './modals/Modal';
 
 class Nav extends Component {
   state = {

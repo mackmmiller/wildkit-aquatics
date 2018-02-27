@@ -13,6 +13,8 @@ import {
   Swimmers,
 } from './db';
 
+const Users = Meteor.users;
+
 export default {
   Query: {
     Admin(obj, { _id }) {
@@ -43,7 +45,7 @@ export default {
       return Swimmers.findOne(_id);
     },
     User(obj, { _id }) {
-      return Meteor.users.findOne(_id);
+      return Users.findOne(_id);
     },
     user(obj, args, { user }) {
       return user || {};
@@ -77,14 +79,21 @@ export default {
       return Swimmers.find({}).fetch();
     },
     allUsers(obj, args) {
-      return Meteor.users.find({}).fetch();
+      return Users.find({}).fetch();
     },
   },
 
   Mutation: {
     // Create //
     createAdmin(obj, args, { userId }) {},
-    createCoach(obj, args, { userId }) {},
+    createCoach(obj, { email }) {
+      const userId = Users.findOne({
+        emails: [{ address: email, verified: false }],
+      });
+      const coachId = Coaches.insert({ user: userId._id });
+      Users.update({ _id: userId._id }, { $set: { coach: coachId } });
+      return Coaches.findOne(coachId);
+    },
     // createCompetition(obj, { userId }){},
     createEvent(obj, { start, end, eventType }, { userId }) {
       const eventId = Events.insert({
@@ -104,7 +113,7 @@ export default {
       const parentId = Parents.insert({
         user: userId,
       });
-      Meteor.users.update({ _id: userId }, { $set: { parent: parentId } });
+      Users.update({ _id: userId }, { $set: { parent: parentId } });
       return Parents.findOne(parentId);
     },
     createPractice(obj, { eventId, groupId }, { userId }) {
@@ -199,11 +208,24 @@ export default {
       });
       return swimmerId;
     },
+    deleteUser(obj, { userId }, context) {
+      Users.remove(userId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
+    },
   },
 
   // Custom Resolvers //
-  Admin: {},
-  Coach: {},
+  Admin: {
+    user: admin => Users.findOne({ admin: admin._id }),
+  },
+  Coach: {
+    user: coach => Users.findOne({ coach: coach._id }),
+    // title:
+    // groups: coach => Groups.find({ where [coaches] includes coach._id})
+  },
   Competition: {},
   Event: {
     practice: event => Practices.findOne({ eventId: event._id }),

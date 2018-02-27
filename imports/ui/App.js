@@ -11,17 +11,16 @@ import styled from 'styled-components';
 
 import Nav from './Nav';
 import Footer from './Footer';
-import Index from './Index';
-import WildkitSwimming from './WildkitSwimming';
-import LearnToSwim from './LearnToSwim';
-import GirlsSAndD from './GirlsSAndD';
-import BoysSAndD from './BoysSAndD';
-import GirlsWaterPolo from './GirlsWaterPolo';
-import BoysWaterPolo from './BoysWaterPolo';
-import Coaches from './Coaches';
-import Login from './Login';
+import Index from './pages/Index';
+import WildkitSwimming from './pages/WildkitSwimming';
+import LearnToSwim from './pages/LearnToSwim';
+import GirlsSAndD from './pages/GirlsSAndD';
+import BoysSAndD from './pages/BoysSAndD';
+import GirlsWaterPolo from './pages/GirlsWaterPolo';
+import BoysWaterPolo from './pages/BoysWaterPolo';
+import Calendar from './pages/Calendar';
+import Coaches from './pages/Coaches';
 import Account from './Account';
-import Calendar from './Calendar';
 
 /* Query */
 
@@ -58,7 +57,6 @@ const App = ({ loading, client, user }) => {
             <Route exact path="/ETHSBoys" component={BoysSAndD} />
             <Route exact path="/GirlsWaterPolo" component={GirlsWaterPolo} />
             <Route exact path="/BoysWaterPolo" component={BoysWaterPolo} />
-            <Route exact path="/login" component={Login} />
             <Route exact path="/calendar" component={Calendar} />
             <Route
               exact

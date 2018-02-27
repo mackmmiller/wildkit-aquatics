@@ -10,8 +10,8 @@ type Admin {
 type Coach {
   _id: String!
   bio: String
-  groups: [Group!]!
-  title: String!
+  groups: [Group]
+  title: String
   user: User!
 }
 
@@ -135,7 +135,7 @@ type Query {
 
 type Mutation {
   createAdmin(userId: String): Admin
-  createCoach(userId: String): Coach
+  createCoach(email: String): Coach
   createCompetition(name: String, location: String): Competition
   createEvent(start: String, end: String, eventType: String): Event
   createGroup(name: String): Group
@@ -170,6 +170,7 @@ type Mutation {
   deletePractice(practiceId: String): Practice
   deleteResult(resultId: String): Result
   deleteSwimmer(swimmerId: String): Swimmer
+  deleteUser(userId: String): User
 }
 
 #####################

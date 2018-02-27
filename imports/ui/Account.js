@@ -18,34 +18,34 @@ class Account extends Component {
     return (
       <Wrapper className="wrapper">
         <WorkSpace>{this.state.current}</WorkSpace>
-        <SideBar>
+        {/* <SideBar>
           <ul>
             <SideBarItem>
-              {/* {admin && admin._id} */}
+              {admin && admin._id}
               <button onClick={() => this.setState({ current: <Admin /> })}>
                 Admin
               </button>
             </SideBarItem>
             <SideBarItem>
-              {/* {coach && coach._id} */}
+              {coach && coach._id}
               <button onClick={() => this.setState({ current: <Coach /> })}>
                 Coach
               </button>
             </SideBarItem>
             <SideBarItem>
-              {/* {parent && parent._id} */}
+              {parent && parent._id}
               <button onClick={() => this.setState({ current: <Parent /> })}>
                 Registration
               </button>
             </SideBarItem>
             <SideBarItem>
-              {/* {_id && _id} */}
+              {_id && _id}
               <button onClick={() => this.setState({ current: <User /> })}>
                 <i className="fas fa-cogs" />
               </button>
             </SideBarItem>
           </ul>
-        </SideBar>
+        </SideBar> */}
       </Wrapper>
     );
   }
@@ -71,7 +71,6 @@ const SideBar = styled.div`
   padding: 5rem 0;
   background-color: #dbdbdb;
   flex-flow: column nowrap;
-  min-height: 92.5vh;
   display: flex;
   > ul {
     flex: 1;

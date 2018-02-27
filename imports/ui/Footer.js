@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Footer = () => (
   <StyledFooter>
@@ -64,6 +64,7 @@ const StyledFooter = styled.footer`
   flex-flow: column wrap;
   justify-content: space-around;
   padding: 4rem 1rem 1rem 1rem;
+  margin-top: 5rem;
   font-size: 1.4rem;
   z-index: 1;
 `;
