@@ -1,8 +1,9 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { Accounts } from "meteor/accounts-base";
-import gql from "graphql-tag";
-import { graphql } from "react-apollo";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Accounts } from 'meteor/accounts-base';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 const createParent = gql`
   mutation createParent {
@@ -13,7 +14,11 @@ const createParent = gql`
 `;
 
 class Register extends Component {
-  registerUser = e => {
+  static propTypes = {
+    createParent: PropTypes.func.isRequired,
+  }
+
+  registerUser = (e) => {
     e.preventDefault();
     if (this.password.value === this.password2.value) {
       Accounts.createUser(
@@ -22,15 +27,15 @@ class Register extends Component {
           password: this.password.value,
           firstName: this.firstName.value,
           lastName: this.lastName.value,
-          userType: "Parent"
+          userType: 'Parent',
         },
-        err => {
+        (err) => {
           if (!err) {
             this.props.client.resetStore();
             this.createParent();
           }
           console.log(err);
-        }
+        },
       );
     } else {
       console.log("Passwords don't match");
@@ -102,7 +107,7 @@ class Register extends Component {
   }
 }
 
-export default graphql(createParent, { name: "createParent" })(Register);
+export default graphql(createParent, { name: 'createParent' })(Register);
 
 const StyledForm = styled.form`
   display: grid;

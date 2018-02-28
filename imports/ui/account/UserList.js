@@ -161,6 +161,7 @@ const Wrapper = styled.div`
   border-radius: 0.5rem;
   padding: 0.5rem;
   margin: 1rem 0;
+  font-size: 1.6rem;
 `;
 
 const Top = styled.div`

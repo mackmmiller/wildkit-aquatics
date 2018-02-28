@@ -127,7 +127,11 @@ export default {
     // createSwimmer(obj, { userId }){},
 
     updateAdmin(obj, args, context) {},
-    updateCoach(obj, args, context) {},
+    updateCoach(obj, { coachId, title, bio }, { userId }) {
+      console.log('Updating Coach...');
+      Coaches.update(coachId, { $set: { title, bio } });
+      return Coaches.findOne(coachId);
+    },
     updateCompetition(obj, args, context) {},
     updateEvent(obj, args, context) {},
     updateGroup(obj, args, context) {},
@@ -223,8 +227,8 @@ export default {
   },
   Coach: {
     user: coach => Users.findOne({ coach: coach._id }),
-    // title:
-    // groups: coach => Groups.find({ where [coaches] includes coach._id})
+    // title: coach => Coaches
+    groups: coach => Groups.find({ coaches: coach._id }),
   },
   Competition: {},
   Event: {

@@ -144,20 +144,25 @@ type Mutation {
   # createResult(): Result
   # createSwimmer(): Swimmer
 
-  updateAdmin(_id: String, userId: String): Admin
-  updateCoach(_id: String, userId: String): Coach
-  updateCompetition(_id: String): Competition
+  updateAdmin(AdminId: String, userId: String): Admin
+  updateCoach(
+    coachId: String!
+    title: String
+    bio: String
+    userId: String
+  ): Coach
+  updateCompetition(competitionId: String): Competition
   updateEvent(
-    _id: String!
+    eventId: String!
     start: Date
     end: Date
     competitionId: String
     practiceId: String
     eventType: EventType
   ): Event
-  updateGroup(_id: String): Group
-  updateParent(_id: String, userId: String): Parent
-  updatePractice(_id: String): Practice
+  updateGroup(groupId: String): Group
+  updateParent(parentId: String, userId: String): Parent
+  updatePractice(practiceId: String): Practice
   # updateResult(): Result
   # updateSwimmer(): Swimmer
 

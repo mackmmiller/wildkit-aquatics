@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -6,6 +7,11 @@ import { Link } from 'react-router-dom';
 import Modal from './modals/Modal';
 
 class Nav extends Component {
+  static propTypes = {
+    client: PropTypes.object.isRequired,
+    user: PropTypes.object,
+  }
+
   state = {
     programsIsOpen: false,
     aboutIsOpen: false,

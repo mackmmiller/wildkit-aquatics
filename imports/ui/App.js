@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   BrowserRouter as Router,
   Route,
@@ -21,8 +22,6 @@ import BoysWaterPolo from './pages/BoysWaterPolo';
 import Calendar from './pages/Calendar';
 import Coaches from './pages/Coaches';
 import Account from './Account';
-
-/* Query */
 
 const userQuery = gql`
   query initialQuery {
@@ -73,11 +72,19 @@ const App = ({ loading, client, user }) => {
   );
 };
 
+App.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  client: PropTypes.object.isRequired,
+  user: PropTypes.object,
+};
+
+App.defaultProps = {
+  user: null,
+};
+
 export default graphql(userQuery, { props: ({ data }) => ({ ...data }) })(
   withApollo(App),
 );
-
-/* Styled Components */
 
 const AppWrapper = styled.div`
   background: #f0f0f0;

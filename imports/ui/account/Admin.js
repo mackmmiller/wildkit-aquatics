@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { compose, graphql } from 'react-apollo';
 import BigCalendar from 'react-big-calendar';
 import gql from 'graphql-tag';
@@ -81,6 +82,15 @@ const transformEvents = events =>
   }));
 
 class Admin extends Component {
+  static propTypes = {
+    loading: PropTypes.bool.isRequired,
+    allUsers: PropTypes.array,
+    allCoaches: PropTypes.array,
+    allGroups: PropTypes.array,
+    allEvents: PropTypes.array,
+    allSwimmers: PropTypes.array,
+  }
+
   state = {
     newUserForm: false,
   };
@@ -114,7 +124,9 @@ class Admin extends Component {
           <Header>
             <h3>Competitions</h3>
           </Header>
-          <Content />
+          <Content>
+            <h4>Hi</h4>
+          </Content>
         </Competitions>
         <Groups className="groups">
           <Header>
@@ -228,6 +240,10 @@ const Calendar = styled.div`
   grid-area: calendar;
   .calendar {
     height: 60rem;
+    font-size: 1.6rem;
+  }
+  .rbc-event {
+    font-size: 0.9rem;
   }
 `;
 
@@ -241,6 +257,9 @@ const Groups = styled.div`
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
+    > * {
+      flex: 1 100%;
+    }
   }
 `;
 

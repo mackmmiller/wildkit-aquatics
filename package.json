@@ -17,6 +17,7 @@
     "lodash": "^4.17.5",
     "meteor-node-stubs": "^0.3.2",
     "moment": "^2.20.1",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
     "react-big-calendar": "^0.18.0",
