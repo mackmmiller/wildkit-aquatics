@@ -9,6 +9,8 @@ import moment from 'moment';
 import Coach from './CoachList';
 import User, { ComposedForm } from './UserList';
 import Group from './Group';
+import Competition from './Competition';
+import CompetitionForm from './CompetitionForm';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -18,12 +20,16 @@ const adminData = gql`
       _id
       name
       location
+      start
+      end
       results {
         _id
       }
       swimmers {
         dateOfBirth
         middleName
+        firstName
+        lastName
       }
     }
     allPractices {
@@ -31,6 +37,8 @@ const adminData = gql`
       group {
         name
       }
+      start
+      end
     }
     allSwimmers {
       _id
@@ -59,26 +67,16 @@ const adminData = gql`
       email
       userType
     }
-    allEvents {
-      _id
-      start
-      end
-      practice {
-        group {
-          name
-        }
-      }
-    }
   }
 `;
 
-const transformEvents = events =>
-  events.map(e => ({
-    id: e._id,
-    start: moment(e.start).toDate(),
-    end: moment(e.end).toDate(),
-    group: e.practice.group.name,
-    title: `${e.practice.group.name} Practice`,
+const transformPractices = practices =>
+  practices.map(p => ({
+    id: p._id,
+    start: moment(p.start).toDate(),
+    end: moment(p.end).toDate(),
+    group: p.group.name,
+    title: `${p.group.name} Practice`,
   }));
 
 class Admin extends Component {
@@ -87,12 +85,14 @@ class Admin extends Component {
     allUsers: PropTypes.array,
     allCoaches: PropTypes.array,
     allGroups: PropTypes.array,
-    allEvents: PropTypes.array,
+    allPractices: PropTypes.array,
     allSwimmers: PropTypes.array,
+    allCompetitions: PropTypes.array,
   }
 
   state = {
     newUserForm: false,
+    newCompetition: false,
   };
 
   render() {
@@ -101,31 +101,38 @@ class Admin extends Component {
       allUsers,
       allGroups,
       allCoaches,
-      allEvents,
+      allCompetitions,
+      allPractices,
       allSwimmers,
     } = this.props;
-    const { newUserForm } = this.state;
+    const { newUserForm, newCompetition } = this.state;
     if (loading) return null;
     return (
       <Wrapper>
         <Calendar>
           <Content className="calendar">
-            <BigCalendar
-              views={['month', 'week']}
-              defaultView="week"
-              step={60}
-              showMultiDayTimes
-              events={transformEvents(allEvents)}
-              defaultDate={moment().toDate()}
-            />
+            <BigCalendar views={['month', 'week']} defaultView="week" step={60} showMultiDayTimes events={transformPractices(allPractices)} eventPropGetter={event => ({ className: event.group.toLowerCase() })} defaultDate={moment().toDate()} />
           </Content>
         </Calendar>
         <Competitions className="competitions">
           <Header>
             <h3>Competitions</h3>
+            <button
+              onClick={() =>
+                this.setState({ newCompetition: !this.state.newCompetition })
+              }
+            >
+            New Competition
+            </button>
           </Header>
           <Content>
-            <h4>Hi</h4>
+            {newCompetition ? <CompetitionForm /> : null}
+            {allCompetitions.map(competition => (
+              <Competition
+                competition={competition}
+                key={competition._id}
+              />
+            ))}
           </Content>
         </Competitions>
         <Groups className="groups">
@@ -133,7 +140,9 @@ class Admin extends Component {
             <h3>Groups</h3>
           </Header>
           <Content className="groupsContent">
-            {allGroups.map(group => <Group group={group} key={group._id} />)}
+            {allGroups.map(group => (
+              <Group group={group} key={group._id} />
+            ))}
           </Content>
         </Groups>
         <Swimmers className="swimmers">
@@ -149,7 +158,9 @@ class Admin extends Component {
             <h3>Coaches</h3>
           </Header>
           <Content>
-            {allCoaches.map(coach => <Coach key={coach._id} coach={coach} />)}
+            {allCoaches.map(coach => (
+              <Coach key={coach._id} coach={coach} />
+            ))}
           </Content>
         </Coaches>
         <Users className="users">
@@ -182,16 +193,14 @@ const Wrapper = styled.div`
   height: 100%;
   width: 95%;
   margin: auto;
-  padding: 4rem 0;
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 2rem;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(6, minmax(10rem, auto));
+  grid-template-rows: repeat(5, minmax(10rem, auto));
   grid-template-areas:
     "calendar calendar calendar calendar competitions competitions"
-    "calendar calendar calendar calendar  . ."
+    "calendar calendar calendar calendar . ."
     "groups groups groups groups groups groups"
-    "swimmers swimmers coaches coaches users users"
     "swimmers swimmers coaches coaches users users"
     "swimmers swimmers coaches coaches users users";
   @media (max-width: 900px) {
@@ -211,10 +220,11 @@ const Wrapper = styled.div`
   > div {
     padding: 1rem;
     box-sizing: border-box;
-    background-color: #dbdbdb;
-    border: 2px solid #d1d1d1;
+    background-color: ${props => props.theme.lightGray};
+    border: 2px solid ${props => props.theme.medGray};
     border-radius: 0.5rem;
     font-size: 2rem;
+    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -229,8 +239,8 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  background-color: #f0f0f0;
-  border: 2px solid #d1d1d1;
+  background-color: ${props => props.theme.white};
+  border: 2px solid ${props => props.theme.medGray};
   border-radius: 0.5rem;
   min-height: 1rem;
   padding: 1.5rem;
@@ -244,6 +254,7 @@ const Calendar = styled.div`
   }
   .rbc-event {
     font-size: 0.9rem;
+    background-color: ${props => props.theme[props.className]};
   }
 `;
 

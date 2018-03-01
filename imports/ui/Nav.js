@@ -56,83 +56,90 @@ class Nav extends Component {
       <NavBar>
         <ul className="wide">
           <StyledLi>
-            <Link to="/">Home</Link>
+            <Link to="/" href="/">
+              Home
+            </Link>
           </StyledLi>
-          <StyledLi
-            onMouseEnter={this.toggleAbout}
-            onMouseLeave={this.toggleAbout}
-          >
+          <StyledLi onMouseEnter={this.toggleAbout} onMouseLeave={this.toggleAbout}>
             About
-            {this.state.aboutIsOpen && (
-              <Dropdown>
-                <Link to="/coaches">Coaches</Link>
-                <Link to="/aquaticscenter">Burton Aquatics Center</Link>
-                <Link to="/board">Board of Directors</Link>
-                <Link to="/records+results">Records &amp; Results</Link>
-              </Dropdown>
-            )}
-          </StyledLi>
-          <StyledLi
-            onMouseEnter={this.togglePrograms}
-            onMouseLeave={this.togglePrograms}
-          >
-            Programs
-            {this.state.programsIsOpen && (
-              <Dropdown>
-                <Link to="/wildkitswimming">Wildkit Swimming</Link>
-                <Link to="/LearnToSwim">Learn to Swim</Link>
-                <Link to="/ETHSGirls">ETHS Girls</Link>
-                <Link to="/ETHSBoys">ETHS Boys</Link>
-                <Link to="/GirlsWaterPolo">Girls Water Polo</Link>
-                <Link to="/BoysWaterPolo">Boys Water Polo</Link>
-              </Dropdown>
-            )}
-          </StyledLi>
-          <StyledLi>
-            <Link to="/calendar">Calendar</Link>
-          </StyledLi>
-          <StyledLi>
-            <Link to="/contribute">Contribute</Link>
-          </StyledLi>
-          <StyledLi>
-            <Link to="/contact">Contact</Link>
-          </StyledLi>
-          {user._id ? (
-            <StyledLi>
-              <Link to="/account" href="/account">
-                Account
+            {this.state.aboutIsOpen &&
+            <Dropdown>
+              <Link to="/coaches" href="/coaches">
+                  Coaches
               </Link>
-            </StyledLi>
-          ) : (
-            <StyledLi>
-              <button onClick={this.toggleModal}>Log In</button>
-            </StyledLi>
-          )}
+              <Link to="/aquatics-center" href="/aquatics-center">
+                  Burton Aquatics Center
+              </Link>
+              <Link to="/board" href="/board">
+                  Board of Directors
+              </Link>
+              <Link to="/records-and-results" href="/record-and-results">
+                  Records &amp; Results
+              </Link>
+            </Dropdown>}
+          </StyledLi>
+          <StyledLi onMouseEnter={this.togglePrograms} onMouseLeave={this.togglePrograms}>
+            Programs
+            {this.state.programsIsOpen &&
+            <Dropdown>
+              <Link to="/wildkit-swimming" href="/wildkit-swimming">
+                  Wildkit Swimming
+              </Link>
+              <Link to="/learn-to-swim" href="/learn-to-swim">
+                  Learn to Swim
+              </Link>
+              <Link to="/eths-girls" href="/eths-girls">
+                  ETHS Girls
+              </Link>
+              <Link to="/eths-boys" href="/eths-boys">
+                  ETHS Boys
+              </Link>
+              <Link to="/girls-water-polo" href="/girls-water-polo">
+                  Girls Water Polo
+              </Link>
+              <Link to="/boys-water-polo" href="/boys-water-polo">
+                  Boys Water Polo
+              </Link>
+            </Dropdown>}
+          </StyledLi>
+          <StyledLi>
+            <Link to="/calendar" href="/calendar">Calendar</Link>
+          </StyledLi>
+          <StyledLi>
+            <Link to="/contribute" href="/contribute">Contribute</Link>
+          </StyledLi>
+          <StyledLi>
+            <Link to="/contact" href="/contact">Contact</Link>
+          </StyledLi>
           {user._id ? (
-            <StyledLi>
-              <button
-                onClick={() => {
+            <React.Fragment>
+              <StyledLi>
+                <Link to="/account" href="/account">
+                Account
+                </Link>
+              </StyledLi>
+              <StyledLi>
+                <button
+                  onClick={() => {
                   Meteor.logout();
                   client.resetStore();
                 }}
-              >
+                >
                 Log Out
-              </button>
+                </button>
+              </StyledLi>
+            </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <StyledLi>
+              <button onClick={this.toggleModal}>Log In</button>
             </StyledLi>
-          ) : (
             <StyledLi>
               <button onClick={this.toggleModal}>Register</button>
             </StyledLi>
-          )}
-          {this.state.modalOpen &&
-            createPortal(
-              <Modal
-                client={client}
-                targetModal={this.state.targetModal}
-                handleClick={this.closeModal.bind(this)}
-              />,
-              document.getElementById('modal'),
-            )}
+          </React.Fragment>
+        )}
+          {this.state.modalOpen && createPortal(<Modal client={client} targetModal={this.state.targetModal} handleClick={this.closeModal.bind(this)} />, document.getElementById('modal'))}
         </ul>
         <ul className="narrow">
           <StyledLi>
@@ -141,18 +148,18 @@ class Nav extends Component {
             </button>
           </StyledLi>
         </ul>
-      </NavBar>
-    );
+      </NavBar>);
   }
 }
 
 export default Nav;
 
 const NavBar = styled.nav`
-  background: #eb5e55;
+  background: ${props => props.theme.mainOrange};
   z-index: 10000;
   height: 5.8rem;
   font-size: 1.6rem;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
   .narrow {
     display: none;
   }
@@ -193,18 +200,18 @@ const StyledLi = styled.li`
     margin-right: 2rem;
   }
   &:hover {
-    background: #c14d46;
+    background: ${props => props.theme.darkOrange};
     cursor: default;
   }
   > a {
     text-decoration: none;
-    color: #f0f0f0;
+    color: ${props => props.theme.white};
   }
   > button {
     padding: 0;
     border: none;
     background: transparent;
-    color: #f0f0f0;
+    color: ${props => props.theme.white};
     font-size: 1.6rem;
     &:focus {
       outline: 0;
@@ -220,7 +227,7 @@ const Dropdown = styled.div`
   top: 2rem;
   margin-left: -1rem;
   margin-right: -1rem;
-  background: #eb5e55;
+  background: ${props => props.theme.mainOrange};
   display: flex;
   flex-direction: column;
   width: 15rem;
@@ -228,9 +235,9 @@ const Dropdown = styled.div`
     text-align: center;
     padding: 1.5rem 0;
     text-decoration: none;
-    color: #f0f0f0;
+    color: ${props => props.theme.white};
     &:hover {
-      background: #c14d46;
+      background: ${props => props.theme.darkOrange};
     }
   }
 `;

@@ -19,17 +19,10 @@ type Competition {
   _id: String!
   name: String!
   location: String!
-  results: [Result!]!
-  swimmers: [Swimmer!]!
-}
-
-type Event {
-  _id: String!
   start: Date
   end: Date
-  competition: Competition
-  practice: Practice
-  eventType: EventType!
+  results: [Result]
+  swimmers: [Swimmer]
 }
 
 type Group {
@@ -49,13 +42,13 @@ type Parent {
 type Practice {
   _id: String!
   group: Group!
-  event: Event!
+  start: Date
+  end: Date
 }
 
 type Result {
   _id: String!
   competition: Competition
-  event: String!
   swimmer: Swimmer!
   time: String!
 }
@@ -95,11 +88,6 @@ enum UserType {
   Parent
 }
 
-enum EventType {
-  Practice
-  Competition
-}
-
 #####################
 ##      Queries    ##
 #####################
@@ -108,7 +96,6 @@ type Query {
   Admin(_id: String): Admin
   Coach(_id: String): Coach
   Competition(_id: String): Competition
-  Event(_id: String): Event
   Group(_id: String): Group
   Parent(_id: String): Parent
   Practice(_id: String): Practice
@@ -120,7 +107,6 @@ type Query {
   allAdmins: [Admin]
   allCoaches: [Coach]
   allCompetitions: [Competition]
-  allEvents: [Event]
   allGroups: [Group]
   allParents: [Parent]
   allPractices: [Practice]
@@ -136,11 +122,15 @@ type Query {
 type Mutation {
   createAdmin(userId: String): Admin
   createCoach(email: String): Coach
-  createCompetition(name: String, location: String): Competition
-  createEvent(start: String, end: String, eventType: String): Event
+  createCompetition(
+    name: String
+    location: String
+    start: Date
+    end: Date
+  ): Competition
   createGroup(name: String): Group
   createParent(userId: String): Parent
-  createPractice(eventId: String, groupId: String): Practice
+  createPractice(start: Date, end: Date, groupId: String): Practice
   # createResult(): Result
   # createSwimmer(): Swimmer
 
@@ -152,14 +142,6 @@ type Mutation {
     userId: String
   ): Coach
   updateCompetition(competitionId: String): Competition
-  updateEvent(
-    eventId: String!
-    start: Date
-    end: Date
-    competitionId: String
-    practiceId: String
-    eventType: EventType
-  ): Event
   updateGroup(groupId: String): Group
   updateParent(parentId: String, userId: String): Parent
   updatePractice(practiceId: String): Practice
@@ -169,7 +151,6 @@ type Mutation {
   deleteAdmin(adminId: String): Admin
   deleteCoach(coachId: String): Coach
   deleteCompetition(competitionId: String): Competition
-  deleteEvent(eventId: String): Event
   deleteGroup(groupId: String): Group
   deleteParent(parentId: String): Parent
   deletePractice(practiceId: String): Practice

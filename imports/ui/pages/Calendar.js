@@ -1,50 +1,49 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
-import BigCalendar from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import styled from "styled-components";
-import moment from "moment";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import BigCalendar from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import styled from 'styled-components';
+import moment from 'moment';
 
 BigCalendar.momentLocalizer(moment);
-const allEvents = gql`
-  query allEvents {
-    allEvents {
+const allPractices = gql`
+  query allPractices {
+    allPractices {
       _id
       start
       end
-      practice {
-        group {
-          name
-        }
+      group {
+        name
       }
     }
   }
 `;
 
-const transformEvents = events =>
-  events.map(e => ({
-    id: e._id,
-    start: moment(e.start).toDate(),
-    end: moment(e.end).toDate(),
-    group: e.practice.group.name,
-    title: `${e.practice.group.name} Practice`
+const transformPractices = practices =>
+  practices.map(p => ({
+    id: p._id,
+    start: moment(p.start).toDate(),
+    end: moment(p.end).toDate(),
+    group: p.group.name,
+    title: `${p.group.name} Practice`,
   }));
 
-const Calendar = ({ loading, allEvents }) => {
-  if (loading)
-    return (
-      <div>
+const Calendar = ({ loading, allPractices }) => {
+  if (loading) {
+ return (
+    <div>
         <i className="fas fa-circle-notch fa-spin" />
       </div>
-    );
+  );
+  }
   return (
     <Wrapper>
       <BigCalendar
         className="calendar"
-        events={transformEvents(allEvents)}
+        events={transformPractices(allPractices)}
         defaultView="week"
-        views={["month", "week", "day"]}
+        views={['month', 'week', 'day']}
         step={60}
         showMultiDayTimes
         eventPropGetter={event => ({ className: event.group })}
@@ -54,8 +53,8 @@ const Calendar = ({ loading, allEvents }) => {
   );
 };
 
-export default graphql(allEvents, {
-  props: ({ data }) => ({ ...data })
+export default graphql(allPractices, {
+  props: ({ data }) => ({ ...data }),
 })(Calendar);
 
 const Wrapper = styled.div`
@@ -67,15 +66,15 @@ const Wrapper = styled.div`
     margin: auto;
   }
   .Bronze {
-    background-color: #6c541e;
+    background-color: ${props => props.theme.bronze};
   }
   .Silver {
-    background-color: #b3b3b3;
+    background-color: ${props => props.theme.silver};
   }
   .Gold {
-    background-color: #ffd700;
+    background-color: ${props => props.theme.gold};
   }
   .Platinum {
-    background-color: #dadada;
+    background-color: ${props => props.theme.platinum};
   }
 `;

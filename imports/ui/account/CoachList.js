@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { Pill, PillBody, PillTop } from '../styles/styles';
+
 const updateCoach = gql`
   mutation updateCoach($coachId: String!, $title: String, $bio: String) {
     updateCoach(coachId: $coachId, title: $title, bio: $bio) {
@@ -27,11 +29,11 @@ class Coach extends Component {
         email: PropTypes.string,
       }),
     }),
-  }
+  };
 
   static defaultProps = {
     coach: null,
-  }
+  };
 
   state = {
     bodyVisible: false,
@@ -72,8 +74,8 @@ class Coach extends Component {
     } = this.state;
     const { coach } = this.props;
     return (
-      <Wrapper>
-        <Top>
+      <Pill>
+        <PillTop>
           <h4>
             {`${coach.user.firstName} ${coach.user.lastName} `}
             <span>{coach.title}</span>
@@ -84,8 +86,8 @@ class Coach extends Component {
           <button onClick={this.toggleBody}>
             <i className="fas fa-angle-down" />
           </button>
-        </Top>
-        <Body open={bodyVisible}>
+        </PillTop>
+        <PillBody open={bodyVisible}>
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="firstName">
               First Name
@@ -164,63 +166,22 @@ class Coach extends Component {
                 High School
               </label>
             </fieldset>
-            <input type="button" value="Cancel" onClick={this.resetForm} />
-            <input type="submit" />
+            <div>
+              <input type="button" value="Cancel" onClick={this.resetForm} />
+              <input type="submit" />
+            </div>
           </form>
-        </Body>
-      </Wrapper>
+        </PillBody>
+      </Pill>
     );
   }
 }
 
 export default graphql(updateCoach, { name: 'updateCoach' })(Coach);
 
-const Wrapper = styled.div`
-  background: #eb5e55;
-  border: 2px solid #c14d46;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  margin: 1rem 0;
-  font-size: 1.6rem;
-`;
-
-const Top = styled.div`
-  display: flex;
-  align-content: flex-end;
-  margin: 0.75rem;
-  > h4 {
-    margin: 0 auto 0 0;
-    span {
-      font-weight: lighter;
-    }
-  }
-  > a {
-    color: #f0f0f0;
-    display: inline;
-  }
-  > button {
-    border: none;
-    color: #f0f0f0;
-    background-color: transparent;
-    outline: none;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-`;
-
-const Body = styled.div`
-  background: #f0f0f0;
-  margin: 0 1rem;
-  box-sizing: border-box;
-  border-radius: 0.5em;
-  border: 2px solid #c14d46;
-  height: ${props => (props.open ? '300px' : '0px')};
-  transition: 0.5s linear;
-  overflow: auto;
-  > form {
-    margin: 0.5rem;
-    display: flex;
-    flex-direction: column;
-  }
-`;
+// > form {
+//   margin: 0.5rem;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+// }

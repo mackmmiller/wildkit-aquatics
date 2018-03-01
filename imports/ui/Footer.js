@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Footer = () => (
   <StyledFooter>
@@ -17,36 +18,64 @@ const Footer = () => (
       <div>
         <h3>About</h3>
         <StyledUL>
-          <li>Burton Aquatics Center</li>
-          <li>Coaching Staff</li>
-          <li>Board of Directors</li>
-          <li />
-          <li />
-          <li />
+          <li>
+            <Link to="/aquatics-center">Burton Aquatics Center</Link>
+          </li>
+          <li>
+            <Link to="/coaches">Coaching Staff</Link>
+          </li>
+          <li>
+            <Link to="/board">Board of Directors</Link>
+          </li>
         </StyledUL>
       </div>
       <div>
         <h3>Programs</h3>
         <StyledUL>
-          <li>Wildkit Swimming</li>
-          <li>Learn to Swim</li>
-          <li>ETHS Girls Swimming &amp; Diving</li>
-          <li>ETHS Boys Swimming &amp; Diving</li>
-          <li>ETHS Girls Water Polo</li>
-          <li>ETHS Boys Water Polo</li>
-          <li>WSO Water Polo</li>
+          <li>
+            <Link to="/wildkit-swimming">Wildkit Swimming</Link>
+          </li>
+          <li>
+            <Link to="/learn-to-swim">Learn to Swim</Link>
+          </li>
+          <li>
+            <Link to="/eths-girls">ETHS Girls Swimming &amp; Diving</Link>
+          </li>
+          <li>
+            <Link to="/eths-boys">ETHS Boys Swimming &amp; Diving</Link>
+          </li>
+          <li>
+            <Link to="/girls-water-polo">ETHS Girls Water Polo</Link>
+          </li>
+          <li>
+            <Link to="/boys-water-polo">ETHS Boys Water Polo</Link>
+          </li>
         </StyledUL>
       </div>
       <div>
         <h3>External Links</h3>
         <StyledUL>
-          <li>Illinois Swimming</li>
-          <li>IHSA</li>
-          <li>USA Swimming</li>
-          <li>Evanston Township High School</li>
-          <li>Wildkit Aquatics Store</li>
-          <li />
-          <li />
+          <li>
+            <a href="https://www.teamunify.com/Home.jsp?team=ilslsc">
+              Illinois Swimming
+            </a>
+          </li>
+          <li>
+            <a href="https://www.ihsa.org/">IHSA</a>
+          </li>
+          <li>
+            <a href="https://www.usaswimming.org/">USA Swimming</a>
+          </li>
+          <li>
+            <a href="https://www.eths.k12.il.us/">
+              Evanston Township High School
+            </a>
+          </li>
+          <li>
+            <a href="http://www.theswimteamstore.com/lgsteams/productcart/pc/viewCategories.asp?idCategory=3077&idAffiliate=733">
+              Wildkit Aquatics Store
+            </a>
+          </li>
         </StyledUL>
       </div>
     </FooterDetails>
@@ -59,7 +88,7 @@ const Footer = () => (
 export default Footer;
 
 const StyledFooter = styled.footer`
-  background: #0f1f37;
+  background: ${props => props.theme.mainNavy};
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
@@ -67,6 +96,7 @@ const StyledFooter = styled.footer`
   margin-top: 5rem;
   font-size: 1.4rem;
   z-index: 1;
+  box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.3);
 `;
 
 const FooterDetails = styled.div`
@@ -93,6 +123,15 @@ const StyledUL = styled.ul`
   padding: 0;
   > li {
     padding: 0.25rem 0;
+    a {
+      font-weight: lighter;
+      color: ${props => props.theme.white};
+      text-decoration: none;
+      padding-bottom: 0.2rem;
+      &:hover {
+        border-bottom: 2px solid ${props => props.theme.mainOrange};
+      }
+    }
   }
 `;
 

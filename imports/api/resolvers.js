@@ -5,7 +5,6 @@ import {
   Admins,
   Coaches,
   Competitions,
-  Events,
   Groups,
   Parents,
   Practices,
@@ -25,9 +24,6 @@ export default {
     },
     Competition(obj, { _id }) {
       return Competitions.findOne(_id);
-    },
-    Event(obj, { _id }) {
-      return Events.findOne(_id);
     },
     Group(obj, { _id }) {
       return Groups.findOne(_id);
@@ -60,9 +56,6 @@ export default {
     allCompetitions(obj, args) {
       return Competitions.find({}).fetch();
     },
-    allEvents(obj, args) {
-      return Events.find({}).fetch();
-    },
     allGroups(obj, args) {
       return Groups.find({}).fetch();
     },
@@ -94,14 +87,16 @@ export default {
       Users.update({ _id: userId._id }, { $set: { coach: coachId } });
       return Coaches.findOne(coachId);
     },
-    // createCompetition(obj, { userId }){},
-    createEvent(obj, { start, end, eventType }, { userId }) {
-      const eventId = Events.insert({
+    createCompetition(obj, {
+      name, location, start, end,
+    }, { userId }) {
+      const competitionId = Competitions.insert({
+        name,
+        location,
         start,
         end,
-        eventType,
       });
-      return Events.findOne(eventId);
+      return Competitions.findOne(competitionId);
     },
     createGroup(obj, { name }, { userId }) {
       const groupId = Groups.insert({
@@ -116,9 +111,10 @@ export default {
       Users.update({ _id: userId }, { $set: { parent: parentId } });
       return Parents.findOne(parentId);
     },
-    createPractice(obj, { eventId, groupId }, { userId }) {
+    createPractice(obj, { start, end, groupId }, { userId }) {
       const practiceId = Practices.insert({
-        eventId,
+        start,
+        end,
         groupId,
       });
       return Practices.findOne(practiceId);
@@ -133,7 +129,6 @@ export default {
       return Coaches.findOne(coachId);
     },
     updateCompetition(obj, args, context) {},
-    updateEvent(obj, args, context) {},
     updateGroup(obj, args, context) {},
     updateParent(obj, args, context) {},
     updatePractice(obj, args, context) {},
@@ -164,14 +159,6 @@ export default {
       });
       return competitionId;
     },
-    deleteEvent(obj, { eventId }, context) {
-      Events.remove(eventId, (e) => {
-        if (e) {
-          console.log(e);
-        }
-      });
-      return eventId;
-    },
     deleteGroup(obj, { groupId }, context) {
       Groups.remove(groupId, (e) => {
         if (e) {
@@ -189,7 +176,7 @@ export default {
       return parentId;
     },
     deletePractice(obj, { practiceId }, context) {
-      Practices.remove(adminId, (e) => {
+      Practices.remove(practiceId, (e) => {
         if (e) {
           console.log(e);
         }
@@ -230,19 +217,20 @@ export default {
     // title: coach => Coaches
     groups: coach => Groups.find({ coaches: coach._id }),
   },
-  Competition: {},
-  Event: {
-    practice: event => Practices.findOne({ eventId: event._id }),
+  Competition: {
+
   },
   Group: {
     // Passing in an array... Need to remap data? You've seen this before.
     // coaches: group => Coaches.find({}),
     practices: group => Practices.find({ groupId: group._id }).fetch(),
   },
-  Parent: {},
+  Parent: {
+    user: parent => Users.findOne({ parent: parent._id }),
+  },
   Practice: {
     group: practice => Groups.findOne(practice.groupId),
-    event: practice => Events.findOne(practice.eventId),
+    // event: practice => Events.findOne(practice.eventId),
   },
   Result: {},
   Swimmer: {},
