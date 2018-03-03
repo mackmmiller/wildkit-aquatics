@@ -15,8 +15,10 @@ class Nav extends Component {
   state = {
     programsIsOpen: false,
     aboutIsOpen: false,
+    contributeIsOpen: false,
     modalOpen: false,
     targetModal: undefined,
+    accountOpen: false,
   };
 
   togglePrograms = () => {
@@ -38,6 +40,18 @@ class Nav extends Component {
     });
   };
 
+  toggleContribute = () => {
+    this.setState({
+      contributeIsOpen: !this.state.contributeIsOpen,
+    });
+  }
+
+  toggleAccount = () => {
+    this.setState({
+      accountOpen: !this.state.accountOpen,
+    });
+  }
+
   closeModal = (e) => {
     if (e.target.classList.contains('wrapper')) {
       this.setState({
@@ -52,84 +66,95 @@ class Nav extends Component {
 
   render() {
     const { client, user } = this.props;
-    return (
-      <NavBar>
-        <ul className="wide">
-          <StyledLi>
-            <Link to="/" href="/">
+    return (<NavBar>
+      <ul className="wide">
+        <StyledLi>
+          <Link to="/" href="/">
               Home
-            </Link>
-          </StyledLi>
-          <StyledLi onMouseEnter={this.toggleAbout} onMouseLeave={this.toggleAbout}>
+          </Link>
+        </StyledLi>
+        <StyledLi onMouseEnter={this.toggleAbout} onMouseLeave={this.toggleAbout}>
             About
-            {this.state.aboutIsOpen &&
-            <Dropdown>
-              <Link to="/coaches" href="/coaches">
+          {this.state.aboutIsOpen &&
+          <Dropdown>
+            <Link to="/about/coaches" href="/about/coaches">
                   Coaches
-              </Link>
-              <Link to="/aquatics-center" href="/aquatics-center">
+            </Link>
+            <Link to="/about/aquatics-center" href="/about/aquatics-center">
                   Burton Aquatics Center
-              </Link>
-              <Link to="/board" href="/board">
+            </Link>
+            <Link to="/about/board" href="/board">
                   Board of Directors
-              </Link>
-              <Link to="/records-and-results" href="/record-and-results">
+            </Link>
+            <Link to="/about/records-and-results" href="/about/record-and-results">
                   Records &amp; Results
-              </Link>
-            </Dropdown>}
-          </StyledLi>
-          <StyledLi onMouseEnter={this.togglePrograms} onMouseLeave={this.togglePrograms}>
+            </Link>
+          </Dropdown>}
+        </StyledLi>
+        <StyledLi onMouseEnter={this.togglePrograms} onMouseLeave={this.togglePrograms}>
             Programs
-            {this.state.programsIsOpen &&
-            <Dropdown>
-              <Link to="/wildkit-swimming" href="/wildkit-swimming">
+          {this.state.programsIsOpen &&
+          <Dropdown>
+            <Link to="/programs/wildkit-swimming" href="/programs/wildkit-swimming">
                   Wildkit Swimming
-              </Link>
-              <Link to="/learn-to-swim" href="/learn-to-swim">
+            </Link>
+            <Link to="/programs/learn-to-swim" href="/programs/learn-to-swim">
                   Learn to Swim
-              </Link>
-              <Link to="/eths-girls" href="/eths-girls">
+            </Link>
+            <Link to="/programs/eths-girls" href="/programs/eths-girls">
                   ETHS Girls
-              </Link>
-              <Link to="/eths-boys" href="/eths-boys">
+            </Link>
+            <Link to="/programs/eths-boys" href="/programs/eths-boys">
                   ETHS Boys
-              </Link>
-              <Link to="/girls-water-polo" href="/girls-water-polo">
+            </Link>
+            <Link to="/programs/girls-water-polo" href="/programs/girls-water-polo">
                   Girls Water Polo
-              </Link>
-              <Link to="/boys-water-polo" href="/boys-water-polo">
+            </Link>
+            <Link to="/programs/boys-water-polo" href="/programs/boys-water-polo">
                   Boys Water Polo
-              </Link>
-            </Dropdown>}
-          </StyledLi>
-          <StyledLi>
-            <Link to="/calendar" href="/calendar">Calendar</Link>
-          </StyledLi>
-          <StyledLi>
-            <Link to="/contribute" href="/contribute">Contribute</Link>
-          </StyledLi>
-          <StyledLi>
-            <Link to="/contact" href="/contact">Contact</Link>
-          </StyledLi>
-          {user._id ? (
-            <React.Fragment>
-              <StyledLi>
-                <Link to="/account" href="/account">
-                Account
-                </Link>
-              </StyledLi>
-              <StyledLi>
-                <button
-                  onClick={() => {
-                  Meteor.logout();
-                  client.resetStore();
-                }}
-                >
-                Log Out
-                </button>
-              </StyledLi>
-            </React.Fragment>
-        ) : (
+            </Link>
+          </Dropdown>}
+        </StyledLi>
+        <StyledLi>
+          <Link to="/calendar" href="/calendar">
+              Calendar
+          </Link>
+        </StyledLi>
+        <StyledLi onMouseEnter={this.toggleContribute} onMouseLeave={this.toggleContribute}>
+            Contribute
+          {this.state.contributeIsOpen &&
+          <Dropdown>
+            <Link to="/contribute/donate" href="/contribute/donate">Donate</Link>
+            <Link to="/contribute/volunteer" href="/contribute/volunteer">Volunteer</Link>
+            <Link to="/contribute/support-coach-joe" href="/contribute/support-coach-joe">Support Coach Joe</Link>
+          </Dropdown>}
+        </StyledLi>
+        <StyledLi>
+          <Link to="/contact" href="/contact">
+              Contact
+          </Link>
+        </StyledLi>
+        {user._id ?
+          <React.Fragment>
+            <StyledLi onMouseEnter={this.toggleAccount} onMouseLeave={this.toggleAccount}>
+              Account
+              { this.state.accountOpen &&
+              <Dropdown>
+                <Link to="/account/admin" href="/account/admin">Admin</Link>
+                <Link to="/account/coach" href="/account/coach">Coach</Link>
+                <Link to="/account/parent" href="/account/parent">Parent</Link>
+              </Dropdown>}
+            </StyledLi>
+            <StyledLi>
+              <button onClick={() => {
+                    Meteor.logout();
+                    client.resetStore();
+                  }}
+              >
+                  Log Out
+              </button>
+            </StyledLi>
+          </React.Fragment> :
           <React.Fragment>
             <StyledLi>
               <button onClick={this.toggleModal}>Log In</button>
@@ -137,18 +162,17 @@ class Nav extends Component {
             <StyledLi>
               <button onClick={this.toggleModal}>Register</button>
             </StyledLi>
-          </React.Fragment>
-        )}
-          {this.state.modalOpen && createPortal(<Modal client={client} targetModal={this.state.targetModal} handleClick={this.closeModal.bind(this)} />, document.getElementById('modal'))}
-        </ul>
-        <ul className="narrow">
-          <StyledLi>
-            <button onClick={this.menu}>
-              <i className="fas fa-bars" />
-            </button>
-          </StyledLi>
-        </ul>
-      </NavBar>);
+          </React.Fragment>}
+        {this.state.modalOpen && createPortal(<Modal client={client} targetModal={this.state.targetModal} handleClick={this.closeModal.bind(this)} />, document.getElementById('modal'))}
+      </ul>
+      <ul className="narrow">
+        <StyledLi>
+          <button onClick={this.menu}>
+            <i className="fas fa-bars" />
+          </button>
+        </StyledLi>
+      </ul>
+    </NavBar>);
   }
 }
 
@@ -156,7 +180,7 @@ export default Nav;
 
 const NavBar = styled.nav`
   background: ${props => props.theme.mainOrange};
-  z-index: 10000;
+  z-index: 100000;
   height: 5.8rem;
   font-size: 1.6rem;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
@@ -231,6 +255,8 @@ const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   width: 15rem;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4), -3px 3px 3px rgba(0, 0, 0, 0.4),
+    3px 3px 3px rgba(0, 0, 0, 0.4);
   > a {
     text-align: center;
     padding: 1.5rem 0;

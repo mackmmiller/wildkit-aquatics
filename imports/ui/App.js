@@ -66,17 +66,17 @@ const App = ({ loading, client, user }) => {
           <Main>
             <Switch>
               <Route exact path="/" component={Index} />
-              <Route exact path="/coaches" component={Coaches} />
-              <Route exact path="/wildkit-swimming" component={WildkitSwimming} />
-              <Route exact path="/learn-to-swim" component={LearnToSwim} />
-              <Route exact path="/eths-girls" component={GirlsSAndD} />
-              <Route exact path="/eths-boys" component={BoysSAndD} />
-              <Route exact path="/girls-water-polo" component={GirlsWaterPolo} />
-              <Route exact path="/boys-water-polo" component={BoysWaterPolo} />
+              <Route exact path="/about/coaches" component={Coaches} />
+              <Route exact path="/programs/wildkit-swimming" component={WildkitSwimming} />
+              <Route exact path="/programs/learn-to-swim" component={LearnToSwim} />
+              <Route exact path="/programs/eths-girls" component={GirlsSAndD} />
+              <Route exact path="/programs/eths-boys" component={BoysSAndD} />
+              <Route exact path="/programs/girls-water-polo" component={GirlsWaterPolo} />
+              <Route exact path="/programs/boys-water-polo" component={BoysWaterPolo} />
               <Route exact path="/calendar" component={Calendar} />
               <Route
                 exact
-                path="/account"
+                path="/account/admin"
                 render={() =>
                 (!user._id ? <Redirect to="/" /> : <Account user={user} />)
               }

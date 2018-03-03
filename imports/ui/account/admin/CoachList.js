@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Pill, PillBody, PillTop } from '../styles/styles';
+import { Pill, PillBody, PillTop } from '../../styles/styles';
 
 const updateCoach = gql`
   mutation updateCoach($coachId: String!, $title: String, $bio: String) {
@@ -18,7 +18,7 @@ const updateCoach = gql`
 
 class Coach extends Component {
   static propTypes = {
-    coach: PropTypes.shape({
+    data: PropTypes.shape({
       _id: PropTypes.string,
       title: PropTypes.string,
       bio: PropTypes.string,
@@ -32,16 +32,16 @@ class Coach extends Component {
   };
 
   static defaultProps = {
-    coach: null,
+    data: null,
   };
 
   state = {
     bodyVisible: false,
-    bio: this.props.coach.bio,
-    title: this.props.coach.title,
-    email: this.props.coach.user.email,
-    firstName: this.props.coach.user.firstName,
-    lastName: this.props.coach.user.lastName,
+    bio: this.props.data.bio,
+    title: this.props.data.title,
+    email: this.props.data.user.email,
+    firstName: this.props.data.user.firstName,
+    lastName: this.props.data.user.lastName,
   };
 
   toggleBody = () => {
@@ -52,7 +52,7 @@ class Coach extends Component {
     e.preventDefault();
     this.props.updateCoach({
       variables: {
-        coachId: this.props.coach._id,
+        coachId: this.props.data._id,
         title: this.title.value,
         bio: this.bio.value,
       },
@@ -60,7 +60,7 @@ class Coach extends Component {
   };
 
   resetForm = () => {
-    const { coach } = this.props;
+    const { data } = this.props;
     this.firstName.value = coach.user.firstName;
     this.lastName.value = coach.user.lastName;
     this.email.value = coach.user.email;
@@ -72,15 +72,15 @@ class Coach extends Component {
     const {
       bodyVisible, bio, title, email, firstName, lastName,
     } = this.state;
-    const { coach } = this.props;
+    const { data } = this.props;
     return (
       <Pill>
         <PillTop>
           <h4>
-            {`${coach.user.firstName} ${coach.user.lastName} `}
-            <span>{coach.title}</span>
+            {`${data.user.firstName} ${data.user.lastName} `}
+            <span>{data.title}</span>
           </h4>
-          <a href={`mailto:${coach.user.email}`}>
+          <a href={`mailto:${data.user.email}`}>
             <i className="far fa-envelope" />
           </a>
           <button onClick={this.toggleBody}>

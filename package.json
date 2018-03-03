@@ -2,7 +2,8 @@
   "name": "wildkit-aquatics",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "jest": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.36",

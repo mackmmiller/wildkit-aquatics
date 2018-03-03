@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import styled, { keyframes } from 'styled-components';
 import { Accounts } from 'meteor/accounts-base';
 import gql from 'graphql-tag';
 import { compose, graphql } from 'react-apollo';
 
-import { Pill, PillBody, PillTop } from '../styles/styles';
+import { Pill } from '../../styles/styles';
 
 // const createAdmin = gql``;
 
@@ -16,7 +15,7 @@ const createCoach = gql`
   }
 `;
 
-class NewUserForm extends Component {
+class NewCoach extends Component {
   createUser = (e) => {
     e.preventDefault();
     console.log(`email: ${this.email.value}
@@ -35,16 +34,10 @@ class NewUserForm extends Component {
         },
         (err) => {
           if (!err) {
-            switch (this.userType.value) {
-              case 'Admin':
-                this.createAdmin();
-                break;
-              case 'Coach':
-                this.createCoach();
-                break;
-              default:
-                console.log('Creating parent');
-                break;
+            if (this.userType.value === 'Admin') {
+              this.createAdmin();
+            } else {
+              this.createCoach();
             }
           }
           console.log(err);
@@ -101,7 +94,6 @@ class NewUserForm extends Component {
           />
           <select name="User Type" ref={input => (this.userType = input)}>
             <option value="Coach">Coach</option>
-            <option value="Parent">Parent</option>
             <option value="Admin">Admin</option>
           </select>
           <input type="submit" />
@@ -111,48 +103,6 @@ class NewUserForm extends Component {
   }
 }
 
-const ComposedForm = compose(
-  graphql(createCoach, {
-    name: 'createCoach',
-    options: { refetchQueries: ['adminData'] },
-  }),
-)(NewUserForm);
-
-export { ComposedForm };
-
-class User extends Component {
-  state = {
-    bodyVisible: false,
-  };
-
-  toggleBody = () => {
-    this.setState({ bodyVisible: !this.state.bodyVisible });
-  };
-
-  render() {
-    const { user } = this.props;
-    const { bodyVisible } = this.state;
-    return (
-      <Pill>
-        <PillTop>
-          <h4>
-            {`${user.firstName} ${user.lastName} `}
-            <span>{`${user.userType}`}</span>
-          </h4>
-          <a href={`mailto:${user.email}`}>
-            <i className="far fa-envelope" />
-          </a>
-          <button onClick={this.toggleBody}>
-            <i className="fas fa-angle-down" />
-          </button>
-        </PillTop>
-        <PillBody open={bodyVisible}>
-          <p>Herro it me</p>
-          <div>Delete</div>
-        </PillBody>
-      </Pill>
-    );
-  }
-}
-
-export default User;
+export default compose(
+  graphql(createCoach, { name: 'createCoach', options: { refetchQueries: ['adminData'] } }),
+)(NewCoach);

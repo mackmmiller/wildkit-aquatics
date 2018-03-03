@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Accounts } from 'meteor/accounts-base';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { Input } from '../styles/styles';
 
 const createParent = gql`
   mutation createParent {
@@ -57,46 +58,46 @@ class Register extends Component {
           <h2>Register</h2>
           <div className="firstName">
             <label>First Name</label>
-            <input
+            <Input
               type="text"
               name="firstName"
-              ref={input => (this.firstName = input)}
+              innerRef={input => (this.firstName = input)}
               autoComplete="given-name"
             />
           </div>
           <div className="lastName">
             <label>Last Name</label>
-            <input
+            <Input
               type="text"
               name="lastName"
-              ref={input => (this.lastName = input)}
+              innerRef={input => (this.lastName = input)}
               autoComplete="family-name"
             />
           </div>
           <div className="email">
             <label htmlFor="email">Email</label>
-            <input
+            <Input
               type="text"
               name="email"
-              ref={input => (this.email = input)}
+              innerRef={input => (this.email = input)}
               autoComplete="email"
             />
           </div>
           <div className="password">
             <label htmlFor="password">Password</label>
-            <input
+            <Input
               type="password"
               name="password"
-              ref={input => (this.password = input)}
+              innerRef={input => (this.password = input)}
               autoComplete="new-password"
             />
           </div>
           <div className="password2">
             <label htmlFor="password2">Confirm Password</label>
-            <input
+            <Input
               type="password"
               name="password2"
-              ref={input => (this.password2 = input)}
+              innerRef={input => (this.password2 = input)}
               autoComplete="new-password"
             />
           </div>

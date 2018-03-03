@@ -6,11 +6,15 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import moment from 'moment';
 
-import Coach from './CoachList';
-import User, { ComposedForm } from './UserList';
-import Group from './Group';
-import Competition from './Competition';
-import CompetitionForm from './CompetitionForm';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+import Coach from './admin/CoachList';
+import User from './admin/UserList';
+import Group from './admin/Group';
+import Competition from './admin/Competition';
+import CompetitionForm from './admin/CompetitionForm';
+import NewCoach from './admin/NewCoach';
+import Utility from './admin/Utility';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -67,123 +71,94 @@ const adminData = gql`
       email
       userType
     }
+    allParents {
+      _id
+      user {
+        firstName
+        lastName
+        email
+      }
+    }
   }
 `;
 
-const transformPractices = practices =>
-  practices.map(p => ({
-    id: p._id,
-    start: moment(p.start).toDate(),
-    end: moment(p.end).toDate(),
-    group: p.group.name,
-    title: `${p.group.name} Practice`,
-  }));
+const Admin = ({
+  loading, allUsers, allGroups, allCoaches, allCompetitions, allPractices, allSwimmers, allParents,
+}) => {
+  if (loading) return null;
+  return (
+    <Wrapper>
+      <Calendar>
+        <Content className="calendar">
+          <BigCalendar
+            views={['month', 'week']}
+            defaultView="week"
+            step={60}
+            showMultiDayTimes
+            events={allPractices.concat(allCompetitions)}
+            defaultDate={moment().toDate()}
+            titleAccessor={e => (e.group ? `${e.group.name} Practice` : e.name)}
+            startAccessor={e => moment(e.start).toDate()}
+            endAccessor={e => moment(e.end).toDate()}
+            onSelectEvent={e => alert(e.name)}
+            onSelectSlot={slotInfo => alert(`${slotInfo.start.toLocaleString()}`)}
+            selectable
+          />
+        </Content>
+      </Calendar>
+      <Competitions className="competitions">
+        <Utility
+          name="Competitions"
+          data={allCompetitions}
+          Container={Competition}
+          Form={CompetitionForm}
+          search
+          button
+        />
+      </Competitions>
+      <Groups className="groups">
+        <Utility name="Groups" data={allGroups} Container={Group} />
+      </Groups>
+      <Swimmers>
+        <Utility
+          name="Swimmers"
+          data={allSwimmers}
+          Container={() => <div />}
+          search
+        />
+      </Swimmers>
+      <Coaches className="coaches">
+        <Utility
+          name="Coaches"
+          data={allCoaches}
+          Container={Coach}
+          Form={NewCoach}
+          search
+          button
+        />
+      </Coaches>
+      <Users className="users">
+        <Utility
+          name="Parents"
+          data={allParents}
+          Container={User}
+          search
+        />
+      </Users>
+    </Wrapper>
+  );
+};
 
-class Admin extends Component {
-  static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    allUsers: PropTypes.array,
-    allCoaches: PropTypes.array,
-    allGroups: PropTypes.array,
-    allPractices: PropTypes.array,
-    allSwimmers: PropTypes.array,
-    allCompetitions: PropTypes.array,
-  }
+Admin.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  allUsers: PropTypes.array,
+  allCoaches: PropTypes.array,
+  allGroups: PropTypes.array,
+  allPractices: PropTypes.array,
+  allSwimmers: PropTypes.array,
+  allCompetitions: PropTypes.array,
+};
 
-  state = {
-    newUserForm: false,
-    newCompetition: false,
-  };
-
-  render() {
-    const {
-      loading,
-      allUsers,
-      allGroups,
-      allCoaches,
-      allCompetitions,
-      allPractices,
-      allSwimmers,
-    } = this.props;
-    const { newUserForm, newCompetition } = this.state;
-    if (loading) return null;
-    return (
-      <Wrapper>
-        <Calendar>
-          <Content className="calendar">
-            <BigCalendar views={['month', 'week']} defaultView="week" step={60} showMultiDayTimes events={transformPractices(allPractices)} eventPropGetter={event => ({ className: event.group.toLowerCase() })} defaultDate={moment().toDate()} />
-          </Content>
-        </Calendar>
-        <Competitions className="competitions">
-          <Header>
-            <h3>Competitions</h3>
-            <button
-              onClick={() =>
-                this.setState({ newCompetition: !this.state.newCompetition })
-              }
-            >
-            New Competition
-            </button>
-          </Header>
-          <Content>
-            {newCompetition ? <CompetitionForm /> : null}
-            {allCompetitions.map(competition => (
-              <Competition
-                competition={competition}
-                key={competition._id}
-              />
-            ))}
-          </Content>
-        </Competitions>
-        <Groups className="groups">
-          <Header>
-            <h3>Groups</h3>
-          </Header>
-          <Content className="groupsContent">
-            {allGroups.map(group => (
-              <Group group={group} key={group._id} />
-            ))}
-          </Content>
-        </Groups>
-        <Swimmers className="swimmers">
-          <Header>
-            <h3>Swimmers</h3>
-          </Header>
-          <Content>
-            {allSwimmers.map(swimmer => <div>{swimmer.firstName}</div>)}
-          </Content>
-        </Swimmers>
-        <Coaches className="coaches">
-          <Header>
-            <h3>Coaches</h3>
-          </Header>
-          <Content>
-            {allCoaches.map(coach => (
-              <Coach key={coach._id} coach={coach} />
-            ))}
-          </Content>
-        </Coaches>
-        <Users className="users">
-          <Header>
-            <h3>Users</h3>
-            <input type="text" placeholder="Search Users" />
-            <button
-              onClick={() =>
-                this.setState({ newUserForm: !this.state.newUserForm })
-              }
-            >
-              Add User
-            </button>
-          </Header>
-          <Content>
-            {newUserForm ? <ComposedForm /> : null}
-            {allUsers.map(user => <User user={user} key={user._id} />)}
-          </Content>
-        </Users>
-      </Wrapper>
-    );
-  }
-}
 
 export default compose(
   graphql(adminData, { props: ({ data }) => ({ ...data }) }),
@@ -228,16 +203,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const Header = styled.div`
-  padding: 1rem 0;
-  display: flex;
-  align-content: flex-end;
-  > h3 {
-    margin: 0 auto 0 0;
-    display: inline-block;
-  }
-`;
-
 const Content = styled.div`
   background-color: ${props => props.theme.white};
   border: 2px solid ${props => props.theme.medGray};
@@ -249,8 +214,7 @@ const Content = styled.div`
 const Calendar = styled.div`
   grid-area: calendar;
   .calendar {
-    height: 60rem;
-    font-size: 1.6rem;
+    height: 65rem;
   }
   .rbc-event {
     font-size: 0.9rem;
@@ -264,7 +228,7 @@ const Competitions = styled.div`
 
 const Groups = styled.div`
   grid-area: groups;
-  .groupsContent {
+  > div {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;

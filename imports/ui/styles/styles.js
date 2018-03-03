@@ -59,4 +59,22 @@ export const PillTop = styled.div`
   }
 `;
 
+export const Input = styled.input`
+  min-width: 4rem;
+  max-width: 40rem;
+  border: none;
+  background: transparent;
+  color: ${theme.white};
+  border-bottom: 2px solid ${theme.mainNavy};
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const Button = styled.input`
+  max-width: 8rem;
+  min-width: 3rem;
+  margin: auto;
+`;
+
 export default theme;

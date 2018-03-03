@@ -17,40 +17,37 @@ const allPractices = gql`
         name
       }
     }
+    allCompetitions {
+      _id
+      name
+      location
+      start
+      end
+      results {
+        _id
+      }
+      swimmers {
+        dateOfBirth
+        middleName
+        firstName
+        lastName
+      }
+    }
   }
 `;
 
-const transformPractices = practices =>
-  practices.map(p => ({
-    id: p._id,
-    start: moment(p.start).toDate(),
-    end: moment(p.end).toDate(),
-    group: p.group.name,
-    title: `${p.group.name} Practice`,
-  }));
-
-const Calendar = ({ loading, allPractices }) => {
+const Calendar = ({ loading, allPractices, allCompetitions }) => {
   if (loading) {
- return (
-    <div>
+    return (
+      <div>
         <i className="fas fa-circle-notch fa-spin" />
       </div>
-  );
+    );
   }
   return (
     <Wrapper>
-      <BigCalendar
-        className="calendar"
-        events={transformPractices(allPractices)}
-        defaultView="week"
-        views={['month', 'week', 'day']}
-        step={60}
-        showMultiDayTimes
-        eventPropGetter={event => ({ className: event.group })}
-        defaultDate={moment().toDate()}
-      />
-    </Wrapper>
-  );
+      <BigCalendar className="calendar" events={allPractices.concat(allCompetitions)} defaultView="week" views={['month', 'week', 'day']} step={60} showMultiDayTimes defaultDate={moment().toDate()} titleAccessor={e => (e.group ? `${e.group.name} Practice` : e.name)} startAccessor={e => moment(e.start).toDate()} endAccessor={e => moment(e.end).toDate()} />
+    </Wrapper>);
 };
 
 export default graphql(allPractices, {
@@ -64,17 +61,5 @@ const Wrapper = styled.div`
   .calendar {
     max-width: 100rem;
     margin: auto;
-  }
-  .Bronze {
-    background-color: ${props => props.theme.bronze};
-  }
-  .Silver {
-    background-color: ${props => props.theme.silver};
-  }
-  .Gold {
-    background-color: ${props => props.theme.gold};
-  }
-  .Platinum {
-    background-color: ${props => props.theme.platinum};
   }
 `;

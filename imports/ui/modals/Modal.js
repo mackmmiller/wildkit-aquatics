@@ -35,9 +35,11 @@ const StyledModal = styled.div`
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 100;
+  border-radius: 5px;
 `;
 
 const Wrapper = styled.div`
+  z-index: 10000000;
   position: fixed;
   top: 0;
   left: 0;

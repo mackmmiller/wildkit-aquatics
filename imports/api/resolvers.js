@@ -245,10 +245,10 @@ export default {
     name: 'Date',
     description: 'Date custom scalar type',
     parseValue(value) {
-      return moment(value, 'DD MM YYYY HH:mm').toDate(); // value from the client
+      return moment(value).toDate(); // value from the client
     },
     serialize(value) {
-      return moment(value, 'DD MM YYYY HH:mm').toDate(); // value sent to the client
+      return moment(value).toDate(); // value sent to the client
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {

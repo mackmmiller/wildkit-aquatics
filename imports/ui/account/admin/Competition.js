@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class Competition extends Component {
+import { Pill } from '../../styles/styles';
+
+class Competition extends Component {
   static propTypes = {
-    competition: PropTypes.shape({
+    data: PropTypes.shape({
       _id: PropTypes.string,
       name: PropTypes.string,
       location: PropTypes.string,
@@ -22,15 +24,15 @@ export class Competition extends Component {
   }
 
   static defaultProps = {
-    competition: null,
+    data: null,
   }
 
   render() {
-    const { competition } = this.props;
+    const { data } = this.props;
     return (
-      <div>
-        {competition.name}
-      </div>
+      <Pill>
+        {data.name}
+      </Pill>
     );
   }
 }

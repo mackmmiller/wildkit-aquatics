@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 class Group extends Component {
   render() {
-    const { group } = this.props;
+    const { data } = this.props;
     return (
-      <Wrapper className={group.name.toLowerCase()}>
-        <GroupName>{group.name}</GroupName>
+      <Wrapper className={data.name.toLowerCase()}>
+        <GroupName>{data.name}</GroupName>
         <Coaches />
         <Swimmers />
       </Wrapper>
