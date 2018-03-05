@@ -120,12 +120,25 @@ export default {
       return Practices.findOne(practiceId);
     },
     // createResult(obj, { userId }){},
-    // createSwimmer(obj, { userId }){},
+    createSwimmer(obj, {
+      firstName, lastName, middleName, dateOfBirth,
+    }, { userId }) {
+      const swimmerId = Swimmers.insert({
+        firstName,
+        lastName,
+        middleName,
+        dateOfBirth,
+        parent: userId,
+      });
+      return Swimmers.findOne(swimmerId);
+    },
 
     updateAdmin(obj, args, context) {},
-    updateCoach(obj, { coachId, title, bio }, { userId }) {
+    updateCoach(obj, {
+      coachId, title, bio, groupId,
+    }, { userId }) {
       console.log('Updating Coach...');
-      Coaches.update(coachId, { $set: { title, bio } });
+      Coaches.update(coachId, { $set: { title, bio, groupId } });
       return Coaches.findOne(coachId);
     },
     updateCompetition(obj, args, context) {},
@@ -133,7 +146,16 @@ export default {
     updateParent(obj, args, context) {},
     updatePractice(obj, args, context) {},
     // updateResult(obj, args, context) {},
-    // updateSwimmer(obj, args, context) {},
+    updateSwimmer(obj, {
+      swimmerId, firstName, lastName, middleName, dateOfBirth, group,
+    }, context) {
+      Swimmers.update(swimmerId, {
+        $set: {
+          firstName, lastName, middleName, dateOfBirth, group,
+        },
+      });
+      return Swimmers.findOne(swimmerId);
+    },
 
     deleteAdmin(obj, { adminId }, context) {
       Admins.remove(adminId, (e) => {
@@ -214,32 +236,36 @@ export default {
   },
   Coach: {
     user: coach => Users.findOne({ coach: coach._id }),
-    // title: coach => Coaches
-    groups: coach => Groups.find({ coaches: coach._id }),
+    groups: coach => Groups.find({ _id: { $in: coach.groupId } }).fetch(),
   },
   Competition: {
 
   },
   Group: {
     // Passing in an array... Need to remap data? You've seen this before.
-    // coaches: group => Coaches.find({}),
+    coaches: group => Coaches.find({ groupId: group._id }).fetch(),
     practices: group => Practices.find({ groupId: group._id }).fetch(),
+    swimmers: group => Swimmers.find({ group: group.name }).fetch(),
   },
   Parent: {
     user: parent => Users.findOne({ parent: parent._id }),
+    swimmers: parent => Swimmers.find({ parent: parent.user }).fetch(),
   },
   Practice: {
     group: practice => Groups.findOne(practice.groupId),
     // event: practice => Events.findOne(practice.eventId),
   },
   Result: {},
-  Swimmer: {},
+  Swimmer: {
+    group: swimmer => Groups.findOne({ name: swimmer.group }),
+  },
   User: {
     email: user => user.emails[0].address,
     firstName: user => user.firstName,
     lastName: user => user.lastName,
     userType: user => user.userType,
     parent: user => Parents.findOne(user.parent),
+    coach: user => Coaches.findOne(user.coach),
   },
   Date: new GraphQLScalarType({
     name: 'Date',

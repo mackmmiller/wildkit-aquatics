@@ -35,7 +35,7 @@ type Group {
 
 type Parent {
   _id: String!
-  swimmers: [Swimmer!]!
+  swimmers: [Swimmer]
   user: User
 }
 
@@ -55,13 +55,13 @@ type Result {
 
 type Swimmer {
   _id: String!
-  competitons: [Competition!]!
+  competitons: [Competition]
   dateOfBirth: Date
   firstName: String!
   middleName: String
   lastName: String!
   group: Group
-  results: [Result!]!
+  results: [Result]
   parent: Parent
 }
 
@@ -132,13 +132,19 @@ type Mutation {
   createParent(userId: String): Parent
   createPractice(start: Date, end: Date, groupId: String): Practice
   # createResult(): Result
-  # createSwimmer(): Swimmer
+  createSwimmer(
+    firstName: String!
+    lastName: String!
+    middleName: String
+    dateOfBirth: Date!
+  ): Swimmer
 
   updateAdmin(AdminId: String, userId: String): Admin
   updateCoach(
     coachId: String!
     title: String
     bio: String
+    groupId: [String]
     userId: String
   ): Coach
   updateCompetition(competitionId: String): Competition
@@ -146,7 +152,14 @@ type Mutation {
   updateParent(parentId: String, userId: String): Parent
   updatePractice(practiceId: String): Practice
   # updateResult(): Result
-  # updateSwimmer(): Swimmer
+  updateSwimmer(
+    swimmerId: String!
+    firstName: String
+    middleName: String
+    lastName: String
+    dateOfBirth: Date
+    group: String
+  ): Swimmer
 
   deleteAdmin(adminId: String): Admin
   deleteCoach(coachId: String): Coach

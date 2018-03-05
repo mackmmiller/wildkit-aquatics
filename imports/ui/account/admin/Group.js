@@ -7,8 +7,14 @@ class Group extends Component {
     return (
       <Wrapper className={data.name.toLowerCase()}>
         <GroupName>{data.name}</GroupName>
-        <Coaches />
-        <Swimmers />
+        <Coaches>
+          {data.coaches.map(coach => (
+            <li key={coach._id}>{coach.user.firstName} {coach.user.lastName}</li>
+          ))}
+        </Coaches>
+        <Swimmers>
+          {data.swimmers.map(swimmer => <li key={swimmer._id}>{swimmer.firstName} {swimmer.lastName}</li>)}
+        </Swimmers>
       </Wrapper>
     );
   }

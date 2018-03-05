@@ -9,7 +9,9 @@ import Modal from './modals/Modal';
 class Nav extends Component {
   static propTypes = {
     client: PropTypes.object.isRequired,
-    user: PropTypes.object,
+    user: PropTypes.shape({
+      _id: PropTypes.String,
+    }),
   }
 
   state = {
@@ -172,7 +174,7 @@ class Nav extends Component {
           </button>
         </StyledLi>
       </ul>
-    </NavBar>);
+            </NavBar>);
   }
 }
 

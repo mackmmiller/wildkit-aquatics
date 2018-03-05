@@ -21,7 +21,9 @@ import GirlsWaterPolo from './pages/GirlsWaterPolo';
 import BoysWaterPolo from './pages/BoysWaterPolo';
 import Calendar from './pages/Calendar';
 import Coaches from './pages/Coaches';
-import Account from './Account';
+import Coach from './account/Coach';
+import Admin from './account/Admin';
+import Parent from './account/Parent';
 import theme from './styles/styles';
 
 const userQuery = gql`
@@ -78,8 +80,18 @@ const App = ({ loading, client, user }) => {
                 exact
                 path="/account/admin"
                 render={() =>
-                (!user._id ? <Redirect to="/" /> : <Account user={user} />)
+                (!user._id ? <Redirect to="/" /> : <Admin user={user} />)
               }
+              />
+              <Route
+                exact
+                path="/account/coach"
+                render={() => <Coach user={user} />}
+              />
+              <Route
+                exact
+                path="/account/parent"
+                render={() => <Parent user={user} />}
               />
             </Switch>
           </Main>

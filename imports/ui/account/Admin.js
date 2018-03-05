@@ -14,6 +14,7 @@ import Group from './admin/Group';
 import Competition from './admin/Competition';
 import CompetitionForm from './admin/CompetitionForm';
 import NewCoach from './admin/NewCoach';
+import Swimmer from './admin/Swimmer';
 import Utility from './admin/Utility';
 
 BigCalendar.momentLocalizer(moment);
@@ -49,11 +50,16 @@ const adminData = gql`
       firstName
       middleName
       lastName
+      dateOfBirth
     }
     allCoaches {
       _id
       bio
       title
+      groups {
+        _id
+        name
+      }
       user {
         email
         firstName
@@ -63,6 +69,19 @@ const adminData = gql`
     allGroups {
       _id
       name
+      coaches {
+        _id
+        title
+        user {
+          firstName
+          lastName
+        }
+      }
+      swimmers {
+        _id
+        firstName
+        lastName
+      }
     }
     allUsers {
       _id
@@ -123,7 +142,7 @@ const Admin = ({
         <Utility
           name="Swimmers"
           data={allSwimmers}
-          Container={() => <div />}
+          Container={Swimmer}
           search
         />
       </Swimmers>
@@ -165,6 +184,8 @@ export default compose(
 )(Admin);
 
 const Wrapper = styled.div`
+  color: #181818;
+  flex: 1;
   height: 100%;
   width: 95%;
   margin: auto;
@@ -195,17 +216,15 @@ const Wrapper = styled.div`
   > div {
     padding: 1rem;
     box-sizing: border-box;
-    background-color: ${props => props.theme.lightGray};
-    border: 2px solid ${props => props.theme.medGray};
+    background-color: ${props => props.theme.medGray};
     border-radius: 0.5rem;
     font-size: 2rem;
-    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.4);
   }
 `;
 
 const Content = styled.div`
   background-color: ${props => props.theme.white};
-  border: 2px solid ${props => props.theme.medGray};
   border-radius: 0.5rem;
   min-height: 1rem;
   padding: 1.5rem;

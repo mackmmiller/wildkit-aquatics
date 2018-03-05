@@ -7,11 +7,32 @@ import gql from 'graphql-tag';
 import { Pill, PillBody, PillTop } from '../../styles/styles';
 
 const updateCoach = gql`
-  mutation updateCoach($coachId: String!, $title: String, $bio: String) {
-    updateCoach(coachId: $coachId, title: $title, bio: $bio) {
+  mutation updateCoach(
+    $coachId: String!
+    $bio: String
+    $title: String
+    $groupId: [String]
+  ) {
+    updateCoach(
+      coachId: $coachId
+      bio: $bio
+      title: $title
+      groupId: $groupId
+    ) {
       _id
       title
       bio
+      groups {
+        name
+      }
+    }
+  }
+`;
+
+const deleteCoach = gql`
+  mutation deleteCoach($coachId: String) {
+    deleteCoach(coachId: $coachId) {
+      _id
     }
   }
 `;
@@ -50,13 +71,22 @@ class Coach extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.updateCoach({
-      variables: {
-        coachId: this.props.data._id,
-        title: this.title.value,
-        bio: this.bio.value,
-      },
+    console.log({
+      learnToSwim: this.learnToSwim.checked,
+      bronze: this.bronze.checked,
+      silver: this.silver.checked,
+      gold: this.gold.checked,
+      platinum: this.platinum.checked,
+      highSchool: this.highSchool.checked,
+
     });
+    // this.props.updateCoach({
+    //   variables: {
+    //     coachId: this.props.data._id,
+    //     title: this.title.value,
+    //     bio: this.bio.value,
+    //   },
+    // });
   };
 
   resetForm = () => {
@@ -67,6 +97,14 @@ class Coach extends Component {
     this.title.value = coach.title;
     this.bio.value = coach.bio;
   };
+
+  deleteCoach = () => {
+    this.props.deleteCoach({
+      variables: {
+        coachId: this.props.data._id,
+      },
+    });
+  }
 
   render() {
     const {
@@ -142,27 +180,27 @@ class Coach extends Component {
             <fieldset>
               <legend>Groups</legend>
               <label htmlFor="Learn To Swim">
-                <input type="checkbox" name="Learn To Swim" />
+                <input type="checkbox" name="Learn To Swim" ref={input => (this.learnToSwim = input)} />
                 Learn To Swim
               </label>
               <label htmlFor="Bronze">
-                <input type="checkbox" name="Bronze" />
+                <input type="checkbox" name="Bronze" ref={input => (this.bronze = input)} />
                 Bronze
               </label>
               <label htmlFor="Silver">
-                <input type="checkbox" name="Silver" />
+                <input type="checkbox" name="Silver" ref={input => (this.silver = input)} />
                 Silver
               </label>
               <label htmlFor="Gold">
-                <input type="checkbox" name="Gold" />
+                <input type="checkbox" name="Gold" ref={input => (this.gold = input)} />
                 Gold
               </label>
               <label htmlFor="Platinum">
-                <input type="checkbox" name="Platinum" />
+                <input type="checkbox" name="Platinum" ref={input => (this.platinum = input)} />
                 Platinum
               </label>
               <label htmlFor="High Scool">
-                <input type="checkbox" name="High School" />
+                <input type="checkbox" name="High School" ref={input => (this.highSchool = input)} />
                 High School
               </label>
             </fieldset>
@@ -171,13 +209,17 @@ class Coach extends Component {
               <input type="submit" />
             </div>
           </form>
+          <button onClick={this.deleteCoach}>Delete</button>
         </PillBody>
       </Pill>
     );
   }
 }
 
-export default graphql(updateCoach, { name: 'updateCoach' })(Coach);
+export default compose(
+  graphql(updateCoach, { name: 'updateCoach' }),
+  graphql(deleteCoach, { name: 'deleteCoach' }),
+)(Coach);
 
 // > form {
 //   margin: 0.5rem;

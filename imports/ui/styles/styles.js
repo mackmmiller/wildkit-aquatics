@@ -77,4 +77,18 @@ export const Button = styled.input`
   margin: auto;
 `;
 
+export const Header = styled.header`
+  background: ${props => props.theme.mainNavy};
+  color: ${props => props.theme.white};
+  width: 100%;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  > h3 {
+    margin: 0;
+  }
+`;
+
 export default theme;
