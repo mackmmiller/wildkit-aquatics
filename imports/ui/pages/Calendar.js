@@ -56,7 +56,7 @@ export default graphql(allPractices, {
 
 const Wrapper = styled.div`
   padding: 3rem;
-  height: 70vh;
+  height: 85vh;
   color: #181818;
   .calendar {
     max-width: 100rem;

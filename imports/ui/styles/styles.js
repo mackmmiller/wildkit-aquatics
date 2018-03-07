@@ -29,7 +29,7 @@ export const PillBody = styled.div`
   box-sizing: border-box;
   border-radius: 0.5rem;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-  height: ${props => (props.open ? '300px' : '0px')};
+  height: ${props => (props.open ? '200px' : '0px')};
   transition: 0.5s linear;
   overflow: auto;
 `;

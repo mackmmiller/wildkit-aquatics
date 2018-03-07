@@ -71,22 +71,21 @@ class Coach extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
-      learnToSwim: this.learnToSwim.checked,
-      bronze: this.bronze.checked,
-      silver: this.silver.checked,
-      gold: this.gold.checked,
-      platinum: this.platinum.checked,
-      highSchool: this.highSchool.checked,
-
-    });
-    // this.props.updateCoach({
-    //   variables: {
-    //     coachId: this.props.data._id,
-    //     title: this.title.value,
-    //     bio: this.bio.value,
-    //   },
+    // console.log({
+    //   learnToSwim: this.learnToSwim.checked,
+    //   bronze: this.bronze.checked,
+    //   silver: this.silver.checked,
+    //   gold: this.gold.checked,
+    //   platinum: this.platinum.checked,
+    //   highSchool: this.highSchool.checked,
     // });
+    this.props.updateCoach({
+      variables: {
+        coachId: this.props.data._id,
+        title: this.title.value,
+        bio: this.bio.value,
+      },
+    });
   };
 
   resetForm = () => {
@@ -104,11 +103,17 @@ class Coach extends Component {
         coachId: this.props.data._id,
       },
     });
-  }
+  };
 
   render() {
     const {
-      bodyVisible, bio, title, email, firstName, lastName,
+      bodyVisible,
+      bio,
+      title,
+      email,
+      firstName,
+      lastName,
+      groups,
     } = this.state;
     const { data } = this.props;
     return (
@@ -174,33 +179,59 @@ class Coach extends Component {
                 type="text"
                 value={bio}
                 ref={input => (this.bio = input)}
+                cols="30"
+                rows="10"
                 onChange={() => this.setState({ bio: this.bio.value })}
               />
             </label>
             <fieldset>
               <legend>Groups</legend>
               <label htmlFor="Learn To Swim">
-                <input type="checkbox" name="Learn To Swim" ref={input => (this.learnToSwim = input)} />
+                <input
+                  type="checkbox"
+                  name="Learn To Swim"
+                  ref={input => (this.learnToSwim = input)}
+                />
                 Learn To Swim
               </label>
               <label htmlFor="Bronze">
-                <input type="checkbox" name="Bronze" ref={input => (this.bronze = input)} />
+                <input
+                  type="checkbox"
+                  name="Bronze"
+                  ref={input => (this.bronze = input)}
+                />
                 Bronze
               </label>
               <label htmlFor="Silver">
-                <input type="checkbox" name="Silver" ref={input => (this.silver = input)} />
+                <input
+                  type="checkbox"
+                  name="Silver"
+                  ref={input => (this.silver = input)}
+                />
                 Silver
               </label>
               <label htmlFor="Gold">
-                <input type="checkbox" name="Gold" ref={input => (this.gold = input)} />
+                <input
+                  type="checkbox"
+                  name="Gold"
+                  ref={input => (this.gold = input)}
+                />
                 Gold
               </label>
               <label htmlFor="Platinum">
-                <input type="checkbox" name="Platinum" ref={input => (this.platinum = input)} />
+                <input
+                  type="checkbox"
+                  name="Platinum"
+                  ref={input => (this.platinum = input)}
+                />
                 Platinum
               </label>
               <label htmlFor="High Scool">
-                <input type="checkbox" name="High School" ref={input => (this.highSchool = input)} />
+                <input
+                  type="checkbox"
+                  name="High School"
+                  ref={input => (this.highSchool = input)}
+                />
                 High School
               </label>
             </fieldset>

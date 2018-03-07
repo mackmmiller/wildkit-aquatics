@@ -16,6 +16,8 @@ import CompetitionForm from './admin/CompetitionForm';
 import NewCoach from './admin/NewCoach';
 import Swimmer from './admin/Swimmer';
 import Utility from './admin/Utility';
+import Contacts from './admin/Contacts';
+import Groups from './admin/Groups';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -102,7 +104,7 @@ const adminData = gql`
 `;
 
 const Admin = ({
-  loading, allUsers, allGroups, allCoaches, allCompetitions, allPractices, allSwimmers, allParents,
+  loading, allGroups, allCoaches, allCompetitions, allPractices, allSwimmers, allParents,
 }) => {
   if (loading) return null;
   return (
@@ -125,7 +127,7 @@ const Admin = ({
           />
         </Content>
       </Calendar>
-      <Competitions className="competitions">
+      <div className="competitions">
         <Utility
           name="Competitions"
           data={allCompetitions}
@@ -134,36 +136,13 @@ const Admin = ({
           search
           button
         />
-      </Competitions>
-      <Groups className="groups">
-        <Utility name="Groups" data={allGroups} Container={Group} />
-      </Groups>
-      <Swimmers>
-        <Utility
-          name="Swimmers"
-          data={allSwimmers}
-          Container={Swimmer}
-          search
-        />
-      </Swimmers>
-      <Coaches className="coaches">
-        <Utility
-          name="Coaches"
-          data={allCoaches}
-          Container={Coach}
-          Form={NewCoach}
-          search
-          button
-        />
-      </Coaches>
-      <Users className="users">
-        <Utility
-          name="Parents"
-          data={allParents}
-          Container={User}
-          search
-        />
-      </Users>
+      </div>
+      <div className="groups">
+        <Groups groups={allGroups} />
+      </div>
+      <div className="contacts">
+        <Contacts athletes={allSwimmers} coaches={allCoaches} parents={allParents} />
+      </div>
     </Wrapper>
   );
 };
@@ -184,21 +163,27 @@ export default compose(
 )(Admin);
 
 const Wrapper = styled.div`
-  color: #181818;
+  color: ${props => props.theme.white};
   flex: 1;
   height: 100%;
   width: 95%;
   margin: auto;
   display: grid;
   grid-gap: 2rem;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(5, minmax(10rem, auto));
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
   grid-template-areas:
-    "calendar calendar calendar calendar competitions competitions"
-    "calendar calendar calendar calendar . ."
-    "groups groups groups groups groups groups"
-    "swimmers swimmers coaches coaches users users"
-    "swimmers swimmers coaches coaches users users";
+    "calendar calendar calendar competitions"
+    "contacts contacts groups groups";
+  .contacts {
+    grid-area: contacts;
+  }
+  .groups {
+    grid-area: groups;
+  }
+  .competitions {
+    grid-area: competitions;
+  }
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, minmax(10rem, auto));
@@ -226,45 +211,14 @@ const Wrapper = styled.div`
 const Content = styled.div`
   background-color: ${props => props.theme.white};
   border-radius: 0.5rem;
-  min-height: 1rem;
+  height: 65rem;
   padding: 1.5rem;
 `;
 
 const Calendar = styled.div`
   grid-area: calendar;
-  .calendar {
-    height: 65rem;
-  }
   .rbc-event {
     font-size: 0.9rem;
     background-color: ${props => props.theme[props.className]};
   }
-`;
-
-const Competitions = styled.div`
-  grid-area: competitions;
-`;
-
-const Groups = styled.div`
-  grid-area: groups;
-  > div {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    > * {
-      flex: 1 100%;
-    }
-  }
-`;
-
-const Swimmers = styled.div`
-  grid-area: swimmers;
-`;
-
-const Coaches = styled.div`
-  grid-area: coaches;
-`;
-
-const Users = styled.div`
-  grid-area: users;
 `;

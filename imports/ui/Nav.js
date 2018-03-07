@@ -174,7 +174,7 @@ class Nav extends Component {
           </button>
         </StyledLi>
       </ul>
-            </NavBar>);
+    </NavBar>);
   }
 }
 
@@ -183,7 +183,7 @@ export default Nav;
 const NavBar = styled.nav`
   background: ${props => props.theme.mainOrange};
   z-index: 100000;
-  height: 5.8rem;
+  height: 6.2rem;
   font-size: 1.6rem;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
   .narrow {

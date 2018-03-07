@@ -4,16 +4,20 @@ import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Group from './coach/GroupListing';
+import UserSettings from './coach/UserSettings';
+import CoachSettings from './coach/CoachSettings';
 
 const coachQuery = gql`
   query coach {
     user {
       _id
+      email
       firstName
       lastName
       coach {
         _id
         title
+        bio
         groups {
           _id
           name
@@ -72,9 +76,19 @@ class Coach extends Component {
           </div>
         </Container>
         <Settings>
-          <h3><i className="fas fa-cog" /> Settings</h3>
+          <h3>
+            <i className="fas fa-cog" /> Settings
+          </h3>
           <hr />
+          <div>
+            Coach Settings
+            <CoachSettings bio={user.coach.bio} />
+          </div>
 
+          <div>
+            User Settings
+            <UserSettings email={user.email} />
+          </div>
         </Settings>
       </Wrapper>
     );
@@ -111,7 +125,8 @@ const BtnGroup = styled.div`
 const Button = styled.button`
   border: none;
   background: transparent;
-  color: ${props => (props.active ? props.theme[props.className] : props.theme.white)};
+  color: ${props =>
+    (props.active ? props.theme[props.className] : props.theme.white)};
   font-size: 2.4rem;
   font-weight: bold;
   outline: none;
