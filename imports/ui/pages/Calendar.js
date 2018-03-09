@@ -55,9 +55,13 @@ export default graphql(allPractices, {
 })(Calendar);
 
 const Wrapper = styled.div`
-  padding: 3rem;
+  border-radius: 0.5rem;
+  padding: 2rem 0;
   height: 85vh;
   color: #181818;
+  background: ${props => props.theme.white};
+  width: 95%;
+  margin: auto;
   .calendar {
     max-width: 100rem;
     margin: auto;

@@ -89,7 +89,6 @@ class Coach extends Component {
   };
 
   resetForm = () => {
-    const { data } = this.props;
     this.firstName.value = coach.user.firstName;
     this.lastName.value = coach.user.lastName;
     this.email.value = coach.user.email;

@@ -14,28 +14,25 @@ class Groups extends Component {
     return (
       <div>
         <Header>
-          <div className="top">
-            <h3>Groups</h3>
-          </div>
           <div className="buttons">
-            <button onClick={() => this.setState({ current: groups[0] })}>
+            <Button className="learn to swim" onClick={() => this.setState({ current: groups[0] })} active={current === groups[0]}>
               Learn To Swim
-            </button>
-            <button onClick={() => this.setState({ current: groups[1] })}>
+            </Button>
+            <Button className="bronze" onClick={() => this.setState({ current: groups[1] })} active={current === groups[1]}>
               Bronze
-            </button>
-            <button onClick={() => this.setState({ current: groups[2] })}>
+            </Button>
+            <Button className="silver" onClick={() => this.setState({ current: groups[2] })} active={current === groups[2]}>
               Silver
-            </button>
-            <button onClick={() => this.setState({ current: groups[3] })}>
+            </Button>
+            <Button className="gold" onClick={() => this.setState({ current: groups[3] })} active={current === groups[3]}>
               Gold
-            </button>
-            <button onClick={() => this.setState({ current: groups[4] })}>
+            </Button>
+            <Button className="platinum" onClick={() => this.setState({ current: groups[4] })} active={current === groups[4]}>
               Platinum
-            </button>
-            <button onClick={() => this.setState({ current: groups[5] })}>
+            </Button>
+            <Button className="high school" onClick={() => this.setState({ current: groups[5] })} active={current === groups[5]}>
               High School
-            </button>
+            </Button>
           </div>
         </Header>
         <div>
@@ -49,21 +46,28 @@ class Groups extends Component {
 export default Groups;
 
 const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  .top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 0;
-    > h3 {
-      margin: 0;
-    }
-  }
   .buttons {
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding: 1rem 0;
+  }
+`;
+
+const Button = styled.button`
+  border: none;
+  box-sizing: border-box;
+  border: 2px solid ${props => props.theme[props.className]};
+  border-radius: 0.5rem;
+  background: ${props =>
+    (props.active ? props.theme[props.className] : 'transparent')};
+  color: ${props =>
+    (props.active ? props.theme.white : props.theme[props.className])};
+  font-size: 2.4rem;
+  font-weight: bold;
+  outline: none;
+  padding: 1rem;
+  &:hover {
+    cursor: pointer;
   }
 `;

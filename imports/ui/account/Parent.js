@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
 
+import Dashboard from './Dashboard';
 import MySwimmers from './parent/MySwimmers';
 import Settings from './parent/Settings';
 import Competitions from './parent/Competitions';
@@ -31,18 +32,24 @@ const Parent = ({ Parent, loading }) => {
   if (loading) return null;
   return (
     <Wrapper>
-      <div className="swimmers">
-        <MySwimmers swimmers={Parent.swimmers} />
-      </div>
-      <div className="competitions">
-        <Competitions />
-      </div>
-      <div className="billing">
-        <Billing />
-      </div>
-      <div className="settings">
-        <Settings />
-      </div>
+      <Dashboard utilities={
+        [
+          <MySwimmers
+            swimmers={Parent.swimmers}
+            title="My Swimmers"
+          />,
+          <Competitions
+            title="Competitions"
+          />,
+          <Billing
+            title="Billing"
+          />,
+          <Settings
+            title="Settings"
+          />,
+        ]
+        }
+      />
     </Wrapper>
   );
 };
@@ -64,33 +71,12 @@ const Wrapper = styled.div`
   flex: 1;
   width: 95%;
   margin: auto;
-  display: flex;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 2rem;
-  grid-template-areas:
-    "swimmers competitions settings"
-    "swimmers competitions billing";
-  .swimmers {
-    grid-area: swimmers;
-  }
-  .competitions {
-    grid-area: competitions;
-  }
-  .settings {
-    grid-area: settings;
-  }
-  .billing {
-    grid-area: billing;
-  }
   > div {
-    max-width: 100rem;
     box-sizing: border-box;
-    background-color: #485665;
-    border-radius: 0.5rem;
     font-size: 2rem;
-    box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.5);
+    background: ${props => props.theme.white};
+    border-radius: 0.5rem;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
   }
 `;
 

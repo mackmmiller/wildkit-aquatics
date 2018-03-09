@@ -7,6 +7,7 @@ const theme = {
   white: '#f0f0f0',
   lightGray: '#dbdbdb',
   medGray: '#d1d1d1',
+  slateGray: '#7B828D',
   bronze: '#6c541e',
   silver: '#b3b3b3',
   gold: '#ffd700',

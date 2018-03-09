@@ -51,9 +51,6 @@ class MySwimmers extends Component {
     const { swimmers } = this.props;
     return (
       <Fragment>
-        <Header>
-          <h3>MY SWIMMERS</h3>
-        </Header>
         <Content>
           {swimmers[0] ? (
             swimmers.map(swimmer => (
@@ -64,8 +61,8 @@ class MySwimmers extends Component {
           ) : (
             <p>You haven't registered any swimmers. Add some now!</p>
           )}
-          {formVisible ? (
-            <Container>
+          <Container>
+            {formVisible ? (
               <form onSubmit={this.createSwimmer}>
                 <label htmlFor="">First Name</label>
                 <input type="text" ref={input => (this.firstName = input)} />
@@ -78,10 +75,10 @@ class MySwimmers extends Component {
                 <input type="button" value="cancel" onClick={this.toggleForm} />
                 <input type="submit" />
               </form>
-            </Container>
           ) : (
             <button onClick={this.toggleForm}>New Swimmer</button>
           )}
+          </Container>
         </Content>
       </Fragment>
     );
@@ -93,37 +90,14 @@ export default graphql(createSwimmer, {
   options: { refetchQueries: ['userData'] },
 })(MySwimmers);
 
-const Header = styled.header`
-  background: ${props => props.theme.mainNavy};
-  color: ${props => props.theme.white};
-  width: 100%;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  padding: 1.5rem;
-  text-align: center;
-  box-sizing: border-box;
-  > h3 {
-    margin: 0;
-  }
-`;
-
 const Container = styled(Pill)`
-  width: 60%;
-  max-width: 35rem;
+  width: 45%;
+  max-width: 60rem;
   min-width: 25rem;
-`;
-
-const Button = styled.button`
-  width: 60%;
-  max-width: 35rem;
-  min-width: 25rem;
+  padding: 1rem;
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  > div {
-    margin: auto;
-  }
 `;

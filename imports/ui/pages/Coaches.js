@@ -30,12 +30,8 @@ const Coaches = ({ loading, allCoaches }) => {
   if (loading) return null;
   return (
     <Wrapper>
-      <Header>
-        <h2>Wildkit Aquatics Coaching Staff</h2>
-      </Header>
-      <Content>
-        {allCoaches.map(coach => <Coach key={coach._id} coach={coach} />)}
-      </Content>
+      <h2>Wildkit Coaching Staff</h2>
+      {allCoaches.map(coach => <Coach key={coach._id} coach={coach} />)}
     </Wrapper>
   );
 };
@@ -45,15 +41,15 @@ export default graphql(coachQuery, { props: ({ data }) => ({ ...data }) })(
 );
 
 const Wrapper = styled.div`
-  color: ${props => props.theme.white};
+  background: ${props => props.theme.white};
+  padding: 2rem;
+  color: #181818;
   width: 80%;
   margin: auto;
   max-width: 100rem;
   box-sizing: border-box;
-  background-color: #485665;
   border-radius: 0.5rem;
   font-size: 2rem;
-  box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.4);
 `;
 
 const Header = styled.header`

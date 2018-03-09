@@ -6,7 +6,6 @@ class Group extends Component {
     const { data } = this.props;
     return (
       <Wrapper className={data.name.toLowerCase()}>
-        <GroupName>{data.name}</GroupName>
         <Coaches>
           {data.coaches.map(coach => (
             <li key={coach._id}>{coach.user.firstName} {coach.user.lastName}</li>
@@ -31,11 +30,15 @@ const Wrapper = styled.div`
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 `;
 
-const GroupName = styled.h4`
-  text-align: center;
-  margin: 0;
+const Coaches = styled.ul`
+  list-style: none;
+  display: flex;
+  font-size: 1.4rem;
+  font-weight: bold;
 `;
 
-const Coaches = styled.ul``;
-
-const Swimmers = styled.ul``;
+const Swimmers = styled.ul`
+  list-style: none;
+  font-size: 1.6rem;
+  font-weight: lighter;
+`;

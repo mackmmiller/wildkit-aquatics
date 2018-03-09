@@ -24,6 +24,7 @@ import Coaches from './pages/Coaches';
 import Coach from './account/Coach';
 import Admin from './account/Admin';
 import Parent from './account/Parent';
+import Support from './pages/SupportCoachJoe';
 import theme from './styles/styles';
 
 const userQuery = gql`
@@ -44,7 +45,7 @@ const userQuery = gql`
 `;
 
 const AppWrapper = styled.div`
-  background: ${props => props.theme.white};
+  background: ${props => props.theme.lightGray};
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -76,12 +77,13 @@ const App = ({ loading, client, user }) => {
               <Route exact path="/programs/girls-water-polo" component={GirlsWaterPolo} />
               <Route exact path="/programs/boys-water-polo" component={BoysWaterPolo} />
               <Route exact path="/calendar" component={Calendar} />
+              <Route exact path="/contribute/support-coach-joe" component={Support} />
               <Route
                 exact
                 path="/account/admin"
                 render={() =>
-                (!user._id ? <Redirect to="/" /> : <Admin user={user} />)
-              }
+                  (!user._id ? <Redirect to="/" /> : <Admin user={user} />)
+                }
               />
               <Route
                 exact
