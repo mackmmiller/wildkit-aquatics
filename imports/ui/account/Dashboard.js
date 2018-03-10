@@ -59,4 +59,5 @@ const BtnGroup = styled.div`
 
 const Workspace = styled.div`
   padding: 2rem 3rem;
+  display: flex;
 `;

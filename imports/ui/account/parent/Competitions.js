@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import Competition from './Competition';
+
 const allCompetitions = gql`
   query allCompetitions {
     allCompetitions {
@@ -15,24 +17,27 @@ const allCompetitions = gql`
   }
 `;
 
-class Competition extends Component {
-  render() {
-    const { competition } = this.props;
-    return <div>{competition.name}</div>;
-  }
-}
-
 class Competitions extends Component {
+  state = {
+    current: null,
+  }
+
   render() {
     const { allCompetitions, loading } = this.props;
+    const { current } = this.state;
+    if (loading) return null;
     return (
       <Fragment>
-        <div>
-          {!loading &&
-            allCompetitions.map(c => (
-              <Competition key={c._id} competition={c} />
+        <Left>
+          {allCompetitions.map(c => (
+            <button key={c._id} onClick={() => this.setState({ current: <Competition competition={c._id} /> })}>
+              {c.name}
+            </button>
             ))}
-        </div>
+        </Left>
+        <Right>
+          <div>{current}</div>
+        </Right>
       </Fragment>
     );
   }
@@ -42,10 +47,19 @@ export default compose(
   graphql(allCompetitions, { props: ({ data }) => ({ ...data }) }),
 )(Competitions);
 
-const Content = styled.div`
-  margin: 1rem;
-  color: ${props => props.theme.white};
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: bolder;
+const Left = styled.div`
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Right = styled.div`
+  flex: 6;
+  > div {
+    min-height: 40rem;
+    background: ${props => props.theme.medGray};
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
 `;

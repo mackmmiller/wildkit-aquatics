@@ -6,7 +6,7 @@ const Footer = () => (
   <StyledFooter>
     <FooterDetails>
       <div>
-        <img src="WildkitAquatics.png" alt="Wildkit Aquatics' Logo" />
+        <img src="/WildkitAquatics.png" alt="Wildkit Aquatics' Logo" />
         <Address>
           <h3>Wildkit Aquatics</h3>
           <span>
@@ -139,6 +139,9 @@ const Address = styled.div`
   padding: 1rem 0;
   > h3 {
     margin-bottom: 0;
+  }
+  > span {
+    font-weight: lighter;
   }
 `;
 

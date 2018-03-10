@@ -1,103 +1,79 @@
 import React, { Component, Fragment } from 'react';
-import { compose, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import styled from 'styled-components';
 
-import { Pill } from '../../styles/styles';
+import Swimmer from './Swimmer';
+import NewSwimmerForm from './NewSwimmerForm';
 
-const createSwimmer = gql`
-  mutation createSwimmer(
-    $firstName: String!
-    $middleName: String
-    $lastName: String!
-    $dateOfBirth: Date!
-  ) {
-    createSwimmer(
-      firstName: $firstName
-      middleName: $middleName
-      lastName: $lastName
-      dateOfBirth: $dateOfBirth
-    ) {
-      _id
-    }
+const Left = styled.div`
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Right = styled.div`
+  flex: 6;
+  > div {
+    min-height: 40rem;
+    background: ${props => props.theme.medGray};
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+`;
+
+const Button = styled.button`
+  border: none;
+  background: ${props => props.theme.white};
+  color: ${props => props.theme.mainOrange};
+  border: 2px solid ${props => props.theme.mainOrange};
+  max-width: 35rem;
+  outline: none;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  padding: 1rem;
+  font-weight: bold;
+  box-sizing: border-box;
+  &:hover {
+    cursor: pointer;
   }
 `;
 
 class MySwimmers extends Component {
   state = {
-    formVisible: false,
-  };
-
-  createSwimmer = (e) => {
-    e.preventDefault();
-    this.props
-      .createSwimmer({
-        variables: {
-          firstName: this.firstName.value,
-          middleName: this.middleName.value,
-          lastName: this.lastName.value,
-          dateOfBirth: this.dateOfBirth.value,
-        },
-      })
-      .catch(err => console.log(err));
-  };
-
-  toggleForm = () => {
-    this.setState({ formVisible: !this.state.formVisible });
-  };
+    current: null,
+  }
 
   render() {
-    const { formVisible } = this.state;
+    const { current } = this.state;
     const { swimmers } = this.props;
     return (
       <Fragment>
-        <Content>
-          {swimmers[0] ? (
-            swimmers.map(swimmer => (
-              <Container key={swimmer._id}>
-                {swimmer.firstName} {swimmer.lastName}
-              </Container>
-            ))
-          ) : (
-            <p>You haven't registered any swimmers. Add some now!</p>
-          )}
-          <Container>
-            {formVisible ? (
-              <form onSubmit={this.createSwimmer}>
-                <label htmlFor="">First Name</label>
-                <input type="text" ref={input => (this.firstName = input)} />
-                <label htmlFor="">Middle Name</label>
-                <input type="text" ref={input => (this.middleName = input)} />
-                <label htmlFor="">Last Name</label>
-                <input type="text" ref={input => (this.lastName = input)} />
-                <label htmlFor="">dateOfBirth</label>
-                <input type="date" ref={input => (this.dateOfBirth = input)} />
-                <input type="button" value="cancel" onClick={this.toggleForm} />
-                <input type="submit" />
-              </form>
-          ) : (
-            <button onClick={this.toggleForm}>New Swimmer</button>
-          )}
-          </Container>
-        </Content>
+        <Left>
+          {swimmers[0] ? swimmers.map(swimmer => (
+            <Button
+              // active={swimmer._id === current.props.swimmer}
+              key={swimmer._id}
+              onClick={() =>
+                  this.setState({
+                    current: <Swimmer swimmer={swimmer._id} />,
+                  })
+                }
+            >
+              {swimmer.firstName} {swimmer.lastName}
+            </Button>
+            )) : <p>You haven't registered any swimmers. Add some now!</p>}
+          <Button
+            onClick={() => this.setState({ current: <NewSwimmerForm /> })}
+          >
+            New Swimmer
+          </Button>
+        </Left>
+        <Right>
+          <div>{current}</div>
+        </Right>
       </Fragment>
     );
   }
 }
 
-export default graphql(createSwimmer, {
-  name: 'createSwimmer',
-  options: { refetchQueries: ['userData'] },
-})(MySwimmers);
-
-const Container = styled(Pill)`
-  width: 45%;
-  max-width: 60rem;
-  min-width: 25rem;
-  padding: 1rem;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+export default MySwimmers;

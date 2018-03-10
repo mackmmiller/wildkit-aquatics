@@ -9,6 +9,7 @@ import {
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
 import styled, { ThemeProvider } from 'styled-components';
+import { StripeProvider } from 'react-stripe-elements';
 
 import Nav from './Nav';
 import Footer from './Footer';
@@ -25,6 +26,8 @@ import Coach from './account/Coach';
 import Admin from './account/Admin';
 import Parent from './account/Parent';
 import Support from './pages/SupportCoachJoe';
+import Contact from './pages/Contact';
+import Donate from './pages/Donate';
 import theme from './styles/styles';
 
 const userQuery = gql`
@@ -63,43 +66,33 @@ const App = ({ loading, client, user }) => {
   if (loading) return null;
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <AppWrapper>
-          <Nav client={client} user={user} />
-          <Main>
-            <Switch>
-              <Route exact path="/" component={Index} />
-              <Route exact path="/about/coaches" component={Coaches} />
-              <Route exact path="/programs/wildkit-swimming" component={WildkitSwimming} />
-              <Route exact path="/programs/learn-to-swim" component={LearnToSwim} />
-              <Route exact path="/programs/eths-girls" component={GirlsSAndD} />
-              <Route exact path="/programs/eths-boys" component={BoysSAndD} />
-              <Route exact path="/programs/girls-water-polo" component={GirlsWaterPolo} />
-              <Route exact path="/programs/boys-water-polo" component={BoysWaterPolo} />
-              <Route exact path="/calendar" component={Calendar} />
-              <Route exact path="/contribute/support-coach-joe" component={Support} />
-              <Route
-                exact
-                path="/account/admin"
-                render={() =>
-                  (!user._id ? <Redirect to="/" /> : <Admin user={user} />)
-                }
-              />
-              <Route
-                exact
-                path="/account/coach"
-                render={() => <Coach user={user} />}
-              />
-              <Route
-                exact
-                path="/account/parent"
-                render={() => <Parent user={user} />}
-              />
-            </Switch>
-          </Main>
-          <Footer />
-        </AppWrapper>
-      </ThemeProvider>
+      <StripeProvider apiKey="pk_test_xd3w3rtMqnxVLOIx7Em3ae62">
+        <ThemeProvider theme={theme}>
+          <AppWrapper>
+            <Nav client={client} user={user} />
+            <Main>
+              <Switch>
+                <Route exact path="/" component={Index} />
+                <Route exact path="/about/coaches" component={Coaches} />
+                <Route exact path="/programs/wildkit-swimming" component={WildkitSwimming} />
+                <Route exact path="/programs/learn-to-swim" component={LearnToSwim} />
+                <Route exact path="/programs/eths-girls" component={GirlsSAndD} />
+                <Route exact path="/programs/eths-boys" component={BoysSAndD} />
+                <Route exact path="/programs/girls-water-polo" component={GirlsWaterPolo} />
+                <Route exact path="/programs/boys-water-polo" component={BoysWaterPolo} />
+                <Route exact path="/calendar" component={Calendar} />
+                <Route exact path="/contribute/donate" component={Donate} />
+                <Route exact path="/contribute/support-coach-joe" component={Support} />
+                <Route exact path="/contact" component={Contact} />
+                <Route exact path="/account/admin" render={() => (!user._id ? <Redirect to="/" /> : <Admin user={user} />)} />
+                <Route exact path="/account/coach" render={() => <Coach user={user} />} />
+                <Route exact path="/account/parent" render={() => <Parent user={user} />} />
+              </Switch>
+            </Main>
+            <Footer />
+          </AppWrapper>
+        </ThemeProvider>
+      </StripeProvider>
     </Router>
   );
 };

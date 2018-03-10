@@ -85,9 +85,6 @@ class Nav extends Component {
             <Link to="/about/aquatics-center" href="/about/aquatics-center">
                   Burton Aquatics Center
             </Link>
-            <Link to="/about/board" href="/board">
-                  Board of Directors
-            </Link>
             <Link to="/about/records-and-results" href="/about/record-and-results">
                   Records &amp; Results
             </Link>
@@ -174,7 +171,7 @@ class Nav extends Component {
           </button>
         </StyledLi>
       </ul>
-    </NavBar>);
+            </NavBar>);
   }
 }
 

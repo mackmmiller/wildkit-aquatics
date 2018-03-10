@@ -22,7 +22,7 @@ class Calendar extends Component {
           endAccessor={e => moment(e.end).toDate()}
           onSelectEvent={e => alert(e.name)}
           onSelectSlot={slotInfo => alert(`${slotInfo.start.toLocaleString()}`)}
-          style={{ color: '#181818' }}
+          style={{ color: '#181818', height: '60rem', width: '100%' }}
           selectable
         />
       </Fragment>
