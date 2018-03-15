@@ -1,20 +1,20 @@
-import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
+import React, { Component, Fragment } from "react";
+import styled from "styled-components";
 
 class CoachSettings extends Component {
   state = {
     bio: this.props.bio,
-    editable: false,
+    editable: false
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     console.log(this.bio.value);
   };
 
   toggleEditable = () => {
     this.setState({
-      editable: !this.state.editable,
+      editable: !this.state.editable
     });
   };
 
@@ -22,6 +22,8 @@ class CoachSettings extends Component {
     const { bio, editable } = this.state;
     return (
       <Wrapper>
+        <h4>Photo</h4>
+        <input type="file" />
         <h4>Biography</h4>
         {editable ? (
           <form onSubmit={this.handleSubmit}>

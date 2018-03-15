@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Pill, PillBody, PillTop } from '../../styles/styles';
-
 const updateCoach = gql`
   mutation updateCoach(
     $coachId: String!
@@ -33,6 +31,31 @@ const deleteCoach = gql`
   mutation deleteCoach($coachId: String) {
     deleteCoach(coachId: $coachId) {
       _id
+    }
+  }
+`;
+
+const Wrapper = styled.div`
+  height: 100%;
+  background: ${props => props.theme.white};
+  border-radius: 0.5rem;
+  h5 {
+    margin: 0.5rem 0;
+  }
+  .header {
+    background: ${props => props.theme.mainOrange};
+    padding: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    color: ${props => props.theme.mainNavy};
+    h4 {
+      margin: 0;
+    }
+  }
+  .body {
+    padding: 1rem;
+    h5 span {
+      font-weight: lighter;
     }
   }
 `;
@@ -116,20 +139,14 @@ class Coach extends Component {
     } = this.state;
     const { data } = this.props;
     return (
-      <Pill>
-        <PillTop>
+      <Wrapper>
+        <div className="header">
           <h4>
             {`${data.user.firstName} ${data.user.lastName} `}
             <span>{data.title}</span>
           </h4>
-          <a href={`mailto:${data.user.email}`}>
-            <i className="far fa-envelope" />
-          </a>
-          <button onClick={this.toggleBody}>
-            <i className="fas fa-angle-down" />
-          </button>
-        </PillTop>
-        <PillBody open={bodyVisible}>
+        </div>
+        <div className="body">
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="firstName">
               First Name
@@ -240,8 +257,8 @@ class Coach extends Component {
             </div>
           </form>
           <button onClick={this.deleteCoach}>Delete</button>
-        </PillBody>
-      </Pill>
+        </div>
+      </Wrapper>
     );
   }
 }

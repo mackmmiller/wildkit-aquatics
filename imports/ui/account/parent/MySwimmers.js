@@ -15,7 +15,7 @@ const Right = styled.div`
   > div {
     min-height: 40rem;
     background: ${props => props.theme.medGray};
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     padding: 2rem;
     box-sizing: border-box;
   }
@@ -23,24 +23,32 @@ const Right = styled.div`
 
 const Button = styled.button`
   border: none;
-  background: ${props => props.theme.white};
-  color: ${props => props.theme.mainOrange};
-  border: 2px solid ${props => props.theme.mainOrange};
-  max-width: 35rem;
+  background: ${props =>
+    (props.active ? props.theme.mainOrange : props.theme.white)};
+  color: ${props =>
+    (props.active ? props.theme.white : props.theme.mainOrange)};
+  border: none;
+  max-width: 45rem;
   outline: none;
   border-radius: 0.5rem;
-  margin: 1rem;
   padding: 1rem;
   font-weight: bold;
   box-sizing: border-box;
+  font-size: 1.8rem;
   &:hover {
     cursor: pointer;
+    background: ${props => props.theme.mainOrange};
+    color: ${props => props.theme.white};
   }
 `;
 
 class MySwimmers extends Component {
   state = {
     current: null,
+  }
+
+  unmount = () => {
+    this.setState({ current: null });
   }
 
   render() {
@@ -63,7 +71,7 @@ class MySwimmers extends Component {
             </Button>
             )) : <p>You haven't registered any swimmers. Add some now!</p>}
           <Button
-            onClick={() => this.setState({ current: <NewSwimmerForm /> })}
+            onClick={() => this.setState({ current: <NewSwimmerForm unmount={this.unmount.bind(this)} /> })}
           >
             New Swimmer
           </Button>

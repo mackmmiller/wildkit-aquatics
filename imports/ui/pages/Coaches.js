@@ -20,7 +20,7 @@ const coachQuery = gql`
 const Coach = ({ coach }) => (
   <Container>
     <h3>
-      {coach.user.firstName} {coach.user.lastName} <span>{coach.title}</span>
+      {coach.user.firstName} {coach.user.lastName}<br /><span>{coach.title}</span>
     </h3>
     <p>{coach.bio}</p>
   </Container>
@@ -30,7 +30,6 @@ const Coaches = ({ loading, allCoaches }) => {
   if (loading) return null;
   return (
     <Wrapper>
-      <h2>Wildkit Coaching Staff</h2>
       {allCoaches.map(coach => <Coach key={coach._id} coach={coach} />)}
     </Wrapper>
   );
@@ -73,7 +72,7 @@ const Container = styled.div`
     padding: 0.2rem;
     font-weight: 700;
     font-size: 1.8rem;
-    border-bottom: 2px solid ${props => props.theme.mainOrange};
+    /* border-bottom: 2px solid ${props => props.theme.mainOrange}; */
   }
   span {
     font-weight: 400;

@@ -18,9 +18,11 @@ type Coach {
 type Competition {
   _id: String!
   name: String!
-  location: String!
+  locationName: String!
+  address: String!
   start: Date
   end: Date
+  additionalInfo: String
   results: [Result]
   swimmers: [Swimmer]
 }
@@ -124,9 +126,11 @@ type Mutation {
   createCoach(email: String): Coach
   createCompetition(
     name: String
-    location: String
+    locationName: String
+    address: String
     start: Date
     end: Date
+    additionalInfo: String
   ): Competition
   createGroup(name: String): Group
   createParent(userId: String): Parent

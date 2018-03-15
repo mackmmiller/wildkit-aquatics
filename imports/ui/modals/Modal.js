@@ -6,13 +6,15 @@ import Register from './Register';
 import Login from './Login';
 
 
-const Modal = ({ handleClick, targetModal, client }) => (
+const Modal = ({
+ handleClick, targetModal, client, unmount 
+}) => (
   <Wrapper className="wrapper" onClick={handleClick}>
     <StyledModal>
       {targetModal === 'Log In' ? (
-        <Login client={client} />
+        <Login client={client} unmount={unmount} />
       ) : (
-        <Register client={client} />
+        <Register client={client} unmount={unmount} />
       )}
     </StyledModal>
   </Wrapper>

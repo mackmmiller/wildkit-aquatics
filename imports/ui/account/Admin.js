@@ -4,9 +4,7 @@ import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
-import Competition from './admin/Competition';
-import CompetitionForm from './admin/CompetitionForm';
-import Utility from './admin/Utility';
+import Competitions from './admin/Competitions';
 import Contacts from './admin/Contacts';
 import Groups from './admin/Groups';
 import Calendar from './admin/Calendar';
@@ -18,9 +16,11 @@ const adminData = gql`
     allCompetitions {
       _id
       name
-      location
+      locationName
+      address
       start
       end
+      additionalInfo
       results {
         _id
       }
@@ -110,8 +110,7 @@ const Admin = ({
       <Dashboard
         utilities={[
           <Calendar title="Calendar" events={[...allCompetitions, ...allPractices]} />,
-          <Utility title="Competitions" name="Competitions" data={allCompetitions} Container={Competition} Form={CompetitionForm} search button />,
-          // <Competitions title="Competitions" competitions={allCompetitions} />
+          <Competitions title="Competitions" competitions={allCompetitions} />,
           <Groups title="Groups" groups={allGroups} />,
           <Contacts
             title="Contacts"
@@ -143,11 +142,12 @@ const Wrapper = styled.div`
   color: ${props => props.theme.white};
   width: 95%;
   margin: auto;
+  flex: 1;
   > div {
     box-sizing: border-box;
     font-size: 2rem;
     background: ${props => props.theme.white};
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
   }
 `;

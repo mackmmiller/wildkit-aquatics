@@ -34,6 +34,7 @@ class Register extends Component {
           if (!err) {
             this.props.client.resetStore();
             this.createParent();
+            this.props.unmount();
           }
           console.log(err);
         },

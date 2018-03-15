@@ -1,13 +1,17 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import { Elements } from 'react-stripe-elements';
+
+import BillingForm from './BillingForm';
 
 class Billing extends Component {
   render() {
     return (
       <Fragment>
         <Content>
-          <h4>THANK YOU FOR SUPPORTING WILDKIT AQUATICS</h4>
-          <p>Next bill due: 2018-02-14</p>
+          <Elements>
+            <BillingForm />
+          </Elements>
         </Content>
       </Fragment>
     );

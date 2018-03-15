@@ -20,7 +20,8 @@ const allPractices = gql`
     allCompetitions {
       _id
       name
-      location
+      locationName
+      address
       start
       end
       results {
@@ -57,7 +58,9 @@ export default graphql(allPractices, {
 const Wrapper = styled.div`
   border-radius: 0.5rem;
   padding: 2rem 0;
-  height: 85vh;
+  font-size: 2rem;
+  height: 60rem;
+  width: 100%;
   color: #181818;
   background: ${props => props.theme.white};
   width: 95%;

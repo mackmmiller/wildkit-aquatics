@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { compose, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
-
-import { Pill, PillBody, PillTop } from '../../styles/styles';
+import React, { Component } from "react";
+import { compose, graphql } from "react-apollo";
+import gql from "graphql-tag";
+import styled from "styled-components";
 
 const updateSwimmer = gql`
   mutation updateSwimmers(
@@ -33,16 +32,47 @@ const updateSwimmer = gql`
   }
 `;
 
+const Wrapper = styled.div`
+  height: 100%;
+  background: ${props => props.theme.white};
+  border-radius: 0.5rem;
+  h5 {
+    margin: 0.5rem 0;
+  }
+  .header {
+    background: ${props => props.theme.mainOrange};
+    padding: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    color: ${props => props.theme.mainNavy};
+    h4 {
+      margin: 0;
+    }
+  }
+  .body {
+    padding: 1rem;
+    h5 span {
+      font-weight: lighter;
+    }
+    .attendance,
+    .top-times {
+      h5 {
+        text-align: center;
+      }
+    }
+  }
+`;
+
 class Swimmer extends Component {
   state = {
-    bodyVisible: false,
+    bodyVisible: false
   };
 
   toggleBody = () => {
     this.setState({ bodyVisible: !this.state.bodyVisible });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.updateSwimmer({
       variables: {
@@ -51,23 +81,40 @@ class Swimmer extends Component {
         middleName: this.props.data.middleName,
         lastName: this.props.data.lastName,
         dateOfBirth: this.props.data.dateOfBirth,
-        group: this.group.value,
-      },
+        group: this.group.value
+      }
     });
-  }
+  };
 
   render() {
     const { data } = this.props;
     const { bodyVisible } = this.state;
     return (
-      <Pill>
-        <PillTop>
+      <Wrapper>
+        <div className="header">
           <h4>{`${data.firstName} ${data.lastName}`}</h4>
-          <button onClick={this.toggleBody}>
-            <i className="fas fa-angle-down" />
-          </button>
-        </PillTop>
-        <PillBody open={bodyVisible}>
+        </div>
+        <div className="body">
+          <div className="info">
+            <h5>
+              Full Name:{" "}
+              <span>
+                {data.firstName} {data.middleName} {data.lastName}
+              </span>
+            </h5>
+            {/* <h5>
+              Group: <span>{data.group.name}</span>
+            </h5>
+            <h5>
+              Coaches:{' '}
+              {data.group.coaches.map(({ user }) => (
+                <span key={user._id}>
+                  {user.firstName} {user.lastName}
+                </span>
+              ))}
+            </h5> */}
+          </div>
+          <hr />
           <form onSubmit={this.handleSubmit}>
             <select name="Group" ref={input => (this.group = input)}>
               <option value="Learn To Swim">Learn To Swim</option>
@@ -79,10 +126,10 @@ class Swimmer extends Component {
             </select>
             <input type="submit" />
           </form>
-        </PillBody>
-      </Pill>
+        </div>
+      </Wrapper>
     );
   }
 }
 
-export default graphql(updateSwimmer, { name: 'updateSwimmer' })(Swimmer);
+export default graphql(updateSwimmer, { name: "updateSwimmer" })(Swimmer);

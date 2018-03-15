@@ -3,13 +3,53 @@ import styled from 'styled-components';
 
 import Group from './Group';
 
+const Wrapper = styled.div`
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 3rem;
+  box-sizing: border-box;
+  border-radius: 0.3rem;
+  font-size: 2rem;
+`;
+
+const BtnGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Button = styled.button`
+  border: none;
+  background: transparent;
+  color: ${props =>
+    (props.active ? props.theme[props.className] : props.theme.slateGray)};
+  font-size: 2.4rem;
+  font-weight: bold;
+  outline: none;
+  padding: 1rem;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Attendance = styled.button`
+  background: ${props => props.theme.mainNavy};
+  border: none;
+  border-radius: 0.3rem;
+  outline: none;
+  padding: 1rem;
+  color: ${props => props.theme.white};
+  font-size: 2rem;
+  letter-spacing: 2px;
+  font-weight: lighter;
+  box-shadow: 3px 4px 2px 0px rgba(0, 0, 0, 0.4);
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 class Groups extends Component {
   state = {
-    currentGroup: null,
-  };
-
-  componentWillReceiveProps = (nextProps) => {
-    this.setState({ currentGroup: nextProps.coach.groups[0] });
+    currentGroup: this.props.coach.groups[0],
   };
 
   render() {
@@ -32,9 +72,9 @@ class Groups extends Component {
             ))}
           </div>
           <div>
-            <button onClick={() => console.log('Taking attendance')}>
-              Attendance
-            </button>
+            <Attendance onClick={() => console.log('Taking attendance')}>
+              ATTENDANCE
+            </Attendance>
           </div>
         </BtnGroup>
         <hr />
@@ -47,33 +87,3 @@ class Groups extends Component {
 }
 
 export default Groups;
-
-const Wrapper = styled.div`
-  max-width: 100rem;
-  padding: 1rem;
-  margin-bottom: 3rem;
-  box-sizing: border-box;
-  background-color: ${props => props.theme.medGray};
-  border-radius: 0.5rem;
-  font-size: 2rem;
-  box-shadow: 0 1px 2px 2px rgba(0, 0, 0, 0.4);
-`;
-
-const BtnGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Button = styled.button`
-  border: none;
-  background: transparent;
-  color: ${props =>
-    (props.active ? props.theme[props.className] : props.theme.white)};
-  font-size: 2.4rem;
-  font-weight: bold;
-  outline: none;
-  padding: 1rem;
-  &:hover {
-    cursor: pointer;
-  }
-`;

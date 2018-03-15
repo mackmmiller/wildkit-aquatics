@@ -88,13 +88,15 @@ export default {
       return Coaches.findOne(coachId);
     },
     createCompetition(obj, {
-      name, location, start, end,
+      name, locationName, address, start, end, additionalInfo,
     }, { userId }) {
       const competitionId = Competitions.insert({
         name,
-        location,
+        locationName,
+        address,
         start,
         end,
+        additionalInfo,
       });
       return Competitions.findOne(competitionId);
     },
@@ -238,9 +240,7 @@ export default {
     user: coach => Users.findOne({ coach: coach._id }),
     groups: coach => Groups.find({ _id: { $in: coach.groupId } }).fetch(),
   },
-  Competition: {
-
-  },
+  Competition: {},
   Group: {
     // Passing in an array... Need to remap data? You've seen this before.
     coaches: group => Coaches.find({ groupId: group._id }).fetch(),

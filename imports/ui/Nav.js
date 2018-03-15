@@ -62,6 +62,10 @@ class Nav extends Component {
     }
   };
 
+  unmountModal = () => {
+    this.setState({ modalOpen: false });
+  }
+
   menu = () => {
     console.log('Menu clicked');
   };
@@ -162,7 +166,7 @@ class Nav extends Component {
               <button onClick={this.toggleModal}>Register</button>
             </StyledLi>
           </React.Fragment>}
-        {this.state.modalOpen && createPortal(<Modal client={client} targetModal={this.state.targetModal} handleClick={this.closeModal.bind(this)} />, document.getElementById('modal'))}
+        {this.state.modalOpen && createPortal(<Modal client={client} unmount={this.unmountModal.bind(this)} targetModal={this.state.targetModal} handleClick={this.closeModal.bind(this)} />, document.getElementById('modal'))}
       </ul>
       <ul className="narrow">
         <StyledLi>
@@ -171,7 +175,7 @@ class Nav extends Component {
           </button>
         </StyledLi>
       </ul>
-            </NavBar>);
+    </NavBar>);
   }
 }
 

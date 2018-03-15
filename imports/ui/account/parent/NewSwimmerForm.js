@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 const createSwimmer = gql`
   mutation createSwimmer(
@@ -20,6 +21,10 @@ const createSwimmer = gql`
   }
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
 class NewSwimmerForm extends Component {
   createSwimmer = (e) => {
     e.preventDefault();
@@ -36,19 +41,98 @@ class NewSwimmerForm extends Component {
   };
 
   render() {
+    const { unmount } = this.props;
     return (
-      <form onSubmit={this.createSwimmer}>
-        <label htmlFor="">First Name</label>
-        <input type="text" ref={input => (this.firstName = input)} />
-        <label htmlFor="">Middle Name</label>
-        <input type="text" ref={input => (this.middleName = input)} />
-        <label htmlFor="">Last Name</label>
-        <input type="text" ref={input => (this.lastName = input)} />
-        <label htmlFor="">dateOfBirth</label>
-        <input type="date" ref={input => (this.dateOfBirth = input)} />
-        <input type="button" value="cancel" onClick={this.toggleForm} />
+      <Form onSubmit={this.createSwimmer}>
+        <label>
+          First Name
+          <input type="text" ref={input => (this.firstName = input)} />
+        </label>
+        <label>
+          Middle Name
+          <input type="text" ref={input => (this.middleName = input)} />
+        </label>
+        <label>
+          Last Name
+          <input type="text" ref={input => (this.lastName = input)} />
+        </label>
+        <label>
+          Gender
+          <select>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+        <label>
+          Date of Birth
+          <input type="date" ref={input => (this.dateOfBirth = input)} />
+        </label>
+        <label>
+          Group
+          <select>
+            <option value="learnToSwim">Learn To Swim</option>
+            <option value="bronze">Bronze</option>
+            <option value="silver">Silver</option>
+            <option value="gold">Gold</option>
+            <option value="platinum">Platinum</option>
+            <option value="highSchool">High School</option>
+          </select>
+        </label>
+        <label>
+          Grade
+          <select>
+            <option value="prek">PreK</option>
+            <option value="k">Kindergarten</option>
+            <option value="1">1st</option>
+            <option value="2">2nd</option>
+            <option value="3">3rd</option>
+            <option value="4">4th</option>
+            <option value="5">5th</option>
+            <option value="6">6th</option>
+            <option value="7">7th</option>
+            <option value="8">8th</option>
+            <option value="9">9th</option>
+            <option value="10">10th</option>
+            <option value="11">11th</option>
+            <option value="12">12th</option>
+            <option value="uv1">College - Freshman</option>
+            <option value="uv2">College - Sophomore</option>
+            <option value="uv3">College - Junior</option>
+            <option value="uv4">College - Senior</option>
+            <option value="pg">Post Graduate</option>
+          </select>
+        </label>
+        <label>
+          Student ID
+          <input type="text" />
+        </label>
+        <label>
+          Email
+          <input type="email" />
+        </label>
+        <label>
+          Cell Phone
+          <input type="tel" />
+        </label>
+        <label>
+          Medical
+          <input type="text" />
+        </label>
+        <label>
+          Medications
+          <input type="text" />
+        </label>
+        <label>
+          Doctor
+          <input type="text" />
+        </label>
+        <label>
+          Doctor's Phone
+          <input type="tel" />
+        </label>
+        <input type="button" value="cancel" onClick={unmount} />
         <input type="submit" />
-      </form>
+      </Form>
     );
   }
 }

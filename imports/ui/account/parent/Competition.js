@@ -7,7 +7,8 @@ const competitionQuery = gql`
   query Competition($_id: String!) {
     Competition(_id: $_id) {
       name
-      location
+      locationName
+      address
     }
   }
 `;
@@ -52,7 +53,7 @@ class Competition extends Component {
         <div className="header">
           <h5>{Competition.name}</h5>
         </div>
-        <div className="body">{Competition.location}</div>
+        <div className="body">{Competition.locationName}</div>
       </Wrapper>
     );
   }

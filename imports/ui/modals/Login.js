@@ -8,6 +8,7 @@ class Login extends Component {
       console.log(err);
       if (!err) {
         this.props.client.resetStore();
+        this.props.unmount();
       }
     });
   };
