@@ -35,10 +35,20 @@ type Group {
   swimmers: [Swimmer]
 }
 
+type Guardian {
+  _id: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String!
+  email: String!
+  relationship: String!
+}
+
 type Parent {
   _id: String!
   swimmers: [Swimmer]
   user: User
+  guardians: [Guardian]
 }
 
 type Practice {
@@ -99,6 +109,7 @@ type Query {
   Coach(_id: String): Coach
   Competition(_id: String): Competition
   Group(_id: String): Group
+  Guardian(_id: String): Guardian
   Parent(_id: String): Parent
   Practice(_id: String): Practice
   Result(_id: String): Result
@@ -110,6 +121,7 @@ type Query {
   allCoaches: [Coach]
   allCompetitions: [Competition]
   allGroups: [Group]
+  allGuardians: [Guardian]
   allParents: [Parent]
   allPractices: [Practice]
   allResults: [Result]
@@ -133,6 +145,14 @@ type Mutation {
     additionalInfo: String
   ): Competition
   createGroup(name: String): Group
+  createGuardian(
+    parentId: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: String!
+    email: String!
+    relationship: String!
+  ): Guardian
   createParent(userId: String): Parent
   createPractice(start: Date, end: Date, groupId: String): Practice
   # createResult(): Result
@@ -153,6 +173,7 @@ type Mutation {
   ): Coach
   updateCompetition(competitionId: String): Competition
   updateGroup(groupId: String): Group
+  updateGuardian(guardianId: String): Guardian
   updateParent(parentId: String, userId: String): Parent
   updatePractice(practiceId: String): Practice
   # updateResult(): Result
@@ -169,6 +190,7 @@ type Mutation {
   deleteCoach(coachId: String): Coach
   deleteCompetition(competitionId: String): Competition
   deleteGroup(groupId: String): Group
+  deleteGuardian(guardianId: String): Guardian
   deleteParent(parentId: String): Parent
   deletePractice(practiceId: String): Practice
   deleteResult(resultId: String): Result

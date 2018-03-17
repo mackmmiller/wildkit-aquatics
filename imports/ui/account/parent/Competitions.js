@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import moment from 'moment';
 
 import Competition from './Competition';
 
@@ -53,25 +54,56 @@ const Button = styled.button`
     background: ${props => props.theme.mainOrange};
     color: ${props => props.theme.white};
   }
+  > span {
+    display: flex;
+    justify-content: space-between;
+    .date,
+    .location {
+      font-weight: lighter;
+    }
+  }
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: space-around;
 `;
 
 class Competitions extends Component {
   state = {
     current: null,
-  }
+  };
 
   render() {
-    const { allCompetitions, loading } = this.props;
+    const { allCompetitions, swimmers, loading } = this.props;
     const { current } = this.state;
     if (loading) return null;
     return (
       <Fragment>
         <Left>
+          <Pagination>
+            <button>Previous</button>
+            {moment().year()}
+            <button>Next</button>
+          </Pagination>
           {allCompetitions.map(c => (
-            <Button key={c._id} onClick={() => this.setState({ current: <Competition competition={c._id} /> })}>
-              {c.name}
+            <Button
+              key={c._id}
+              onClick={() =>
+                this.setState({
+                  current: (
+                    <Competition swimmers={swimmers} competition={c._id} />
+                  ),
+                })
+              }
+            >
+              <span>
+                <span className="date">{moment(c.start).format('MM/DD')}</span>
+                <span>{c.name}</span>
+                <span className="location">{c.locationName}</span>
+              </span>
             </Button>
-            ))}
+          ))}
         </Left>
         <Right>
           <div>{current}</div>

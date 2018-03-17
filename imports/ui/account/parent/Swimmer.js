@@ -27,15 +27,16 @@ const swimmerQuery = gql`
 const Wrapper = styled.div`
   height: 100%;
   background: ${props => props.theme.white};
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
   h5 {
     margin: 0.5rem 0;
   }
   .header {
     background: ${props => props.theme.mainOrange};
     padding: 1rem;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
     color: ${props => props.theme.mainNavy};
     h4 {
       margin: 0;
@@ -50,6 +51,21 @@ const Wrapper = styled.div`
     .top-times {
       h5 {
         text-align: center;
+      }
+    }
+    .attendance {
+      .stats {
+        display: flex;
+        justify-content: space-around;
+      }
+      .stat {
+        display: flex;
+      }
+    }
+    .top-times {
+      > div {
+        display: flex;
+        justify-content: center;
       }
     }
   }
@@ -89,17 +105,29 @@ class Swimmer extends Component {
           <hr />
           <div className="attendance">
             <h5>Attendance</h5>
-            <ul>
-              <li>Season Practices Attended</li>
-              <li>Percent Season Practices Attended</li>
-              <li>Total Practices Attended</li>
-              <li>Total Percent of Practices Attended</li>
-            </ul>
+            <div className="stats">
+              <div className="stat">
+                <h6>Season</h6>
+              </div>
+              <div className="stat">
+                <h6>Career</h6>
+              </div>
+            </div>
           </div>
           <hr />
           <div className="top-times">
             <h5>Top Times</h5>
+            <div>
+              <button>Individual Medley</button>
+              <button>Butterfly</button>
+              <button>Backstroke</button>
+              <button>Breaststroke</button>
+              <button>Freestyle</button>
+            </div>
           </div>
+        </div>
+        <div>
+          <button>Edit</button>
         </div>
       </Wrapper>
     );

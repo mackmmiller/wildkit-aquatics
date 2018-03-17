@@ -23,12 +23,23 @@ const userData = gql`
         _id
         firstName
         lastName
+        group {
+          name
+        }
+      }
+      guardians {
+        _id
+        firstName
+        lastName
+        relationship
+        phoneNumber
+        email
       }
     }
   }
 `;
 
-const Parent = ({ Parent, loading }) => {
+const Parent = ({ Parent, loading, User }) => {
   if (loading) return null;
   return (
     <Wrapper>
@@ -39,13 +50,17 @@ const Parent = ({ Parent, loading }) => {
             title="My Swimmers"
           />,
           <Competitions
+            swimmers={Parent.swimmers}
             title="Competitions"
           />,
           <Billing
+            swimmers={Parent.swimmers}
             title="Billing"
           />,
           <Settings
             title="Settings"
+            user={User}
+            parent={Parent}
           />,
         ]
         }

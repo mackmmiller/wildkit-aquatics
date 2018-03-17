@@ -6,6 +6,7 @@ import {
   Coaches,
   Competitions,
   Groups,
+  Guardians,
   Parents,
   Practices,
   Results,
@@ -27,6 +28,9 @@ export default {
     },
     Group(obj, { _id }) {
       return Groups.findOne(_id);
+    },
+    Guardian(obj, { _id }) {
+      return Guardians.findOne(_id);
     },
     Parent(obj, { _id }) {
       return Parents.findOne(_id);
@@ -58,6 +62,9 @@ export default {
     },
     allGroups(obj, args) {
       return Groups.find({}).fetch();
+    },
+    allGuardians(obj, args) {
+      return Guardians.find({}).fetch();
     },
     allParents(obj, args) {
       return Parents.find({}).fetch();
@@ -106,6 +113,19 @@ export default {
       });
       return Groups.findOne(groupId);
     },
+    createGuardian(obj, { 
+parentId, firstName, lastName, phoneNumber, email, relationship 
+}) {
+      const guardianId = Guardians.insert({
+        parentId,
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        relationship,
+      });
+      return Guardians.findOne(guardianId);
+    },
     createParent(obj, args, { userId }) {
       const parentId = Parents.insert({
         user: userId,
@@ -145,6 +165,7 @@ export default {
     },
     updateCompetition(obj, args, context) {},
     updateGroup(obj, args, context) {},
+    updateGuardian(obj, args, context) {},
     updateParent(obj, args, context) {},
     updatePractice(obj, args, context) {},
     // updateResult(obj, args, context) {},
@@ -190,6 +211,13 @@ export default {
         }
       });
       return groupId;
+    },
+    deleteGuardian(obj, { guardianId }, context) {
+      Guardians.remove(guardianId, (e) => {
+        if (e) {
+          console.log(e);
+        }
+      });
     },
     deleteParent(obj, { parentId }, context) {
       Parents.remove(parentId, (e) => {
@@ -247,9 +275,11 @@ export default {
     practices: group => Practices.find({ groupId: group._id }).fetch(),
     swimmers: group => Swimmers.find({ group: group.name }).fetch(),
   },
+  Guardian: {},
   Parent: {
     user: parent => Users.findOne({ parent: parent._id }),
     swimmers: parent => Swimmers.find({ parent: parent.user }).fetch(),
+    guardians: parent => Guardians.find({ parentId: parent._id }).fetch(),
   },
   Practice: {
     group: practice => Groups.findOne(practice.groupId),

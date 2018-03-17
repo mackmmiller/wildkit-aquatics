@@ -72,7 +72,7 @@ class Groups extends Component {
             ))}
           </div>
           <div>
-            <Attendance onClick={() => console.log('Taking attendance')}>
+            <Attendance>
               ATTENDANCE
             </Attendance>
           </div>

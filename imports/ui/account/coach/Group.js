@@ -24,24 +24,32 @@ const Right = styled.div`
 
 const Button = styled.button`
   border: none;
-  background: ${props => props.theme.white};
-  color: ${props => props.theme.mainOrange};
-  border: 2px solid ${props => props.theme.mainOrange};
-  max-width: 35rem;
+  background: ${props =>
+    (props.active ? props.theme.mainOrange : props.theme.white)};
+  color: ${props =>
+    (props.active ? props.theme.white : props.theme.mainOrange)};
+  max-width: 45rem;
   outline: none;
-  border-radius: 0.5rem;
-  margin: 1rem;
+  border-radius: 0.3rem;
   padding: 1rem;
   font-weight: bold;
   box-sizing: border-box;
+  font-size: 1.8rem;
   &:hover {
     cursor: pointer;
+    background: ${props => props.theme.mainOrange};
+    color: ${props => props.theme.white};
   }
 `;
 
 class Group extends Component {
   state = {
     current: null,
+  };
+
+  takeAttendance = () => {
+    const attendance = [];
+    console.log('Taking attendance');
   };
 
   render() {
@@ -62,6 +70,7 @@ class Group extends Component {
                 {swimmer.firstName} {swimmer.lastName}
               </Button>
             ))}
+          <Button onClick={this.takeAttendance}>Attendance</Button>
         </Left>
         <Right>{current}</Right>
       </Wrapper>

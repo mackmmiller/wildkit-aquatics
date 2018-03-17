@@ -1,17 +1,22 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   injectStripe,
   CardNumberElement,
   CardExpiryElement,
   CardCVCElement,
-  PostalCodeElement
-} from "react-stripe-elements";
+  PostalCodeElement,
+} from 'react-stripe-elements';
+import styled from 'styled-components';
+
+const Form = styled.form`
+  width: 20rem;
+`;
 
 class BillingForm extends Component {
-  handleSubmit = async e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const token = await this.props.stripe.createToken();
-    Meteor.call("chargeToken", token.token.id, (err, res) => {
+    Meteor.call('chargeToken', token.token.id, (err, res) => {
       if (err) {
         console.log(err);
       } else {
@@ -22,7 +27,7 @@ class BillingForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <label>
           Card Number
           <CardNumberElement />
@@ -40,7 +45,7 @@ class BillingForm extends Component {
           <PostalCodeElement />
         </label>
         <input type="submit" value="Pay" />
-      </form>
+      </Form>
     );
   }
 }

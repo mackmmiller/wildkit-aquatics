@@ -10,6 +10,8 @@ export const Events = new Mongo.Collection('events');
 
 export const Groups = new Mongo.Collection('groups');
 
+export const Guardians = new Mongo.Collection('guardians');
+
 export const Parents = new Mongo.Collection('parents');
 
 export const Practices = new Mongo.Collection('practices');

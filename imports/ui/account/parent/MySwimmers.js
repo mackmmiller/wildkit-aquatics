@@ -30,7 +30,7 @@ const Button = styled.button`
   border: none;
   max-width: 45rem;
   outline: none;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
   padding: 1rem;
   font-weight: bold;
   box-sizing: border-box;

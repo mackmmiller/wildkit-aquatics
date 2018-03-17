@@ -15,7 +15,7 @@ const swimmerQuery = gql`
 const Wrapper = styled.div`
   height: 100%;
   background: ${props => props.theme.white};
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
   h5 {
     margin: 0.5rem 0;
   }
@@ -57,7 +57,7 @@ const Swimmer = ({ Swimmer, loading }) => {
           <h5>
             Full Name: <span>
               {Swimmer.firstName} {Swimmer.middleName} {Swimmer.lastName}
-                       </span>
+            </span>
           </h5>
         </div>
         <hr />
