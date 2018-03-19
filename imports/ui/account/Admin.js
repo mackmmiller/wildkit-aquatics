@@ -11,7 +11,7 @@ import Calendar from './admin/Calendar';
 import Dashboard from './Dashboard';
 
 
-const adminData = gql`
+export const adminData = gql`
   query adminData {
     allCompetitions {
       _id

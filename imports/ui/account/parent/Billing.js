@@ -91,35 +91,43 @@ const fees = {
   },
 };
 
-const skus = {
-  learnToSwim: {
-    monthly: 'sku_CV8aqsApCm66Y5',
-    winter: 'sku_CV8bwviYj3imEG',
-    summer: 'sku_CV8bWBFO9Swmxe',
-    yearly: 'sku_CV7twjygMrc6f5',
-  },
-};
-
 class Billing extends Component {
   state = {
     dueToday: 0,
     dueMonthly: 0,
+    cart: [],
+  }
+
+  handleGroupChange = (e, i) => {
+    const { cart } = this.state;
+    cart[i] = fees[e.target.value];
+    this.setState({ cart });
+  }
+
+  handlePlanChange = (e, i) => {
+    const { cart } = this.state;
+    cart[i] = cart[i][e.target.value];
+    this.setState({ cart });
   }
 
   render() {
     const { swimmers } = this.props;
-    const { dueToday, dueMonthly } = this.state;
-    return (
-      <Fragment>
+    const { dueToday, dueMonthly, cart } = this.state;
+    return (<Fragment>
         <Content>
           <Grid>
             <h5 className="group">Group</h5>
             <h5 className="plan">Payment Plan</h5>
             <div className="swimmers">
-              {swimmers.map(s => (
-                <div key={s._id} className="swimmer">
-                  <h6>{s.firstName} {s.lastName}</h6>
-                  <select>
+              {swimmers.map((s, i) => <div key={s._id} className="swimmer">
+                  <h6>
+                    {s.firstName} {s.lastName}
+                  </h6>
+                  <select onChange={e => this.handleGroupChange(e, i)}>
+                    <option disabled selected value>
+                      {" "}
+                      -- select an option --{" "}
+                    </option>
                     <option value="learnToSwim">Learn To Swim</option>
                     <option value="bronze">Bronze</option>
                     <option value="silver">Silver</option>
@@ -127,24 +135,28 @@ class Billing extends Component {
                     <option value="platinum">Platinum</option>
                     <option value="highSchool">High School</option>
                   </select>
-                  <select>
+                  <select onChange={e => this.handlePlanChange(e, i)}>
+                    <option disabled selected value>
+                      {" "}
+                      -- select an option --{" "}
+                    </option>
                     <option value="monthly">Monthly</option>
                     <option value="winter">Winter</option>
                     <option value="summer">Summer</option>
                     <option value="yearly">Yearly</option>
                   </select>
-                </div>
-              ))}
+                </div>)}
             </div>
-            <h6 className="dueToday">Due Today: ${dueToday}</h6>
+            <h6 className="dueToday">
+              Due Today: ${cart.reduce((acc, cv) => acc + cv, 0)}
+            </h6>
             <h6 className="dueMonthly">Due Monthly: ${dueMonthly}</h6>
           </Grid>
           <Elements>
-            <BillingForm />
+            <BillingForm billToday={cart.reduce((acc, cv) => acc + cv, 0)} />
           </Elements>
         </Content>
-      </Fragment>
-    );
+      </Fragment>);
   }
 }
 

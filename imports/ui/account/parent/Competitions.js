@@ -67,43 +67,89 @@ const Button = styled.button`
 const Pagination = styled.div`
   display: flex;
   justify-content: space-around;
+  margin-bottom: 1rem;
+  span {
+    padding: 1rem;
+  }
+  button {
+    background: ${props => props.theme.mainNavy};
+    border: none;
+    border-radius: 0.3rem;
+    outline: none;
+    padding: 1rem;
+    color: ${props => props.theme.white};
+    font-size: 2rem;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 class Competitions extends Component {
   state = {
     current: null,
+    year: moment(),
   };
+
+  addYear = () => {
+    const { year } = this.state;
+    const nextYear = moment(year).add(1, 'y');
+    this.setState({ year: nextYear });
+  };
+
+  subtractYear = () => {
+    const { year } = this.state;
+    const prevYear = moment(year).subtract(1, 'y');
+    this.setState({ year: prevYear });
+  }
 
   render() {
     const { allCompetitions, swimmers, loading } = this.props;
-    const { current } = this.state;
+    const { current, year } = this.state;
     if (loading) return null;
     return (
       <Fragment>
         <Left>
           <Pagination>
-            <button>Previous</button>
-            {moment().year()}
-            <button>Next</button>
-          </Pagination>
-          {allCompetitions.map(c => (
-            <Button
-              key={c._id}
-              onClick={() =>
-                this.setState({
-                  current: (
-                    <Competition swimmers={swimmers} competition={c._id} />
-                  ),
-                })
-              }
+            <button
+              onClick={this.subtractYear}
             >
-              <span>
-                <span className="date">{moment(c.start).format('MM/DD')}</span>
-                <span>{c.name}</span>
-                <span className="location">{c.locationName}</span>
-              </span>
-            </Button>
-          ))}
+              Previous
+            </button>
+            <span>{year.year()}</span>
+            <button
+              onClick={this.addYear}
+            >
+              Next
+            </button>
+          </Pagination>
+          {allCompetitions
+            .filter(c => moment(c.start).year() === year.year())
+            .map(c => (
+              <Button
+                key={c._id}
+                onClick={() =>
+                  this.setState({
+                    current: (
+                      <Competition
+                        swimmers={swimmers}
+                        competition={c._id}
+                      />
+                    ),
+                  })
+                }
+              >
+                <span>
+                  <span className="date">
+                    {moment(c.start).format('MM/DD')}
+                  </span>
+                  <span>{c.name}</span>
+                  <span className="location">{c.locationName}</span>
+                </span>
+              </Button>
+            ))}
         </Left>
         <Right>
           <div>{current}</div>

@@ -5,9 +5,9 @@ import './api';
 const stripe = stripePackage('sk_test_p1hV1vbkpw0DiegiR0MXWFVX');
 
 Meteor.methods({
-  chargeToken: (token) => {
+  chargeToken: (token, amount) => {
     stripe.charges.create({
-      amount: 999,
+      amount: amount * 100,
       currency: 'usd',
       description: 'Example charge',
       source: token,

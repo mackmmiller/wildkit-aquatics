@@ -5,6 +5,11 @@ import gql from 'graphql-tag';
 
 import GuardianForm from './GuardianForm';
 
+const Flexbox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 class Settings extends Component {
   state = {
     guardianForm: false,
@@ -17,36 +22,34 @@ class Settings extends Component {
   render() {
     const { guardianForm } = this.state;
     const { user, parent } = this.props;
-    return (
-      <Fragment>
-        <Flexbox>
+    return (<Fragment>
+      <Flexbox>
+        <div>
+          <h4>Guardians</h4>
           <div>
-            <h4>Guardians</h4>
-            <div>
-              {parent.guardians.map(g => <h1 key={g._id}>{g.firstName} {g.lastName}</h1>)}
-            </div>
-            {guardianForm ?
-              <GuardianForm unmount={this.unmount.bind(this)} parent={parent} /> :
-              <button onClick={() => this.setState({ guardianForm: !guardianForm })}>
+            {parent.guardians.map(g => (<h1 key={g._id}>
+              {g.firstName} {g.lastName}
+            </h1>))}
+          </div>
+          {guardianForm ? <GuardianForm unmount={this.unmount.bind(this)} parent={parent} /> : <button
+            onClick={() =>
+                  this.setState({ guardianForm: !guardianForm })
+                }
+          >
                 Add Guardian
-              </button>
-            }
-          </div>
+          </button>}
+        </div>
+        <div>
+          <h4>Account</h4>
           <div>
-            <h4>Account</h4>
-            <div>Email:</div>
-            <div>Phone:</div>
-            <div>Password:</div>
+                Email: {user.email}
           </div>
-        </Flexbox>
-      </Fragment>
-    );
+          <div>Phone: </div>
+          <div>Password: </div>
+        </div>
+      </Flexbox>
+    </Fragment>);
   }
 }
 
 export default Settings;
-
-const Flexbox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
