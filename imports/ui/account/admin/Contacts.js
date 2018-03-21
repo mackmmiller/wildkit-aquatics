@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-import Swimmer from "./Swimmer";
-import Coach from "./Coach";
-import User from "./User";
+import Swimmer from './Swimmer';
+import Coach from './Coach';
+import User from './User';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,9 +52,9 @@ const Header = styled.div`
 const Button = styled.button`
   border: none;
   background: ${props =>
-    props.active ? props.theme.mainOrange : props.theme.white};
+    (props.active ? props.theme.mainOrange : props.theme.white)};
   color: ${props =>
-    props.active ? props.theme.white : props.theme.mainOrange};
+    (props.active ? props.theme.white : props.theme.mainOrange)};
   max-width: 35rem;
   outline: none;
   border-radius: 0.5rem;
@@ -76,7 +76,7 @@ const Button = styled.button`
 const Filter = styled.button`
   border: none;
   background: ${props =>
-    props.active ? props.theme.mainNavy : props.theme.white};
+    (props.active ? props.theme.mainNavy : props.theme.white)};
   color: ${props => (props.active ? props.theme.white : props.theme.mainNavy)};
   max-width: 35rem;
   outline: none;
@@ -94,22 +94,50 @@ const Filter = styled.button`
 
 class Contacts extends Component {
   state = {
-    contacts: [
-      ...this.props.athletes,
-      ...this.props.coaches,
-      ...this.props.parents
-    ],
-    current: null
+    contacts: [],
+    current: null,
   };
 
-  chooseContainer = contact => {
+  componentDidMount = () => {
+    const { athletes, coaches, parents } = this.props;
+    const contacts = [...athletes, ...coaches, ...parents];
+    const sortedContacts = this.sort(contacts);
+    this.setState({ contacts: sortedContacts });
+  };
+
+  sort = (contacts) => {
+    const arr = [...contacts];
+    const sorter = (a, b) => {
+      const lastA = (a.lastName || a.user.lastName).toUpperCase();
+      const lastB = (b.lastName || b.user.lastName).toUpperCase();
+      if (lastA > lastB) return 1;
+      if (lastA < lastB) return -1;
+      return 0;
+    };
+    return arr.sort(sorter);
+  };
+
+  filter = (e, contacts) => {
+    const c = [...contacts];
+    const val = e.target.value;
+    const filter = (name) => {
+      const last = name.lastName || name.user.lastName;
+      const first = name.firstName || name.user.firstName;
+      const matchLast = last.slice(0, val.length) === val;
+      const matchFirst = first.slice(0, val.length) === val;
+      if (matchLast || matchFirst) return name;
+    };
+    this.setState({ contacts: c.filter(filter) });
+  };
+
+  chooseContainer = (contact) => {
     let container;
     switch (contact.__typename.toLowerCase()) {
-      case "swimmer":
+      case 'swimmer':
         container = <Swimmer key={contact._id} data={contact} />;
         break;
 
-      case "coach":
+      case 'coach':
         container = <Coach key={contact._id} data={contact} />;
         break;
 
@@ -128,35 +156,30 @@ class Contacts extends Component {
       <Wrapper>
         <Header>
           <div className="buttons">
-            <Filter onClick={() => this.setState({ contacts: all })}>
+            <Filter onClick={() => this.setState({ contacts: this.sort(all) })}>
               All
             </Filter>
-            <Filter onClick={() => this.setState({ contacts: athletes })}>
+            <Filter onClick={() => this.setState({ contacts: this.sort(athletes) })}>
               Athletes
             </Filter>
-            <Filter onClick={() => this.setState({ contacts: coaches })}>
+            <Filter onClick={() => this.setState({ contacts: this.sort(coaches) })}>
               Coaches
             </Filter>
-            <Filter onClick={() => this.setState({ contacts: parents })}>
+            <Filter onClick={() => this.setState({ contacts: this.sort(parents) })}>
               Parents
             </Filter>
-            <input type="search" placeholder="Search Contacts" />
+            <input type="search" placeholder="Search Contacts" onChange={e => this.filter(e, all)} />
           </div>
         </Header>
         <hr />
         <Container>
           <div className="contacts">
-            {/* {contacts.map(contact => this.chooseContainer(contact))} */}
             {contacts.map(contact => (
               <Button
                 key={contact._id}
-                onClick={() =>
-                  this.setState({
-                    current: this.chooseContainer(contact)
-                  })
-                }
+                onClick={() => this.setState({ current: this.chooseContainer(contact) })}
               >
-                {contact.firstName || contact.user.firstName}{" "}
+                {contact.firstName || contact.user.firstName}{' '}
                 {contact.lastName || contact.user.lastName}
               </Button>
             ))}

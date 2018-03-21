@@ -12,11 +12,15 @@ const Content = styled.div`
   font-weight: bolder;
   display: flex;
   justify-content: space-around;
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, max-content);
   grid-template-areas:
     ". g p"
     "s s s"
@@ -110,53 +114,49 @@ class Billing extends Component {
     this.setState({ cart });
   }
 
+  renderSwimmers = (s, i) => (
+    <div key={s._id} className="swimmer">
+      <h6>{s.firstName} {s.lastName}</h6>
+      <select onChange={e => this.handleGroupChange(e, i)}>
+        <option disabled selected value>Select an Option</option>
+        <option value="learnToSwim">Learn To Swim</option>
+        <option value="bronze">Bronze</option>
+        <option value="silver">Silver</option>
+        <option value="gold">Gold</option>
+        <option value="platinum">Platinum</option>
+        <option value="highSchool">High School</option>
+      </select>
+      <select onChange={e => this.handlePlanChange(e, i)}>
+        <option disabled selected value>Select an Option</option>
+        <option value="monthly">Monthly</option>
+        <option value="winter">Winter</option>
+        <option value="summer">Summer</option>
+        <option value="yearly">Yearly</option>
+      </select>
+    </div>
+  )
+
   render() {
     const { swimmers } = this.props;
     const { dueToday, dueMonthly, cart } = this.state;
-    return (<Fragment>
+    return (
+      <Fragment>
         <Content>
           <Grid>
             <h5 className="group">Group</h5>
             <h5 className="plan">Payment Plan</h5>
             <div className="swimmers">
-              {swimmers.map((s, i) => <div key={s._id} className="swimmer">
-                  <h6>
-                    {s.firstName} {s.lastName}
-                  </h6>
-                  <select onChange={e => this.handleGroupChange(e, i)}>
-                    <option disabled selected value>
-                      {" "}
-                      -- select an option --{" "}
-                    </option>
-                    <option value="learnToSwim">Learn To Swim</option>
-                    <option value="bronze">Bronze</option>
-                    <option value="silver">Silver</option>
-                    <option value="gold">Gold</option>
-                    <option value="platinum">Platinum</option>
-                    <option value="highSchool">High School</option>
-                  </select>
-                  <select onChange={e => this.handlePlanChange(e, i)}>
-                    <option disabled selected value>
-                      {" "}
-                      -- select an option --{" "}
-                    </option>
-                    <option value="monthly">Monthly</option>
-                    <option value="winter">Winter</option>
-                    <option value="summer">Summer</option>
-                    <option value="yearly">Yearly</option>
-                  </select>
-                </div>)}
+              {swimmers.map(this.renderSwimmers)}
             </div>
-            <h6 className="dueToday">
-              Due Today: ${cart.reduce((acc, cv) => acc + cv, 0)}
-            </h6>
+            <h6 className="dueToday">Due Today: ${cart.reduce((acc, cv) => acc + cv, 0)}</h6>
             <h6 className="dueMonthly">Due Monthly: ${dueMonthly}</h6>
           </Grid>
           <Elements>
             <BillingForm billToday={cart.reduce((acc, cv) => acc + cv, 0)} />
           </Elements>
         </Content>
-      </Fragment>);
+      </Fragment>
+    );
   }
 }
 

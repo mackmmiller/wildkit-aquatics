@@ -175,7 +175,7 @@ class Nav extends Component {
           </button>
         </StyledLi>
       </ul>
-    </NavBar>);
+            </NavBar>);
   }
 }
 

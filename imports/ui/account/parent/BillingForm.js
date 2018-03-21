@@ -10,8 +10,7 @@ import styled from 'styled-components';
 
 const Form = styled.form`
   width: 20rem;
-  margin-bottom: 40px;
-  padding-bottom: 40px;
+  padding: 1rem;
   label {
     color: #6b7c93;
     font-weight: 300;

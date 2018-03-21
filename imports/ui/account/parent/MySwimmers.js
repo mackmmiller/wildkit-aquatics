@@ -47,9 +47,16 @@ class MySwimmers extends Component {
     current: null,
   }
 
-  unmount = () => {
-    this.setState({ current: null });
-  }
+  unmount = () => this.setState({ current: null });
+
+  renderSwimmers = swimmer => (
+    <Button
+      key={swimmer._id}
+      onClick={() => this.setState({ current: <Swimmer swimmer={swimmer._id} /> })}
+    >
+      {swimmer.firstName} {swimmer.lastName}
+    </Button>
+  );
 
   render() {
     const { current } = this.state;
@@ -57,23 +64,12 @@ class MySwimmers extends Component {
     return (
       <Fragment>
         <Left>
-          {swimmers[0] ? swimmers.map(swimmer => (
-            <Button
-              // active={swimmer._id === current.props.swimmer}
-              key={swimmer._id}
-              onClick={() =>
-                  this.setState({
-                    current: <Swimmer swimmer={swimmer._id} />,
-                  })
-                }
-            >
-              {swimmer.firstName} {swimmer.lastName}
-            </Button>
-            )) : <p>You haven't registered any swimmers. Add some now!</p>}
-          <Button
-            onClick={() => this.setState({ current: <NewSwimmerForm unmount={this.unmount.bind(this)} /> })}
-          >
-            New Swimmer
+          {swimmers[0]
+            ? swimmers.map(this.renderSwimmers)
+            : <p>You haven't registered any swimmers. Add some now!</p>
+          }
+          <Button onClick={() => this.setState({ current: <NewSwimmerForm unmount={this.unmount.bind(this)} /> })}>
+              New Swimmer
           </Button>
         </Left>
         <Right>

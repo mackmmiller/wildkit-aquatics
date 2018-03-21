@@ -102,7 +102,7 @@ class Register extends Component {
               autoComplete="new-password"
             />
           </div>
-          <input type="submit" className="register" />
+          <input type="submit" className="register" value="Register" />
         </StyledForm>
       </React.Fragment>
     );
@@ -153,5 +153,17 @@ const StyledForm = styled.form`
   }
   > .register {
     grid-area: register;
+    background: ${props => props.theme.mainNavy};
+    border: none;
+    border-radius: 0.3rem;
+    outline: none;
+    padding: 0.5rem;
+    color: ${props => props.theme.white};
+    font-size: 2rem;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;

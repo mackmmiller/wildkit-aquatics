@@ -69,14 +69,15 @@ const Pagination = styled.div`
   justify-content: space-around;
   margin-bottom: 1rem;
   span {
-    padding: 1rem;
+    padding: 0.5rem;
   }
   button {
     background: ${props => props.theme.mainNavy};
+    width: 10rem;
     border: none;
     border-radius: 0.3rem;
     outline: none;
-    padding: 1rem;
+    padding: 0.5rem;
     color: ${props => props.theme.white};
     font-size: 2rem;
     letter-spacing: 2px;
@@ -103,7 +104,19 @@ class Competitions extends Component {
     const { year } = this.state;
     const prevYear = moment(year).subtract(1, 'y');
     this.setState({ year: prevYear });
-  }
+  };
+
+  renderButtons = c => (
+    <Button key={c._id} onClick={() => this.setState({ current: <Competition swimmers={swimmers} competition={c._id} /> })}>
+      <span>
+        <span className="date">
+          {moment(c.start).format('MM/DD')}
+        </span>
+        <span>{c.name}</span>
+        <span className="location">{c.locationName}</span>
+      </span>
+    </Button>
+  )
 
   render() {
     const { allCompetitions, swimmers, loading } = this.props;
@@ -113,43 +126,11 @@ class Competitions extends Component {
       <Fragment>
         <Left>
           <Pagination>
-            <button
-              onClick={this.subtractYear}
-            >
-              Previous
-            </button>
+            <button onClick={this.subtractYear}>Previous</button>
             <span>{year.year()}</span>
-            <button
-              onClick={this.addYear}
-            >
-              Next
-            </button>
+            <button onClick={this.addYear}>Next</button>
           </Pagination>
-          {allCompetitions
-            .filter(c => moment(c.start).year() === year.year())
-            .map(c => (
-              <Button
-                key={c._id}
-                onClick={() =>
-                  this.setState({
-                    current: (
-                      <Competition
-                        swimmers={swimmers}
-                        competition={c._id}
-                      />
-                    ),
-                  })
-                }
-              >
-                <span>
-                  <span className="date">
-                    {moment(c.start).format('MM/DD')}
-                  </span>
-                  <span>{c.name}</span>
-                  <span className="location">{c.locationName}</span>
-                </span>
-              </Button>
-            ))}
+          {allCompetitions.filter(c => moment(c.start).year() === year.year()).map(this.renderButtons)}
         </Left>
         <Right>
           <div>{current}</div>

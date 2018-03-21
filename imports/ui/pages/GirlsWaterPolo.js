@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const GirlsWaterPolo = () => <div>Hi I'm the Wildkit swimming page</div>;
+const GirlsWaterPolo = () => <div>Hi I'm the girls water polo page</div>;
 
 export default GirlsWaterPolo;

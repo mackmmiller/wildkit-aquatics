@@ -115,9 +115,7 @@ class Competitions extends Component {
             competitions.filter(c => moment(c.start).year() === year.year()).map(competition => (
               <Button
                 key={competition._id}
-                active={
-                  current && current.props.competition === competition._id
-                }
+                active={current && current.props.competition === competition._id}
                 onClick={() =>
                   this.setState({
                     current: <Competition competition={competition._id} />,

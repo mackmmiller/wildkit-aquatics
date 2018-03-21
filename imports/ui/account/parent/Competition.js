@@ -105,7 +105,7 @@ class Competition extends Component {
               JSON.parse(Competition.additionalInfo).map((data, i) => (
                 <div key={i}>
                   <h5>
-                    {data.name}: <span>{data.value}</span>
+                    {data.name}: <br /><span>{data.value}</span>
                   </h5>
                 </div>
               ))}
