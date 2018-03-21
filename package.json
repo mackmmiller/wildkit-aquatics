@@ -1,6 +1,7 @@
 {
   "name": "wildkit-aquatics",
   "private": true,
+  "version": "0.1.0",
   "scripts": {
     "start": "meteor run",
     "jest": "jest"
