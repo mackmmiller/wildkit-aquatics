@@ -119,12 +119,12 @@ class Contacts extends Component {
 
   filter = (e, contacts) => {
     const c = [...contacts];
-    const val = e.target.value;
+    const val = e.target.value.toLowerCase();
     const filter = (name) => {
       const last = name.lastName || name.user.lastName;
       const first = name.firstName || name.user.firstName;
-      const matchLast = last.slice(0, val.length) === val;
-      const matchFirst = first.slice(0, val.length) === val;
+      const matchLast = last.slice(0, val.length).toLowerCase() === val;
+      const matchFirst = first.slice(0, val.length).toLowerCase() === val;
       if (matchLast || matchFirst) return name;
     };
     this.setState({ contacts: c.filter(filter) });

@@ -21,6 +21,7 @@ const allCompetitions = gql`
 const Left = styled.div`
   flex: 4;
   display: flex;
+  padding: 1rem;
   flex-direction: column;
 `;
 
@@ -107,7 +108,7 @@ class Competitions extends Component {
   };
 
   renderButtons = c => (
-    <Button key={c._id} onClick={() => this.setState({ current: <Competition swimmers={swimmers} competition={c._id} /> })}>
+    <Button key={c._id} onClick={() => this.setState({ current: <Competition swimmers={this.props.swimmers} competition={c._id} /> })}>
       <span>
         <span className="date">
           {moment(c.start).format('MM/DD')}

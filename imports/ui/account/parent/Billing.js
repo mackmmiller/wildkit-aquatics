@@ -18,13 +18,15 @@ const Content = styled.div`
 `;
 
 const Grid = styled.div`
+  font-size: 2rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, max-content);
+  grid-template-rows: max-content 1fr max-content;
   grid-template-areas:
     ". g p"
     "s s s"
     ". dT dM";
+  grid-gap: 1rem;
   .group {
     grid-area: g;
   }
@@ -33,6 +35,8 @@ const Grid = styled.div`
   }
   .swimmers {
     grid-area: s;
+    display: flex;
+    flex-direction: column;
   }
   .dueToday {
     grid-area: dT;
@@ -41,6 +45,7 @@ const Grid = styled.div`
     grid-area: dM;
   }
   .swimmer {
+    margin: 0.5rem;
     display: flex;
     justify-content: space-around;
     align-content: center;
@@ -102,13 +107,13 @@ class Billing extends Component {
     cart: [],
   }
 
-  handleGroupChange = (e, i) => {
+  handleGroupChange = (e, i, id) => {
     const { cart } = this.state;
     cart[i] = fees[e.target.value];
     this.setState({ cart });
   }
 
-  handlePlanChange = (e, i) => {
+  handlePlanChange = (e, i, id) => {
     const { cart } = this.state;
     cart[i] = cart[i][e.target.value];
     this.setState({ cart });
@@ -117,8 +122,8 @@ class Billing extends Component {
   renderSwimmers = (s, i) => (
     <div key={s._id} className="swimmer">
       <h6>{s.firstName} {s.lastName}</h6>
-      <select onChange={e => this.handleGroupChange(e, i)}>
-        <option disabled selected value>Select an Option</option>
+      <select onChange={e => this.handleGroupChange(e, i)} defaultValue="select">
+        <option disabled value="select">Select an Option</option>
         <option value="learnToSwim">Learn To Swim</option>
         <option value="bronze">Bronze</option>
         <option value="silver">Silver</option>
@@ -126,8 +131,8 @@ class Billing extends Component {
         <option value="platinum">Platinum</option>
         <option value="highSchool">High School</option>
       </select>
-      <select onChange={e => this.handlePlanChange(e, i)}>
-        <option disabled selected value>Select an Option</option>
+      <select onChange={e => this.handlePlanChange(e, i)} defaultValue="select">
+        <option disabled value="select">Select an Option</option>
         <option value="monthly">Monthly</option>
         <option value="winter">Winter</option>
         <option value="summer">Summer</option>
@@ -138,7 +143,7 @@ class Billing extends Component {
 
   render() {
     const { swimmers } = this.props;
-    const { dueToday, dueMonthly, cart } = this.state;
+    const { dueMonthly, cart } = this.state;
     return (
       <Fragment>
         <Content>

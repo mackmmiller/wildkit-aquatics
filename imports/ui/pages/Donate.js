@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { Elements } from 'react-stripe-elements';
+import styled from 'styled-components';
 
 import DonationForm from './components/DonationForm';
+
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 class Donate extends Component {
   render() {
     return (
-      <div>
-        <div>{/* Replace this div with an image. */}</div>
+      <Wrapper>
+        <div>Hi</div>
         <div>
           <p>Thank you for considering donating today.</p>
           <p>
@@ -20,7 +25,7 @@ class Donate extends Component {
             <DonationForm />
           </Elements>
         </div>
-      </div>
+      </Wrapper>
     );
   }
 }

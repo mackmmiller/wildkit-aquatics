@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 const Left = styled.div`
   flex: 4;
   display: flex;
+  padding: 1rem;
   flex-direction: column;
 `;
 
@@ -52,6 +53,25 @@ const Button = styled.button`
     cursor: pointer;
     background: ${props => props.theme.mainOrange};
     color: ${props => props.theme.white};
+  }
+`;
+
+const Add = styled.button`
+  border: 0.3rem solid ${props => props.theme.mainOrange};
+  background: ${props => props.theme.mainOrange};
+  color: ${props => props.theme.white};
+  outline: none;
+  max-width: 18rem;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  font-weight: bold;
+  box-sizing: border-box;
+  font-size: 1.8rem;
+  margin: 1rem auto;
+  &:hover {
+    cursor: pointer;
+    background: ${props => props.theme.white};
+    color: ${props => props.theme.mainOrange};
   }
 `;
 
@@ -131,7 +151,7 @@ class Competitions extends Component {
                 </span>
               </Button>
             ))}
-          <Button
+          <Add
             active={current && current.props.active === 'form'}
             onClick={() =>
               this.setState({
@@ -145,7 +165,7 @@ class Competitions extends Component {
             }
           >
             New Competition
-          </Button>
+          </Add>
         </Left>
         <Right>
           <div>{current}</div>

@@ -26,6 +26,9 @@ const userData = gql`
         group {
           name
         }
+        competitions {
+          _id
+        }
       }
       guardians {
         _id

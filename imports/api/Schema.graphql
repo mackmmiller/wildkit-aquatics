@@ -67,7 +67,7 @@ type Result {
 
 type Swimmer {
   _id: String!
-  competitons: [Competition]
+  competitions: [Competition]
   dateOfBirth: Date
   firstName: String!
   middleName: String
@@ -172,6 +172,7 @@ type Mutation {
     userId: String
   ): Coach
   updateCompetition(competitionId: String): Competition
+  registerSwimmers(competitionId: String, swimmerIds: [String]): Competition
   updateGroup(groupId: String): Group
   updateGuardian(guardianId: String): Guardian
   updateParent(parentId: String, userId: String): Parent

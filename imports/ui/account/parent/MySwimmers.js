@@ -7,6 +7,7 @@ import NewSwimmerForm from './NewSwimmerForm';
 const Left = styled.div`
   flex: 4;
   display: flex;
+  padding: 1rem;
   flex-direction: column;
 `;
 
@@ -27,7 +28,6 @@ const Button = styled.button`
     (props.active ? props.theme.mainOrange : props.theme.white)};
   color: ${props =>
     (props.active ? props.theme.white : props.theme.mainOrange)};
-  border: none;
   max-width: 45rem;
   outline: none;
   border-radius: 0.3rem;
@@ -39,6 +39,25 @@ const Button = styled.button`
     cursor: pointer;
     background: ${props => props.theme.mainOrange};
     color: ${props => props.theme.white};
+  }
+`;
+
+const Add = styled.button`
+  border: 0.3rem solid ${props => props.theme.mainOrange};
+  background: ${props => props.theme.mainOrange};
+  color: ${props => props.theme.white};
+  outline: none;
+  max-width: 18rem;
+  border-radius: 0.3rem;
+  padding: 1rem;
+  font-weight: bold;
+  box-sizing: border-box;
+  font-size: 1.8rem;
+  margin: 1rem auto;
+  &:hover {
+    cursor: pointer;
+    background: ${props => props.theme.white};
+    color: ${props => props.theme.mainOrange};
   }
 `;
 
@@ -68,9 +87,9 @@ class MySwimmers extends Component {
             ? swimmers.map(this.renderSwimmers)
             : <p>You haven't registered any swimmers. Add some now!</p>
           }
-          <Button onClick={() => this.setState({ current: <NewSwimmerForm unmount={this.unmount.bind(this)} /> })}>
+          <Add onClick={() => this.setState({ current: <NewSwimmerForm unmount={this.unmount.bind(this)} /> })}>
               New Swimmer
-          </Button>
+          </Add>
         </Left>
         <Right>
           <div>{current}</div>

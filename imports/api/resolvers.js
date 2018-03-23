@@ -113,9 +113,9 @@ export default {
       });
       return Groups.findOne(groupId);
     },
-    createGuardian(obj, { 
-parentId, firstName, lastName, phoneNumber, email, relationship 
-}) {
+    createGuardian(obj, {
+      parentId, firstName, lastName, phoneNumber, email, relationship,
+    }) {
       const guardianId = Guardians.insert({
         parentId,
         firstName,
@@ -164,6 +164,13 @@ parentId, firstName, lastName, phoneNumber, email, relationship
       return Coaches.findOne(coachId);
     },
     updateCompetition(obj, args, context) {},
+    registerSwimmers(obj, { competitionId, swimmerIds }) {
+      Competitions.update(competitionId, {
+        $set: { swimmers: swimmerIds },
+      });
+      swimmerIds.forEach(s => Swimmers.update(s, { $push: { competitions: competitionId } }));
+      return Competitions.findOne(competitionId);
+    },
     updateGroup(obj, args, context) {},
     updateGuardian(obj, args, context) {},
     updateParent(obj, args, context) {},
@@ -268,7 +275,9 @@ parentId, firstName, lastName, phoneNumber, email, relationship
     user: coach => Users.findOne({ coach: coach._id }),
     groups: coach => Groups.find({ _id: { $in: coach.groupId } }).fetch(),
   },
-  Competition: {},
+  Competition: {
+    swimmers: competition => Swimmers.find({ _id: { $in: competition.swimmers } }).fetch(),
+  },
   Group: {
     // Passing in an array... Need to remap data? You've seen this before.
     coaches: group => Coaches.find({ groupId: group._id }).fetch(),
@@ -288,6 +297,7 @@ parentId, firstName, lastName, phoneNumber, email, relationship
   Result: {},
   Swimmer: {
     group: swimmer => Groups.findOne({ name: swimmer.group }),
+    competitions: swimmer => Competitions.find({ _id: { $in: swimmer.competitions } }).fetch(),
   },
   User: {
     email: user => user.emails[0].address,

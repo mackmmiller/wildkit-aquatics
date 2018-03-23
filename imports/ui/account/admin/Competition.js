@@ -14,6 +14,11 @@ const competitionQuery = gql`
       start
       end
       additionalInfo
+      swimmers {
+        firstName
+        middleName
+        lastName
+      }
     }
   }
 `;
@@ -84,6 +89,10 @@ class Competition extends Component {
     });
   }
 
+  edit = () => {
+    console.log('Editing');
+  }
+
   render() {
     const { Competition, loading } = this.props;
     if (loading) return null;
@@ -102,7 +111,13 @@ class Competition extends Component {
           <hr />
           <h5>Additional Info</h5>
           {Competition.additionalInfo && JSON.parse(Competition.additionalInfo).map((data, i) => <div key={i}>{data.name} {data.value}</div>)}
-          <button>Edit</button>
+          <hr />
+          <h5>Registered Swimmers</h5>
+          {Competition.swimmers[0]
+            ? Competition.swimmers.map(swimmer => <div key={swimmer._id}>{swimmer.firstName} {swimmer.lastName}</div>)
+            : <div>No swimmers registered yet.</div>
+          }
+          <button onClick={this.edit}>Edit</button>
           <button onClick={this.deleteCompetition}>Delete</button>
         </div>
       </Wrapper>

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Elements } from 'react-stripe-elements';
+
+import DonationForm from './components/DonationForm';
 
 class Support extends Component {
   render() {
@@ -32,6 +35,9 @@ class Support extends Component {
               enter all donor information. Donor information is NOT saved.
               It is for credit processing purposes only.
             </p>
+            <Elements>
+              <DonationForm />
+            </Elements>
           </div>
         </div>
       </Wrapper>
