@@ -139,7 +139,7 @@ class Billing extends Component {
         <option value="yearly">Yearly</option>
       </select>
     </div>
-  )
+  );
 
   render() {
     const { swimmers } = this.props;

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { createPortal } from 'react-dom';
 import gql from 'graphql-tag';
 import moment from 'moment';
 import BigCalendar from 'react-big-calendar';
@@ -48,7 +47,8 @@ class Calendar extends Component {
         <BigCalendar
           views={['month', 'week']}
           defaultView="week"
-          step={60}
+          step={15}
+          timeslots={8}
           showMultiDayTimes
           events={events}
           defaultDate={moment().toDate()}
