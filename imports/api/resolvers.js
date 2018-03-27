@@ -11,6 +11,7 @@ import {
   Practices,
   Results,
   Swimmers,
+  Teams,
 } from './db';
 
 const Users = Meteor.users;
@@ -47,6 +48,9 @@ export default {
     User(obj, { _id }) {
       return Users.findOne(_id);
     },
+    Team(obj, { _id }) {
+      return Teams.findOne(_id);
+    },
     user(obj, args, { user }) {
       return user || {};
     },
@@ -77,6 +81,9 @@ export default {
     },
     allSwimmers(obj, args) {
       return Swimmers.find({}).fetch();
+    },
+    allTeams(obj, args) {
+      return Teams.find({}).fetch();
     },
     allUsers(obj, args) {
       return Users.find({}).fetch();
@@ -154,6 +161,10 @@ export default {
       });
       return Swimmers.findOne(swimmerId);
     },
+    createTeam(obj, { name, shortName }) {
+      const teamId = Teams.insert({ name, shortName });
+      return Teams.findOne(teamId);
+    },
 
     updateAdmin(obj, args, context) {},
     updateCoach(obj, {
@@ -177,14 +188,24 @@ export default {
     updatePractice(obj, args, context) {},
     // updateResult(obj, args, context) {},
     updateSwimmer(obj, {
-      swimmerId, firstName, lastName, middleName, dateOfBirth, group,
+      swimmerId, firstName, lastName, middleName, dateOfBirth, group, gender,
     }, context) {
       Swimmers.update(swimmerId, {
         $set: {
-          firstName, lastName, middleName, dateOfBirth, group,
+          firstName, lastName, middleName, dateOfBirth, group, gender,
         },
       });
       return Swimmers.findOne(swimmerId);
+    },
+    updateTeam(obj, {
+      teamId, name, shortName, competitions, practices,
+    }) {
+      Teams.update(teamId, {
+        $set: {
+          name, shortName, competitions, practices,
+        },
+      });
+      return Teams.findOne(teamId);
     },
 
     deleteAdmin(obj, { adminId }, context) {
@@ -258,6 +279,12 @@ export default {
       });
       return swimmerId;
     },
+    deleteTeam(obj, { swimmerId }) {
+      Teams.remove(teamId, (e) => {
+        if (e) console.log(e);
+      });
+      return teamId;
+    },
     deleteUser(obj, { userId }, context) {
       Users.remove(userId, (e) => {
         if (e) {
@@ -299,6 +326,7 @@ export default {
     group: swimmer => Groups.findOne({ name: swimmer.group }),
     competitions: swimmer => Competitions.find({ _id: { $in: swimmer.competitions } }).fetch(),
   },
+  Team: {},
   User: {
     email: user => user.emails[0].address,
     firstName: user => user.firstName,

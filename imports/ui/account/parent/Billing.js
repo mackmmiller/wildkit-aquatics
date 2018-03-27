@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Elements } from 'react-stripe-elements';
 
 import BillingForm from './BillingForm';
+import BillSwimmer from './BillSwimmer';
 
 const Content = styled.div`
   width: 100%;
@@ -25,7 +26,7 @@ const Grid = styled.div`
   grid-template-areas:
     ". g p"
     "s s s"
-    ". dT dM";
+    "T dT dM";
   grid-gap: 1rem;
   .group {
     grid-area: g;
@@ -44,6 +45,9 @@ const Grid = styled.div`
   .dueMonthly {
     grid-area: dM;
   }
+  .total {
+    grid-area: T;
+  }
   .swimmer {
     margin: 0.5rem;
     display: flex;
@@ -52,6 +56,24 @@ const Grid = styled.div`
     > h6 {
       margin: 0;
     }
+  }
+`;
+
+const Left = styled.div`
+  flex: 4;
+  display: flex;
+  padding: 1rem;
+  flex-direction: column;
+`;
+
+const Right = styled.div`
+  flex: 6;
+  > div {
+    min-height: 40rem;
+    background: ${props => props.theme.medGray};
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-sizing: border-box;
   }
 `;
 
@@ -86,13 +108,13 @@ const fees = {
     summer: 900,
     yearly: 1800,
   },
-  highShoolGirls: {
+  highSchoolGirls: {
     monthly: 155,
     winter: 775,
     summer: 930,
     yearly: 1550,
   },
-  highschoolBoys: {
+  highSchoolBoys: {
     monthly: 155,
     winter: 620,
     summer: 930,
@@ -104,62 +126,76 @@ class Billing extends Component {
   state = {
     dueToday: 0,
     dueMonthly: 0,
+    total: 0,
     cart: [],
   }
 
-  handleGroupChange = (e, i, id) => {
-    const { cart } = this.state;
-    cart[i] = fees[e.target.value];
-    this.setState({ cart });
+  componentDidMount = () => {
+    const { swimmers } = this.props;
+    const cart = swimmers.map(s => ({
+      id: s._id, group: '', plan: '', dueToday: 0, dueMonthly: 0,
+    }));
+    const { dueToday, dueMonthly, total } = this.calculatePrices(cart);
+    this.setState({
+      cart,
+      dueToday,
+      dueMonthly,
+      total: total || 0,
+    });
   }
 
-  handlePlanChange = (e, i, id) => {
-    const { cart } = this.state;
-    cart[i] = cart[i][e.target.value];
-    this.setState({ cart });
+  shouldComponentUpdate = (nextProps, { dueToday, dueMonthly }) => {
+    if (isNaN(dueToday) || isNaN(dueMonthly)) return false;
+    return true;
   }
 
-  renderSwimmers = (s, i) => (
-    <div key={s._id} className="swimmer">
-      <h6>{s.firstName} {s.lastName}</h6>
-      <select onChange={e => this.handleGroupChange(e, i)} defaultValue="select">
-        <option disabled value="select">Select an Option</option>
-        <option value="learnToSwim">Learn To Swim</option>
-        <option value="bronze">Bronze</option>
-        <option value="silver">Silver</option>
-        <option value="gold">Gold</option>
-        <option value="platinum">Platinum</option>
-        <option value="highSchool">High School</option>
-      </select>
-      <select onChange={e => this.handlePlanChange(e, i)} defaultValue="select">
-        <option disabled value="select">Select an Option</option>
-        <option value="monthly">Monthly</option>
-        <option value="winter">Winter</option>
-        <option value="summer">Summer</option>
-        <option value="yearly">Yearly</option>
-      </select>
-    </div>
-  );
+  calculatePrices = (cart) => {
+    const dueToday = cart.reduce((acc, cv) => acc + cv.dueToday, 0);
+    const dueMonthly = cart.reduce((acc, cv) => acc + cv.dueMonthly, 0);
+    const total = cart.reduce((acc, cv) => acc + cv.total, 0);
+    return { dueToday, dueMonthly, total };
+  }
+
+  handleChange = (id, group, plan) => {
+    const { cart } = this.state;
+    const { dueToday, dueMonthly, total } = this.calculatePrices(cart);
+    const target = cart.find(obj => obj.id === id);
+    target.group = group;
+    target.plan = plan;
+    target.dueToday = fees[group][plan];
+    target.dueMonthly = plan === 'monthly' ? fees[group][plan] : 0;
+    target.total = plan === 'monthly' ? fees[group][plan] * 10 : fees[group][plan];
+    this.setState({
+      cart, dueToday, dueMonthly, total,
+    });
+  }
 
   render() {
     const { swimmers } = this.props;
-    const { dueMonthly, cart } = this.state;
+    const {
+      dueToday, dueMonthly, cart, total,
+    } = this.state;
     return (
       <Fragment>
-        <Content>
+        <Left>
           <Grid>
             <h5 className="group">Group</h5>
             <h5 className="plan">Payment Plan</h5>
             <div className="swimmers">
-              {swimmers.map(this.renderSwimmers)}
+              {swimmers.map(s => <BillSwimmer key={s._id} s={s} onChange={this.handleChange.bind(this)} />)}
             </div>
-            <h6 className="dueToday">Due Today: ${cart.reduce((acc, cv) => acc + cv, 0)}</h6>
+            <h6 className="dueToday">Due Today: ${dueToday}</h6>
             <h6 className="dueMonthly">Due Monthly: ${dueMonthly}</h6>
+            <h6 className="total">Total: ${total}</h6>
           </Grid>
-          <Elements>
-            <BillingForm billToday={cart.reduce((acc, cv) => acc + cv, 0)} />
-          </Elements>
-        </Content>
+        </Left>
+        <Right>
+          <div>
+            <Elements>
+              <BillingForm billToday={cart.reduce((acc, cv) => acc.price + cv, 0)} />
+            </Elements>
+          </div>
+        </Right>
       </Fragment>
     );
   }

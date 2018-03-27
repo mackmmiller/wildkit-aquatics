@@ -23,6 +23,7 @@ const userData = gql`
         _id
         firstName
         lastName
+        gender
         group {
           name
         }

@@ -49,10 +49,10 @@ const Add = styled.button`
   outline: none;
   max-width: 18rem;
   border-radius: 0.3rem;
-  padding: 1rem;
+  padding: 0.5rem;
   font-weight: bold;
   box-sizing: border-box;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin: 1rem auto;
   &:hover {
     cursor: pointer;

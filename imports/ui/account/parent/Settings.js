@@ -14,6 +14,7 @@ const Left = styled.div`
   flex: 4;
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 `;
 
 const Right = styled.div`

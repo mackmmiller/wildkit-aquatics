@@ -57,43 +57,47 @@ const Button = styled.button`
 `;
 
 const Add = styled.button`
-  border: 0.3rem solid ${props => props.theme.mainOrange};
-  background: ${props => props.theme.mainOrange};
+  border: 0.3rem solid ${props => props.theme.mainNavy};
+  background: ${props => props.theme.mainNavy};
   color: ${props => props.theme.white};
   outline: none;
   max-width: 18rem;
   border-radius: 0.3rem;
-  padding: 1rem;
+  padding: 0.5rem;
   font-weight: bold;
   box-sizing: border-box;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin: 1rem auto;
+  font-weight: lighter;
   &:hover {
     cursor: pointer;
     background: ${props => props.theme.white};
-    color: ${props => props.theme.mainOrange};
+    color: ${props => props.theme.mainNavy};
   }
 `;
 
 const Pagination = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   span {
-    padding: 1rem;
+    padding: 0.5rem;
   }
   button {
     background: ${props => props.theme.mainNavy};
-    border: none;
+    border: 0.3rem solid ${props => props.theme.mainNavy};
     border-radius: 0.3rem;
     outline: none;
-    padding: 1rem;
+    width: 10rem;
+    padding: 0.5rem;
     color: ${props => props.theme.white};
     font-size: 2rem;
-    letter-spacing: 2px;
     font-weight: lighter;
+    font-size: 1.6rem;
     &:hover {
       cursor: pointer;
+      background: ${props => props.theme.white};
+      color: ${props => props.theme.mainNavy};
     }
   }
 `;
@@ -122,7 +126,7 @@ class Competitions extends Component {
 
   render() {
     const { current, year } = this.state;
-    const { competitions } = this.props;
+    const { competitions, teams } = this.props;
     return (
       <Wrapper>
         <Left>
@@ -158,6 +162,7 @@ class Competitions extends Component {
                 current: (
                   <CompetitionForm
                     active="form"
+                    teams={teams}
                     unmount={() => this.unmount.bind(this)}
                   />
                 ),

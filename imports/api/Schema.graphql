@@ -72,9 +72,19 @@ type Swimmer {
   firstName: String!
   middleName: String
   lastName: String!
+  gender: Gender!
   group: Group
   results: [Result]
   parent: Parent
+}
+
+type Team {
+  _id: String!
+  name: String!
+  shortName: String
+  # athletes: [Athlete]
+  competitions: [Competition]
+  practices: [Practice]
 }
 
 type User {
@@ -100,6 +110,11 @@ enum UserType {
   Parent
 }
 
+enum Gender {
+  Male
+  Female
+}
+
 #####################
 ##      Queries    ##
 #####################
@@ -114,6 +129,7 @@ type Query {
   Practice(_id: String): Practice
   Result(_id: String): Result
   Swimmer(_id: String): Swimmer
+  Team(_id: String): Team
   User(_id: String): User
   user: User
 
@@ -126,6 +142,7 @@ type Query {
   allPractices: [Practice]
   allResults: [Result]
   allSwimmers: [Swimmer]
+  allTeams: [Team]
   allUsers: [User]
 }
 
@@ -162,6 +179,7 @@ type Mutation {
     middleName: String
     dateOfBirth: Date!
   ): Swimmer
+  createTeam(name: String!, shortName: String): Team
 
   updateAdmin(AdminId: String, userId: String): Admin
   updateCoach(
@@ -185,7 +203,15 @@ type Mutation {
     lastName: String
     dateOfBirth: Date
     group: String
+    gender: Gender
   ): Swimmer
+  updateTeam(
+    teamId: String!
+    name: String
+    shortName: String
+    competitions: [String]
+    practices: [String]
+  ): Team
 
   deleteAdmin(adminId: String): Admin
   deleteCoach(coachId: String): Coach
@@ -196,6 +222,7 @@ type Mutation {
   deletePractice(practiceId: String): Practice
   deleteResult(resultId: String): Result
   deleteSwimmer(swimmerId: String): Swimmer
+  deleteTeam(teamId: String): Team
   deleteUser(userId: String): User
 }
 

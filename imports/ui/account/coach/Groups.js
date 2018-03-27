@@ -12,38 +12,22 @@ const Wrapper = styled.div`
   font-size: 2rem;
 `;
 
-const BtnGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
 const Button = styled.button`
   border: none;
-  background: transparent;
-  color: ${props =>
-    (props.active ? props.theme[props.className] : props.theme.slateGray)};
-  font-size: 2.4rem;
+  background: ${props => (props.active ? props.theme.mainNavy : props.theme.white)};
+  color: ${props => (props.active ? props.theme.white : props.theme.mainNavy)};
+  max-width: 35rem;
+  outline: none;
+  border-radius: 0.5rem;
+  padding: 1rem;
   font-weight: bold;
-  outline: none;
-  padding: 1rem;
+  box-sizing: border-box;
+  font-size: 1.8rem;
+  margin: 1rem;
   &:hover {
     cursor: pointer;
-  }
-`;
-
-const Attendance = styled.button`
-  background: ${props => props.theme.mainNavy};
-  border: none;
-  border-radius: 0.3rem;
-  outline: none;
-  padding: 1rem;
-  color: ${props => props.theme.white};
-  font-size: 2rem;
-  letter-spacing: 2px;
-  font-weight: lighter;
-  box-shadow: 3px 4px 2px 0px rgba(0, 0, 0, 0.4);
-  &:hover {
-    cursor: pointer;
+    background: ${props => props.theme.mainNavy};
+    color: ${props => props.theme.white};
   }
 `;
 
@@ -57,11 +41,9 @@ class Groups extends Component {
     const { currentGroup } = this.state;
     return (
       <Wrapper>
-        <BtnGroup>
-          <div>
+        <div>
             {coach.groups.map(group => (
               <Button
-                className={group.name.toLowerCase()}
                 key={group._id}
                 value={group._id}
                 active={currentGroup === group}
@@ -71,12 +53,6 @@ class Groups extends Component {
               </Button>
             ))}
           </div>
-          <div>
-            <Attendance>
-              ATTENDANCE
-            </Attendance>
-          </div>
-        </BtnGroup>
         <hr />
         <div>
           <Group group={currentGroup} />

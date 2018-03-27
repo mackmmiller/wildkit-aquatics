@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Swimmer from './Swimmer';
+import Attendance from './Attendance';
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,6 +12,7 @@ const Left = styled.div`
   flex: 4;
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 `;
 
 const Right = styled.div`
@@ -42,6 +44,26 @@ const Button = styled.button`
   }
 `;
 
+const BlueButton = styled.button`
+  border: 0.3rem solid ${props => props.theme.mainNavy};
+  background: ${props => props.theme.mainNavy};
+  color: ${props => props.theme.white};
+  outline: none;
+  max-width: 18rem;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  font-weight: bold;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  margin: 1rem auto;
+  font-weight: lighter;
+  &:hover {
+    cursor: pointer;
+    background: ${props => props.theme.white};
+    color: ${props => props.theme.mainNavy};
+  }
+`;
+
 class Group extends Component {
   state = {
     current: null,
@@ -49,7 +71,7 @@ class Group extends Component {
 
   takeAttendance = () => {
     const attendance = [];
-    console.log('Taking attendance');
+    this.setState({ current: <Attendance athletes={this.props.group.swimmers} length={this.props.group.swimmers.length} /> });
   };
 
   render() {
@@ -70,7 +92,7 @@ class Group extends Component {
                 {swimmer.firstName} {swimmer.lastName}
               </Button>
             ))}
-          <Button onClick={this.takeAttendance}>Attendance</Button>
+          <BlueButton onClick={this.takeAttendance}>Take Attendance</BlueButton>
         </Left>
         <Right>{current}</Right>
       </Wrapper>

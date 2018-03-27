@@ -151,7 +151,7 @@ class CompetitionForm extends Component {
 
   render() {
     const { name, additionalFields } = this.state;
-    const { unmount } = this.props;
+    const { unmount, teams } = this.props;
     return (
       <Wrapper>
         <div className="header">
@@ -171,6 +171,12 @@ class CompetitionForm extends Component {
                 }
                 ref={input => (this.name = input)}
               />
+            </label>
+            <label>
+              Team
+              <select ref={input => this.team = input}>
+                {teams.map(t => <option key={t._id} value={t._id}>{t.shortName}</option>)}
+              </select>
             </label>
             <label htmlFor="">
               Location Name

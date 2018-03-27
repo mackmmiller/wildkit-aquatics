@@ -20,4 +20,6 @@ export const Results = new Mongo.Collection('results');
 
 export const Swimmers = new Mongo.Collection('swimmers');
 
+export const Teams = new Mongo.Collection('teams');
+
 // No users collection, handled by Meteor

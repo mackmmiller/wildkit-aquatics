@@ -77,6 +77,11 @@ export const adminData = gql`
         lastName
       }
     }
+    allTeams{
+      _id
+      name
+      shortName
+    }
     allUsers {
       _id
       firstName
@@ -103,6 +108,7 @@ const Admin = ({
   allPractices,
   allSwimmers,
   allParents,
+  allTeams,
 }) => {
   if (loading) return null;
   return (
@@ -110,7 +116,7 @@ const Admin = ({
       <Dashboard
         utilities={[
           <Calendar title="Calendar" events={[...allCompetitions, ...allPractices]} />,
-          <Competitions title="Competitions" competitions={allCompetitions} />,
+          <Competitions title="Competitions" competitions={allCompetitions} teams={allTeams} />,
           <Groups title="Groups" groups={allGroups} />,
           <Contacts
             title="Contacts"

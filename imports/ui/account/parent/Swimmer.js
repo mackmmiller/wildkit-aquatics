@@ -32,6 +32,9 @@ const Wrapper = styled.div`
   h5 {
     margin: 0.5rem 0;
   }
+  h6 {
+    margin: 0;
+  }
   .header {
     background: ${props => props.theme.mainOrange};
     padding: 1rem;
