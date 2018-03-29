@@ -113,8 +113,6 @@ const AdditionalFields = styled.div`
 `;
 
 class CompetitionForm extends Component {
-  static propTypes = {};
-
   state = {
     name: null,
     additionalFields: [],
